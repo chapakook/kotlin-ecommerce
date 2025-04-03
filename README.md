@@ -21,7 +21,6 @@ docker-compose up -d
 - [x] [[REQ] 상태 다이어그램 작성](./docs/state/state-diagram.md)
 - [x] [[REQ] 시퀀스 다이어그램 작성](./docs/sequence/sequence-diagram.md)
 - [x] [[REQ] ERD 작성](./docs/erd/erd.md)
-- [ ] [[REQ] API 명세서 작성](./docs/api/api-spec.md)
 
 <br>
 
