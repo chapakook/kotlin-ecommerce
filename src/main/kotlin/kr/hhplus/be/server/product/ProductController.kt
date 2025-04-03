@@ -12,12 +12,36 @@ import java.time.LocalDateTime
 class ProductController : ProductApi {
 
     @GetMapping("/{id}")
-    override fun find(@PathVariable id: Long) : Product{
+    override fun find(@PathVariable id: Long): Product {
         return Product(
             productId = 1L,
             name = "test",
             price = 1000,
             createdAt = LocalDateTime.now()
+        )
+    }
+
+    @GetMapping("/rank")
+    override fun findRankProducts(): List<Product> {
+        return listOf<Product>(
+            Product(
+                productId = 1L,
+                name = "test",
+                price = 1000,
+                createdAt = LocalDateTime.now()
+            ),
+            Product(
+                productId = 2L,
+                name = "test2",
+                price = 2000,
+                createdAt = LocalDateTime.now()
+            ),
+            Product(
+                productId = 3L,
+                name = "test3",
+                price = 3000,
+                createdAt = LocalDateTime.now()
+            )
         )
     }
 }
