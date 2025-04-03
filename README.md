@@ -20,7 +20,6 @@ docker-compose up -d
 ### ☑️ [REQ] 요구사항 분석 및 설계
 - [x] [[REQ] 상태 다이어그램 작성](./docs/state/state-diagram.md)
 - [x] [[REQ] 시퀀스 다이어그램 작성](./docs/sequence/sequence-diagram.md)
-- [ ] [[REQ] 클래스 다이어그램 작성](./docs/class/class-diagram.md)
 - [ ] [[REQ] ERD 작성](./docs/erd/erd.md)
 - [ ] [[REQ] API 명세서 작성](./docs/api/api-spec.md)
 
