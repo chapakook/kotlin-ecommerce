@@ -25,6 +25,6 @@ docker-compose up -d
 <br>
 
 ### ☑️ [DEV] 핵심 기능 개발
-- [ ] [[DEV] Mock API 작성]()
-- [ ] [[DEV] Swagger-UI 작성]()
-- [ ] [[DEV] E2E API 테스트 작성]()
+- [x] [[DEV] Mock API 작성]()
+- [x] [[DEV] Swagger-UI 작성]()
+- [x] [[DEV] E2E API 테스트 작성]()
