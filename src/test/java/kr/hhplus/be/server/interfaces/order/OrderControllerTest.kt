@@ -25,9 +25,9 @@ class OrderControllerTest{
             val req = OrderRequest.Order()
             // when & then
             mockMvc.perform(
-                MockMvcRequestBuilders.post("/order").content(objectMapper.writeValueAsString(req))
-                    .contentType(MediaType.APPLICATION_JSON)
+                MockMvcRequestBuilders.post("/order")
                     .content(objectMapper.writeValueAsString(req))
+                    .contentType(MediaType.APPLICATION_JSON)
             )
                 .andExpect(MockMvcResultMatchers.status().isOk())
         }
