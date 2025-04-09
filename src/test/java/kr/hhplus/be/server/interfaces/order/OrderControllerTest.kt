@@ -20,7 +20,7 @@ class OrderControllerTest{
     @Nested
     inner class Order{
         @Test
-        fun `happy - given when then order`(){
+        fun `happy - 정상적인 주문 요청시 주문되어야한다`(){
             // given
             val req = OrderRequest.Order()
             // when & then

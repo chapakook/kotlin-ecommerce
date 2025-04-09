@@ -35,7 +35,7 @@ class PointControllerTest {
     @Nested
     inner class Charge{
         @Test
-        fun `happy - given when then charge`() {
+        fun `happy - 정상적인 포인트 충전 요청시 포인트 충전인된다`() {
             // given
             val req = PointRequest.Charge()
             // when & then
@@ -51,7 +51,7 @@ class PointControllerTest {
     @Nested
     inner class Use{
         @Test
-        fun `happy - given when use`() {
+        fun `happy - 정상적인 포인트 사용 요청시 포인트 사용되어야한다`() {
             // given
             val req = PointRequest.Use()
             // when & then

@@ -23,7 +23,7 @@ class CouponControllerTest {
     @Nested
     inner class Issue{
         @Test
-        fun `happy - given when then issue`() {
+        fun `happy - 정상적인 쿠폰 발급 요청시 쿠폰발급되어야한다`() {
             // given
             val req = CouponRequest.Issue()
             // when & then

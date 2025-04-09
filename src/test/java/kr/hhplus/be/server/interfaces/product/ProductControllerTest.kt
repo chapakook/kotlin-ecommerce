@@ -18,7 +18,7 @@ class ProductControllerTest {
     @Nested
     inner class Product {
         @Test
-        fun `happy - given when then product`(){
+        fun `happy - 정상적인 상품아이디로 조회시 조회되어야한다`(){
             // given
             val productId = 1L
             // when & then
@@ -31,7 +31,7 @@ class ProductControllerTest {
     @Nested
     inner class Rank {
         @Test
-        fun `happy - given when then rank`(){
+        fun `happy - 랭크 조회시 상위 5개 랭크가 조회된다`(){
             // given
             // when & then
             mockMvc.perform(MockMvcRequestBuilders.get("/product/rank"))
