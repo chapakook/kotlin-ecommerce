@@ -1,6 +1,11 @@
 package kr.hhplus.be.server.domain.product
 
 class ProductCommand {
-    class Get {}
-    class Rank{}
+    data class Get (
+        val productId: Long
+    ){
+        init {
+            require(productId > 0) { "Product ID must be positive." }
+        }
+    }
 }

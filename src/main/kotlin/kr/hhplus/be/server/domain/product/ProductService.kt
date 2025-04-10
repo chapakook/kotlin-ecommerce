@@ -3,12 +3,14 @@ package kr.hhplus.be.server.domain.product
 import org.springframework.stereotype.Service
 
 @Service
-class ProductService {
+class ProductService (
+    private val productRepository: ProductRepository,
+){
     fun getProduct(getCmd: ProductCommand.Get): ProductInfo.Product{
-        return ProductInfo.Product(1L,"Product",100L)
+        return productRepository.findProductById(getCmd.productId)
     }
 
-    fun getRank(rankCmd: ProductCommand.Rank):List<ProductInfo.Rank>{
+    fun getRank():List<ProductInfo.Rank>{
         return emptyList()
     }
 }

@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.domain.product
 
+import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -8,10 +9,12 @@ import org.junit.jupiter.api.Nested
 
 class ProductServiceTest {
     private lateinit var productService: ProductService
+    private lateinit var productRepository: ProductRepository
 
     @BeforeEach
     fun setUp() {
-        productService = ProductService()
+        productRepository = mockk()
+        productService = ProductService(productRepository)
     }
 
     @Nested
@@ -19,7 +22,7 @@ class ProductServiceTest {
         @Test
         fun `happy - getCmd 이용 getProduct 요청시 정상적으로 상품을 가져온다`() {
             // given
-            val getCmd = ProductCommand.Get()
+            val getCmd = ProductCommand.Get(1L)
             val fakeProduct = ProductInfo.Product(1L,"Product",100L)
             // when
             val product = productService.getProduct(getCmd)
@@ -33,10 +36,9 @@ class ProductServiceTest {
         @Test
         fun `happy - rankCmd 이용 getRank 요청시 정상적으로 인기상품을 가져온다`() {
             // given
-            val rankCmd = ProductCommand.Rank()
             val fakeRank = emptyList<ProductInfo.Rank>()
             // when
-            val rank = productService.getRank(rankCmd)
+            val rank = productService.getRank()
             // then
             assertThat(rank).isEqualTo(fakeRank)
         }
