@@ -23,6 +23,6 @@ class OrderCriteria {
         fun toCouponCmdUse(): CouponCommand.Use = CouponCommand.Use(userId, code)
         fun toOrderCmdOrder(): OrderCommand.Order = OrderCommand.Order(productId, price, quantity)
         fun toPointCmdUse(): PointCommand.Use = PointCommand.Use(userId, price * quantity, code)
-        fun toPaymentCmdPayment(): PaymentCommand.Payment = PaymentCommand.Payment(userId, price * quantity)
+        fun toPaymentCmdPayment(orderId: Long): PaymentCommand.Payment = PaymentCommand.Payment(orderId, userId, price * quantity)
     }
 }

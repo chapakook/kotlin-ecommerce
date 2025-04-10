@@ -6,8 +6,10 @@ import kr.hhplus.be.server.domain.payment.PaymentService
 import kr.hhplus.be.server.domain.point.PointService
 import kr.hhplus.be.server.domain.product.ProductService
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 class OrderFacade(
     private val productService: ProductService,
     private val couponService: CouponService,
@@ -20,7 +22,7 @@ class OrderFacade(
         couponService.use(cri.toCouponCmdUse())
         val order = orderService.order(cri.toOrderCmdOrder())
         pointService.use(cri.toPointCmdUse())
-        paymentService.payment(cri.toPaymentCmdPayment())
+        paymentService.payment(cri.toPaymentCmdPayment(order.orderId))
         return OrderResult().ofOrder(order)
     }
 }
