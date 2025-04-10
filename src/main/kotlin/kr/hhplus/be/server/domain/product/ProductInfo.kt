@@ -5,7 +5,7 @@ class  ProductInfo{
         val productId: Long,
         val name: String,
         val price: Long,
-        val stock: Long,
+        val stock: Int,
     )
     data class Rank(
         val productId: Long,

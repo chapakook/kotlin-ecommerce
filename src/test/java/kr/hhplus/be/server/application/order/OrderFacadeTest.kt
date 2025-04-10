@@ -31,10 +31,44 @@ class OrderFacadeTest {
     }
 
     @Test
-    fun `happy - orderCri 이용 정상적인 주문 요청시 주문된다`() {
+    fun `happy - 상품의 재고가 있을때 정상 주문된다`() {
         // Given
         val cri = OrderCriteria.Order(1L,2L,2)
-        val product = ProductInfo.Product(1L,"test",2000L, 100L)
+        val product = ProductInfo.Product(1L,"test",2000L, 100)
+        val order = OrderInfo.Order(1L)
+        val payment = PaymentInfo.Payment(1L)
+        val fakeOrder = OrderResult.Order(1L)
+        every { productService.getProduct(any()) } returns product
+        every { orderService.order(any()) } returns order
+        every { paymentService.payment(any()) } returns payment
+        // When
+        val result = orderFacade.order(cri)
+        // Then
+        assertThat(result).isEqualTo(fakeOrder)
+    }
+
+    @Test
+    fun `happy - 주문 수량이 재고보다 작을때 주문된다`() {
+        // Given
+        val cri = OrderCriteria.Order(1L,2L,2)
+        val product = ProductInfo.Product(1L,"test",2000L, 100)
+        val order = OrderInfo.Order(1L)
+        val payment = PaymentInfo.Payment(1L)
+        val fakeOrder = OrderResult.Order(1L)
+        every { productService.getProduct(any()) } returns product
+        every { orderService.order(any()) } returns order
+        every { paymentService.payment(any()) } returns payment
+        // When
+        val result = orderFacade.order(cri)
+        // Then
+        assertThat(result).isEqualTo(fakeOrder)
+    }
+
+    @Test
+    fun `happy - 주문 수량이 재고랑 같을때 주문된다`() {
+        // Given
+        val cri = OrderCriteria.Order(1L,2L,2)
+        val product = ProductInfo.Product(1L,"test",2000L, 2)
         val order = OrderInfo.Order(1L)
         val payment = PaymentInfo.Payment(1L)
         val fakeOrder = OrderResult.Order(1L)
@@ -52,6 +86,17 @@ class OrderFacadeTest {
         // Given
         val cri = OrderCriteria.Order(1L,2L,2)
         val product = ProductInfo.Product(1L,"test",2000L, 0)
+        every { productService.getProduct(any()) } returns product
+        // When & Then
+        assertThatThrownBy { orderFacade.order(cri) }
+            .isInstanceOf(IllegalArgumentException::class.java)
+    }
+
+    @Test
+    fun `bad - 주문수량이 재고량을 초과할 경우 주문이 되지않는다`(){
+        // Given
+        val cri = OrderCriteria.Order(1L,2L,2)
+        val product = ProductInfo.Product(1L,"test",2000L, 1)
         every { productService.getProduct(any()) } returns product
         // When & Then
         assertThatThrownBy { orderFacade.order(cri) }

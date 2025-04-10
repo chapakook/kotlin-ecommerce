@@ -15,9 +15,9 @@ class OrderCriteria {
             require(productId > 0) { "Product id must be positive" }
             require(quantity > 0) { "Quantity must be positive" }
         }
-        fun toProductCmdGet(): ProductCommand.Get = ProductCommand.Get(1L)
+        fun toProductCmdGet(): ProductCommand.Get = ProductCommand.Get(productId)
         fun toCouponCmdUse(): CouponCommand.Use = CouponCommand.Use()
-        fun toOrderCmdOrder(): OrderCommand.Order = OrderCommand.Order()
+        fun toOrderCmdOrder(): OrderCommand.Order = OrderCommand.Order(productId, quantity)
         fun toPaymentCmdPayment(): PaymentCommand.Payment = PaymentCommand.Payment()
     }
 }
