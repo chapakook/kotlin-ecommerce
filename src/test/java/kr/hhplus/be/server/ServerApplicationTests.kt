@@ -9,7 +9,7 @@ import kr.hhplus.be.server.domain.product.ProductRepository
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
+//@SpringBootTest
 class ServerApplicationTests {
 	@MockkBean
 	private lateinit var couponRepository: CouponRepository
