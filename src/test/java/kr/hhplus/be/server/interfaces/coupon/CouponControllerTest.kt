@@ -1,10 +1,8 @@
 package kr.hhplus.be.server.interfaces.coupon
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import kr.hhplus.be.server.interfaces.order.OrderRequest
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -14,7 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @WebMvcTest(controllers = [CouponController::class])
-class CouponInfoControllerTest {
+class CouponControllerTest {
     @Autowired
     private lateinit var mockMvc: MockMvc
     @Autowired
