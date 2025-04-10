@@ -45,9 +45,9 @@ class OrderFacadeTest {
         val userId = 5L
         val cri = OrderCriteria.Order(userId, productId,couponId,1000L, 2, null)
         val product = ProductInfo.Product(productId,"test",2000L, 100)
-        val order = OrderInfo.Order(orderId, productId, quantity, 2000, LocalDateTime.now())
+        val order = OrderInfo.Order(orderId, productId, quantity, 2000L, LocalDateTime.now())
         val point = PointInfo.Point(pointId, userId , 100000000)
-        val payment = PaymentInfo.Payment(1L)
+        val payment = PaymentInfo.Payment(1L, 2000L)
         val fakeOrder = OrderResult.Order(orderId)
         every { productService.find(any()) } returns product
         every { productService.reduce(any()) } returns product

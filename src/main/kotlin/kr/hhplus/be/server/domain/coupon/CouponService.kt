@@ -15,9 +15,11 @@ class CouponService (
         require(coupon != null) { "해당 쿠폰이 없습니다." }
         require(!coupon.isUsed) { "이미 사용한 쿠폰입니다." }
         require(coupon.expiredAt >= LocalDateTime.now()) { "사용기간이 만료된 쿠폰입니다" }
-        return couponRepository.update()
+        couponRepository.updateUserCoupon()
+        couponRepository.insertOrderCoupon()
+        return couponRepository.updateCoupon()
     }
     fun issue(cmd:CouponCommand.Issue):CouponInfo.Coupon{
-        return CouponInfo.Coupon(1L, UUID.randomUUID().toString(), LocalDateTime.now(), false)
+        return CouponInfo.Coupon(1L, UUID.randomUUID().toString(), LocalDateTime.now(), false, 1L)
     }
 }

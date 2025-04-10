@@ -10,7 +10,7 @@ class PointCommandTest{
     @Nested
     inner class Get{
         @Test
-        fun `happy - userId가 정수 일때 정상 반환한다`(){
+        fun `happy - userId가 정수 일때 성공`(){
             // given
             val userId = 1L
             // when
@@ -20,14 +20,14 @@ class PointCommandTest{
         }
 
         @Test
-        fun `bad - userId가 0 IllegalArgumentException 을 반환한다`(){
+        fun `bad - userId가 0 실패`(){
             // given & when & then
             assertThatThrownBy { PointCommand.Get(0L) }
                 .isInstanceOf(IllegalArgumentException::class.java)
         }
 
         @Test
-        fun `bad - userId가 음수 일때 IllegalArgumentException 을 반환한다`() {
+        fun `bad - userId가 음수 실패`() {
             // given & when & then
             assertThatThrownBy { PointCommand.Get(-1L) }
                 .isInstanceOf(IllegalArgumentException::class.java)
@@ -37,7 +37,7 @@ class PointCommandTest{
     @Nested
     inner class Charge {
         @Test
-        fun `happy - userId가 정수 일때 정상 반환한다`(){
+        fun `happy - userId가 정수 일때 성공`(){
             // given
             val userId = 1L
             val amount = 100L
@@ -50,7 +50,7 @@ class PointCommandTest{
         }
 
         @Test
-        fun `bad - userId가 0 IllegalArgumentException 을 반환한다`(){
+        fun `bad - userId가 0 실패`(){
             // given
             val userId = 0L
             val amount = 100L
@@ -60,7 +60,7 @@ class PointCommandTest{
         }
 
         @Test
-        fun `bad - userId가 음수 일때 IllegalArgumentException 을 반환한다`() {
+        fun `bad - userId가 음수 일때 실패`() {
             // given
             val userId = -1L
             val amount = 100L
@@ -73,7 +73,7 @@ class PointCommandTest{
     @Nested
     inner class Use {
         @Test
-        fun `happy - userId가 정수 일때 정상 반환한다`(){
+        fun `happy - userId가 정수 일때 성공`(){
             // given
             val userId = 1L
             val amount = 100L
@@ -85,7 +85,7 @@ class PointCommandTest{
                 .containsExactly(userId,amount)
         }
         @Test
-        fun `happy - 사용금액이 0 보다 클때 사용 가능하다`(){
+        fun `happy - 사용금액이 0 보다 클때 사용 성공`(){
             // given
             val userId = 1L
             val amount = 100L
@@ -97,7 +97,7 @@ class PointCommandTest{
                 .containsExactly(userId,amount)
         }
         @Test
-        fun `happy - 사용금액이 0일때 사용 가능하다`(){
+        fun `happy - 사용금액이 0일때 사용 성공`(){
             // given
             val userId = 1L
             val amount = 0L
@@ -109,7 +109,7 @@ class PointCommandTest{
                 .containsExactly(userId,amount)
         }
         @Test
-        fun `bad - userId가 0 에러를 반환한다`(){
+        fun `bad - userId가 0 실패`(){
             // given
             val userId = 0L
             val amount = 100L
@@ -118,7 +118,7 @@ class PointCommandTest{
                 .isInstanceOf(IllegalArgumentException::class.java)
         }
         @Test
-        fun `bad - userId가 음수 일때 에러를 반환한다`() {
+        fun `bad - userId가 음수 일때 사용 실패`() {
             // given
             val userId = -1L
             val amount = 100L
@@ -127,7 +127,7 @@ class PointCommandTest{
                 .isInstanceOf(IllegalArgumentException::class.java)
         }
         @Test
-        fun `bad - 사용금액이 0 미만이면 에러를 반환한다`() {
+        fun `bad - 사용금액이 0 미만이면 사용 실패`() {
             // given
             val userId = 1L
             val amount = -1L

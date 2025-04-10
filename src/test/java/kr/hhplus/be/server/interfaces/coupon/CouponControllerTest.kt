@@ -33,7 +33,7 @@ class CouponControllerTest {
             val userId = 1L
             val couponId = 2L
             val req = CouponRequest.Issue(userId, couponId)
-            val fake = CouponInfo.Coupon(couponId, "code", LocalDateTime.now(), false)
+            val fake = CouponInfo.Coupon(couponId, "code", LocalDateTime.now(), false, userId)
             // when
             every { couponService.issue(any()) } returns fake
             // then

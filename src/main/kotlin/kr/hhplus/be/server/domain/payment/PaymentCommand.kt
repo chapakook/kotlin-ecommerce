@@ -7,7 +7,7 @@ class PaymentCommand {
     ){
         init {
             require(userId > 0) { "userId must be positive." }
-            require(totalAmount > 0) { "totalAmount must be positive." }
+            require(totalAmount >= 0) { "totalAmount must be not negative." }
         }
     }
 }

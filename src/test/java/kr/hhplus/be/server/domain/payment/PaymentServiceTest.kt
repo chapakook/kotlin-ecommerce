@@ -23,7 +23,7 @@ class PaymentServiceTest {
         fun `happy - paymentCmd 이용 정상적인 결제 요청시 주문된다`() {
             // given
             val paymentCmd = PaymentCommand.Payment(1L,10000L)
-            val fake = PaymentInfo.Payment(1L)
+            val fake = PaymentInfo.Payment(1L, 10000L)
             every { paymentRepository.insert() } returns fake
             // when
             val result = paymentService.payment(paymentCmd)

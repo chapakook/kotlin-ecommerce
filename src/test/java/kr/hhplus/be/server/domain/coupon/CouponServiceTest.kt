@@ -28,10 +28,12 @@ class CouponServiceTest {
             val userId = 1L
             val code = UUID.randomUUID().toString()
             val useCmd = CouponCommand.Use(userId, code)
-            val base = CouponInfo.Coupon(1L, code, LocalDateTime.now().plusDays(30), false)
+            val base = CouponInfo.Coupon(1L, code, LocalDateTime.now().plusDays(30), false, userId)
             val fake = base.copy(isUsed = true)
             every { couponRepository.findCouponByUserIdAndCode(any(),any()) } returns base
-            every { couponRepository.update() } returns fake
+            every { couponRepository.updateUserCoupon() } returns fake
+            every { couponRepository.insertOrderCoupon() } returns fake
+            every { couponRepository.updateCoupon() } returns fake
             // when
             val result = couponService.use(useCmd)
             // then
