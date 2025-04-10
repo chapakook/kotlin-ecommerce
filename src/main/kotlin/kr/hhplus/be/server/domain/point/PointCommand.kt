@@ -20,10 +20,11 @@ class PointCommand {
     data class Use(
         val userId : Long,
         val amount: Long,
+        val code: String?,
     ){
         init {
             require(userId > 0){"userId must be positive."}
-            require(amount > 0){"amount must be positive."}
+            require(amount >= 0){"amount must be not negative."}
         }
     }
 }

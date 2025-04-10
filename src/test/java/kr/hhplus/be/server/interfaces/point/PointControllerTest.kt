@@ -35,7 +35,7 @@ class PointControllerTest {
             val fakePointResponse = PointResponse.Point(100)
             val fakePointResult = PointInfo.Point(1L,userId,100)
             // when
-            every { pointService.getPoint(any()) } returns fakePointResult
+            every { pointService.find(any()) } returns fakePointResult
             // then
             mockMvc.perform(get("/point/$userId")
                 .contentType(MediaType.APPLICATION_JSON))

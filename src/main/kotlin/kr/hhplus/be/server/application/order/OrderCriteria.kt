@@ -13,6 +13,7 @@ class OrderCriteria {
         val couponId: Long,
         val price: Long,
         val quantity: Int,
+        val code: String?,
     ){
         init {
             require(productId > 0) { "Product id must be positive" }
@@ -20,9 +21,9 @@ class OrderCriteria {
         }
         fun toProductCmdGet(): ProductCommand.Get = ProductCommand.Get(productId)
         fun toProductCmdReduce(): ProductCommand.Reduce = ProductCommand.Reduce(productId, quantity)
-        fun toCouponCmdUse(): CouponCommand.Use = CouponCommand.Use()
+        fun toCouponCmdUse(): CouponCommand.Use = CouponCommand.Use(userId, code)
         fun toOrderCmdOrder(): OrderCommand.Order = OrderCommand.Order(productId, price, quantity)
-        fun toPointCmdUse(): PointCommand.Use = PointCommand.Use(userId, price * quantity)
+        fun toPointCmdUse(): PointCommand.Use = PointCommand.Use(userId, price * quantity, code)
         fun toPaymentCmdPayment(): PaymentCommand.Payment = PaymentCommand.Payment(userId, price * quantity)
     }
 }

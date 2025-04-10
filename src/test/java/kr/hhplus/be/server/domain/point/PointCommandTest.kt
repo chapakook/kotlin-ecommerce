@@ -78,30 +78,61 @@ class PointCommandTest{
             val userId = 1L
             val amount = 100L
             // when
-            val cmd = PointCommand.Use(userId,amount)
+            val cmd = PointCommand.Use(userId,amount, null)
             // then
             assertThat(cmd)
                 .extracting("userId","amount")
                 .containsExactly(userId,amount)
         }
-
         @Test
-        fun `bad - userId가 0 IllegalArgumentException 을 반환한다`(){
+        fun `happy - 사용금액이 0 보다 클때 사용 가능하다`(){
+            // given
+            val userId = 1L
+            val amount = 100L
+            // when
+            val cmd = PointCommand.Use(userId,amount, null)
+            // then
+            assertThat(cmd)
+                .extracting("userId","amount")
+                .containsExactly(userId,amount)
+        }
+        @Test
+        fun `happy - 사용금액이 0일때 사용 가능하다`(){
+            // given
+            val userId = 1L
+            val amount = 0L
+            // when
+            val cmd = PointCommand.Use(userId,amount, null)
+            // then
+            assertThat(cmd)
+                .extracting("userId","amount")
+                .containsExactly(userId,amount)
+        }
+        @Test
+        fun `bad - userId가 0 에러를 반환한다`(){
             // given
             val userId = 0L
             val amount = 100L
             // when & then
-            assertThatThrownBy { PointCommand.Use(userId,amount) }
+            assertThatThrownBy { PointCommand.Use(userId,amount, null) }
                 .isInstanceOf(IllegalArgumentException::class.java)
         }
-
         @Test
-        fun `bad - userId가 음수 일때 IllegalArgumentException 을 반환한다`() {
+        fun `bad - userId가 음수 일때 에러를 반환한다`() {
             // given
             val userId = -1L
             val amount = 100L
             // when & then
-            assertThatThrownBy { PointCommand.Use(userId,amount) }
+            assertThatThrownBy { PointCommand.Use(userId,amount, null) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+        }
+        @Test
+        fun `bad - 사용금액이 0 미만이면 에러를 반환한다`() {
+            // given
+            val userId = 1L
+            val amount = -1L
+            // when & then
+            assertThatThrownBy { PointCommand.Use(userId, amount, null) }
                 .isInstanceOf(IllegalArgumentException::class.java)
         }
     }

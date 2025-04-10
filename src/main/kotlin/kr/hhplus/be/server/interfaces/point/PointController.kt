@@ -12,7 +12,7 @@ class PointController (
 ){
     @GetMapping("{id}")
     fun point(@PathVariable id: Long): PointResponse.Point {
-        val point = pointService.getPoint(PointCommand.Get(id))
+        val point = pointService.find(PointCommand.Get(id))
         return PointResponse().ofPoint(point)
     }
 

@@ -1,5 +1,7 @@
 package kr.hhplus.be.server.domain.coupon
 
+import io.mockk.every
+import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -10,23 +12,32 @@ import java.util.*
 
 class CouponServiceTest {
     private lateinit var couponService: CouponService
+    private lateinit var couponRepository: CouponRepository
 
     @BeforeEach
     fun setUp() {
-        couponService = CouponService()
+        couponRepository = mockk()
+        couponService = CouponService(couponRepository)
     }
 
     @Nested
-    inner class GetCoupon{
+    inner class Use{
         @Test
-        fun `happy - useCmd 이용 UseCoupon 서비스 요청시 정상동작한다`() {
+        fun `happy - 쿠폰을 사용한다`() {
             // given
-            val useCmd = CouponCommand.Use()
-            val fake = CouponInfo.Coupon(1L, UUID.randomUUID().toString(),LocalDateTime.now(), false)
+            val userId = 1L
+            val code = UUID.randomUUID().toString()
+            val useCmd = CouponCommand.Use(userId, code)
+            val base = CouponInfo.Coupon(1L, code, LocalDateTime.now().plusDays(30), false)
+            val fake = base.copy(isUsed = true)
+            every { couponRepository.findCouponByUserIdAndCode(any(),any()) } returns base
+            every { couponRepository.update() } returns fake
             // when
             val result = couponService.use(useCmd)
             // then
-            assertThat(result.couponId).isEqualTo(fake.couponId)
+            assertThat(result)
+                .extracting("couponId","code")
+                .contains(fake.couponId,fake.code)
         }
     }
 }

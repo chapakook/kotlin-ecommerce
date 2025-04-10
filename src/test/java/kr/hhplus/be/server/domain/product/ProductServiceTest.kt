@@ -33,7 +33,7 @@ class ProductServiceTest {
             every { productRepository.update() } returns fake
 
             // when
-            val result = productService.reduceProduct(reduceCmd)
+            val result = productService.reduce(reduceCmd)
             // then
             assertThat(result)
                 .extracting("productId","stock")
@@ -51,7 +51,7 @@ class ProductServiceTest {
             every { productRepository.update() } returns fake
 
             // when
-            val result = productService.reduceProduct(reduceCmd)
+            val result = productService.reduce(reduceCmd)
             // then
             assertThat(result)
                 .extracting("productId","stock")
@@ -66,7 +66,7 @@ class ProductServiceTest {
             val base = ProductInfo.Product(1L,"Product",100L, 100)
             every { productRepository.findProductById(any()) } returns base
             // when & then
-            assertThatThrownBy { productService.reduceProduct(reduceCmd) }
+            assertThatThrownBy { productService.reduce(reduceCmd) }
                 .isInstanceOf(IllegalArgumentException::class.java)
         }
         @Test
@@ -78,7 +78,7 @@ class ProductServiceTest {
             val base = ProductInfo.Product(1L,"Product",100L, 0)
             every { productRepository.findProductById(any()) } returns base
             // when & then
-            assertThatThrownBy { productService.reduceProduct(reduceCmd) }
+            assertThatThrownBy { productService.reduce(reduceCmd) }
                 .isInstanceOf(IllegalArgumentException::class.java)
         }
     }

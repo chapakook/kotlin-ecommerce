@@ -16,10 +16,10 @@ class OrderFacade(
     private val paymentService: PaymentService
 ) {
     fun order(cri: OrderCriteria.Order): OrderResult.Order{
-        productService.reduceProduct(cri.toProductCmdReduce())
+        productService.reduce(cri.toProductCmdReduce())
         couponService.use(cri.toCouponCmdUse())
         val order = orderService.order(cri.toOrderCmdOrder())
-        pointService.usePoint(cri.toPointCmdUse())
+        pointService.use(cri.toPointCmdUse())
         paymentService.payment(cri.toPaymentCmdPayment())
         return OrderResult().ofOrder(order)
     }
