@@ -15,7 +15,8 @@ class OrderFacade(
 ) {
     fun order(cri: OrderCriteria.Order): OrderResult.Order{
         val product = productService.getProduct(cri.toProductCmdGet())
-        val coupon = couponService.useCoupon(cri.toCouponCmdUse())
+        require( product.stock > 0) { "Product stock must be positive" }
+//        val coupon = couponService.useCoupon(cri.toCouponCmdUse()) // 쿠폰의 경우 심화 기능에 있어서 심화에서 구현
         val order = orderService.order(cri.toOrderCmdOrder())
         val payment = paymentService.payment(cri.toPaymentCmdPayment())
         return OrderResult().ofOrder(order)

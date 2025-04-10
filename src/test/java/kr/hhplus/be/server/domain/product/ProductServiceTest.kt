@@ -24,7 +24,7 @@ class ProductServiceTest {
         fun `happy - getCmd 이용 getProduct 요청시 정상적으로 상품을 가져온다`() {
             // given
             val getCmd = ProductCommand.Get(1L)
-            val fakeProduct = ProductInfo.Product(1L,"Product",100L)
+            val fakeProduct = ProductInfo.Product(1L,"Product",100L, 100L)
             every { productRepository.findProductById(any()) } returns fakeProduct
             // when
             val product = productService.getProduct(getCmd)
