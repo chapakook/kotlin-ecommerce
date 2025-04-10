@@ -5,6 +5,6 @@ import org.springframework.stereotype.Service
 @Service
 class CouponService {
     fun useCoupon(cmd:CouponCommand.Use): CouponInfo.Coupon{
-        return CouponInfo.Coupon()
+        return CouponInfo.Coupon(1L)
     }
 }

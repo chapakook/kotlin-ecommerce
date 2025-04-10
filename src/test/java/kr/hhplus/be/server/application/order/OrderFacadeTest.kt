@@ -39,7 +39,7 @@ class OrderFacadeTest {
         // Given
         val cri = OrderCriteria.Order(1L,2L,2)
         val product = ProductInfo.Product(1L,"test",2000L)
-        val coupon = CouponInfo.Coupon()
+        val coupon = CouponInfo.Coupon(1L)
         val order = OrderInfo.Order(1L)
         val payment = PaymentInfo.Payment()
         val fakeOrder = OrderResult.Order(1L)
