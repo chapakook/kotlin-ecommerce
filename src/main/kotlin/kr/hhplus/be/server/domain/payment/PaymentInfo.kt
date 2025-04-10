@@ -1,5 +1,7 @@
 package kr.hhplus.be.server.domain.payment
 
 class PaymentInfo {
-    class Payment{}
+    data class Payment(
+        val paymentId: Long,
+    ){}
 }

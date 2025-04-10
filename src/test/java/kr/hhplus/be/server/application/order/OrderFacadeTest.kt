@@ -41,7 +41,7 @@ class OrderFacadeTest {
         val product = ProductInfo.Product(1L,"test",2000L)
         val coupon = CouponInfo.Coupon(1L)
         val order = OrderInfo.Order(1L)
-        val payment = PaymentInfo.Payment()
+        val payment = PaymentInfo.Payment(1L)
         val fakeOrder = OrderResult.Order(1L)
 
         every { productService.getProduct(any()) } returns product
