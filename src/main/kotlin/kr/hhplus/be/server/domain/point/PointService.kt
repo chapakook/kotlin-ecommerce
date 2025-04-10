@@ -6,17 +6,17 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class PointService(
 ) {
-    fun getPoint(getCmd: PointCommand.Get): PointInfo {
-        return PointInfo(1L,1L,100L)
+    fun getPoint(getCmd: PointCommand.Get): PointInfo.Point {
+        return PointInfo.Point(1L,1L,100L)
     }
 
     @Transactional
-    fun chargePoint(chargeCmd: PointCommand.Charge): PointInfo {
-        return PointInfo(1L,1L,100L)
+    fun chargePoint(chargeCmd: PointCommand.Charge): PointInfo.Point {
+        return PointInfo.Point(1L,1L,100L)
     }
 
     @Transactional
-    fun usePoint(useCmd: PointCommand.Use): PointInfo {
-        return PointInfo(1L,1L,100L)
+    fun usePoint(useCmd: PointCommand.Use): PointInfo.Point {
+        return PointInfo.Point(1L,1L,100L)
     }
 }

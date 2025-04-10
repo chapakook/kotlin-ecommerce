@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Nested
 import org.mockito.MockitoAnnotations
 
-class PointInfoServiceTest {
+class PointServiceTest {
     private lateinit var pointService: PointService
 
     @BeforeEach
@@ -17,7 +17,7 @@ class PointInfoServiceTest {
     }
 
     @Nested
-    inner class GetPointInfo {
+    inner class GetPoint {
         @Test
         fun `happy - getCmd 이용 getPoint 요청시 정상적으로 포인트를 가져온다`() {
             // given
@@ -31,7 +31,7 @@ class PointInfoServiceTest {
     }
 
     @Nested
-    inner class ChargePointInfo {
+    inner class ChargePoint {
         @Test
         fun `happy - chargeCmd 이용 chargePoint 요청시 정상적으로 포인트 충전을 한다`() {
             // given
@@ -45,7 +45,7 @@ class PointInfoServiceTest {
     }
 
     @Nested
-    inner class UsePointInfo {
+    inner class UsePoint {
         @Test
         fun `happy - useCmd 이용 usePoint 요처시 정상적인 포인트 사용을 한다`() {
             // given
