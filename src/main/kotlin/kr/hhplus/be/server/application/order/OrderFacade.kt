@@ -12,6 +12,7 @@ class OrderFacade(
     private val productService: ProductService,
     private val couponService: CouponService,
     private val orderService: OrderService,
+    private val pointService: PointService,
     private val paymentService: PaymentService
 ) {
     fun order(cri: OrderCriteria.Order): OrderResult.Order{
@@ -20,6 +21,7 @@ class OrderFacade(
         productService.reduceProduct(cri.toProductCmdReduce())
 //        val coupon = couponService.useCoupon(cri.toCouponCmdUse()) // 쿠폰의 경우 심화 기능에 있어서 심화에서 구현
         val order = orderService.order(cri.toOrderCmdOrder())
+        val point = pointService.usePoint(cri.toPointCmdUse())
         val payment = paymentService.payment(cri.toPaymentCmdPayment())
         return OrderResult().ofOrder(order)
     }

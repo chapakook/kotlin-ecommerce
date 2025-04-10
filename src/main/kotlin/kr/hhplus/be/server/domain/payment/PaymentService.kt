@@ -3,8 +3,10 @@ package kr.hhplus.be.server.domain.payment
 import org.springframework.stereotype.Service
 
 @Service
-class PaymentService {
+class PaymentService(
+    private val paymentRepository: PaymentRepository,
+) {
     fun payment(cmd: PaymentCommand.Payment): PaymentInfo.Payment{
-        return PaymentInfo.Payment(1L)
+        return paymentRepository.insert()
     }
 }

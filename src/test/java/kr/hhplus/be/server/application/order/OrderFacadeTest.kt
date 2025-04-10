@@ -9,6 +9,8 @@ import kr.hhplus.be.server.domain.order.OrderInfo
 import kr.hhplus.be.server.domain.order.OrderService
 import kr.hhplus.be.server.domain.payment.PaymentInfo
 import kr.hhplus.be.server.domain.payment.PaymentService
+import kr.hhplus.be.server.domain.point.PointInfo
+import kr.hhplus.be.server.domain.point.PointService
 import kr.hhplus.be.server.domain.product.ProductInfo
 import kr.hhplus.be.server.domain.product.ProductService
 import org.assertj.core.api.Assertions.assertThat
@@ -22,13 +24,14 @@ class OrderFacadeTest {
     @MockK private lateinit var productService: ProductService
     @MockK private lateinit var couponService: CouponService
     @MockK private lateinit var orderService: OrderService
+    @MockK private lateinit var pointService: PointService
     @MockK private lateinit var paymentService: PaymentService
     private lateinit var orderFacade: OrderFacade
 
     @BeforeEach
     fun setup(){
         MockKAnnotations.init(this)
-        orderFacade = OrderFacade(productService, couponService, orderService, paymentService)
+        orderFacade = OrderFacade(productService, couponService, orderService, pointService, paymentService)
     }
 
     @Test
@@ -38,14 +41,18 @@ class OrderFacadeTest {
         val couponId = 2L
         val orderId = 3L
         val quantity = 2
-        val cri = OrderCriteria.Order(productId,couponId,1000L, 2)
+        val pointId = 4L
+        val userId = 5L
+        val cri = OrderCriteria.Order(userId, productId,couponId,1000L, 2)
         val product = ProductInfo.Product(productId,"test",2000L, 100)
         val order = OrderInfo.Order(orderId, productId, quantity, 2000, LocalDateTime.now())
+        val point = PointInfo.Point(pointId, userId , 100000000)
         val payment = PaymentInfo.Payment(1L)
         val fakeOrder = OrderResult.Order(orderId)
         every { productService.getProduct(any()) } returns product
         every { productService.reduceProduct(any()) } returns product
         every { orderService.order(any()) } returns order
+        every { pointService.usePoint(any()) } returns point
         every { paymentService.payment(any()) } returns payment
         // When
         val result = orderFacade.order(cri)
@@ -56,7 +63,7 @@ class OrderFacadeTest {
     @Test
     fun `bad - 상품 재고가 없는 경우 정상적으로 주문이 되지않는다`(){
         // Given
-        val cri = OrderCriteria.Order(1L,2L,2000L , 2)
+        val cri = OrderCriteria.Order(3L, 1L,2L,2000L , 2)
         val product = ProductInfo.Product(1L,"test",2000L, 0)
         every { productService.getProduct(any()) } returns product
         // When & Then

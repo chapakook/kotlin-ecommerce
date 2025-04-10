@@ -3,10 +3,12 @@ package kr.hhplus.be.server.application.order
 import kr.hhplus.be.server.domain.coupon.CouponCommand
 import kr.hhplus.be.server.domain.order.OrderCommand
 import kr.hhplus.be.server.domain.payment.PaymentCommand
+import kr.hhplus.be.server.domain.point.PointCommand
 import kr.hhplus.be.server.domain.product.ProductCommand
 
 class OrderCriteria {
     data class Order(
+        val userId: Long,
         val productId: Long,
         val couponId: Long,
         val price: Long,
@@ -20,6 +22,7 @@ class OrderCriteria {
         fun toProductCmdReduce(): ProductCommand.Reduce = ProductCommand.Reduce(productId, quantity)
         fun toCouponCmdUse(): CouponCommand.Use = CouponCommand.Use()
         fun toOrderCmdOrder(): OrderCommand.Order = OrderCommand.Order(productId, price, quantity)
-        fun toPaymentCmdPayment(): PaymentCommand.Payment = PaymentCommand.Payment()
+        fun toPointCmdUse(): PointCommand.Use = PointCommand.Use(userId, price * quantity)
+        fun toPaymentCmdPayment(): PaymentCommand.Payment = PaymentCommand.Payment(userId, price * quantity)
     }
 }
