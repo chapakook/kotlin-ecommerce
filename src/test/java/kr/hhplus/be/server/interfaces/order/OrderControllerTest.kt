@@ -11,14 +11,14 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @WebMvcTest(controllers = [OrderController::class])
-class OrderControllerTest{
+class OrderInfoControllerTest{
     @Autowired
     private lateinit var mockMvc: MockMvc
     @Autowired
     private lateinit var objectMapper: ObjectMapper
 
     @Nested
-    inner class Order{
+    inner class OrderInfo{
         @Test
         fun `happy - 정상적인 주문 요청시 주문되어야한다`(){
             // given

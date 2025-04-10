@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @WebMvcTest(controllers = [CouponController::class])
-class CouponControllerTest {
+class CouponInfoControllerTest {
     @Autowired
     private lateinit var mockMvc: MockMvc
     @Autowired
