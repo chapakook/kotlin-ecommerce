@@ -1,0 +1,28 @@
+package kr.hhplus.be.server.application.order
+
+import kr.hhplus.be.server.domain.coupon.CouponService
+import kr.hhplus.be.server.domain.order.OrderService
+import kr.hhplus.be.server.domain.payment.PaymentService
+import kr.hhplus.be.server.domain.point.PointService
+import kr.hhplus.be.server.domain.product.ProductService
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+
+@Service
+@Transactional
+class OrderFacade(
+    private val productService: ProductService,
+    private val couponService: CouponService,
+    private val orderService: OrderService,
+    private val pointService: PointService,
+    private val paymentService: PaymentService
+) {
+    fun order(cri: OrderCriteria.Order): OrderResult.Order{
+        productService.reduce(cri.toProductCmdReduce())
+        couponService.use(cri.toCouponCmdUse())
+        val order = orderService.order(cri.toOrderCmdOrder())
+        pointService.use(cri.toPointCmdUse())
+        paymentService.payment(cri.toPaymentCmdPayment(order.orderId))
+        return OrderResult().ofOrder(order)
+    }
+}
