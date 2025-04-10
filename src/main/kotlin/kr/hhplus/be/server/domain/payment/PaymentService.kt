@@ -6,7 +6,8 @@ import org.springframework.stereotype.Service
 class PaymentService(
     private val paymentRepository: PaymentRepository,
 ) {
-    fun payment(cmd: PaymentCommand.Payment): PaymentInfo.Payment{
+    fun payment(cmd: PaymentCommand.Payment): PaymentInfo.Payment {
+
         return paymentRepository.insert()
     }
 }

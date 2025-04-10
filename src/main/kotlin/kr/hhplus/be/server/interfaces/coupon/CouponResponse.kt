@@ -5,5 +5,5 @@ import java.time.LocalDateTime
 
 class CouponResponse {
     data class Coupon(val couponId: Long, val expiredAt: LocalDateTime)
-    fun ofCoupon(coupon: CouponInfo.Coupon): Coupon = with(coupon){ Coupon(couponId, expiredAt) }
+    fun ofCoupon(coupon: CouponInfo.UserCoupon): Coupon = with(coupon){ Coupon(couponId, expiredAt) }
 }

@@ -1,25 +1,26 @@
 package kr.hhplus.be.server.domain.coupon
 
-import kr.hhplus.be.server.domain.order.OrderRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import java.util.*
 
 @Service
 class CouponService (
     val couponRepository: CouponRepository,
 ) {
-    fun use(cmd:CouponCommand.Use): CouponInfo.Coupon?{
+    fun use(cmd:CouponCommand.Use): CouponInfo.UserCoupon?{
         if (cmd.code.isNullOrBlank()) return null
-        val coupon = couponRepository.findCouponByUserIdAndCode(cmd.userId, cmd.code)
-        require(coupon != null) { "해당 쿠폰이 없습니다." }
-        require(!coupon.isUsed) { "이미 사용한 쿠폰입니다." }
-        require(coupon.expiredAt >= LocalDateTime.now()) { "사용기간이 만료된 쿠폰입니다" }
-        couponRepository.updateUserCoupon()
+        val coupon = couponRepository.findCouponByUserIdAndCode(cmd.userId, cmd.code) ?: return null
+        if (coupon.isUsed) return null
+        if (coupon.expiredAt.toLocalDate() < LocalDateTime.now().toLocalDate()) return null
         couponRepository.insertOrderCoupon()
-        return couponRepository.updateCoupon()
+        return couponRepository.insertUserCoupon()
     }
-    fun issue(cmd:CouponCommand.Issue):CouponInfo.Coupon{
-        return CouponInfo.Coupon(1L, UUID.randomUUID().toString(), LocalDateTime.now(), false, 1L)
+    fun issue(cmd:CouponCommand.Issue):CouponInfo.UserCoupon?{
+        val coupon = couponRepository.findCouponByCouponId(cmd.couponId)
+        if (coupon.issuedLimit <= coupon.issuedCount) return null
+        val find = couponRepository.findCouponByCouponIdAndUserId(cmd.couponId, cmd.userId )
+        if (find != null ) return null
+        couponRepository.updateCoupon()
+        return couponRepository.insertUserCoupon()
     }
 }

@@ -1,15 +1,19 @@
 package kr.hhplus.be.server.domain.coupon
 
 import java.time.LocalDateTime
-import java.util.UUID
 
 class CouponInfo {
     data class Coupon(
         val couponId: Long,
+        val issuedLimit: Int,
+        val issuedCount: Int,
+    )
+    data class UserCoupon(
+        val userId: Long,
+        val couponId: Long,
         val code: String,
         val expiredAt: LocalDateTime,
         val isUsed: Boolean,
-        val userId: Long,
     )
     data class OrderCoupon(
         val orderCouponId: Long,

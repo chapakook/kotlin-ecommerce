@@ -12,8 +12,8 @@ class CouponController (
     private val couponService: CouponService
 ) {
     @PostMapping("/issue")
-    fun issue(@RequestBody req: CouponRequest.Issue): CouponResponse.Coupon {
+    fun issue(@RequestBody req: CouponRequest.Issue): CouponResponse.Coupon? {
         val coupon = couponService.issue(req.toCouponCmdIssue())
-        return CouponResponse().ofCoupon(coupon)
+        return if (coupon != null) CouponResponse().ofCoupon(coupon) else null
     }
 }

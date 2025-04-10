@@ -4,11 +4,13 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CouponRepository {
-    fun findCouponByUserIdAndCode(userId: Long, code: String): CouponInfo.Coupon?
+    fun findCouponByCouponId(couponId: Long): CouponInfo.Coupon
+    fun findCouponByCouponIdAndUserId(couponId: Long, userId: Long): CouponInfo.UserCoupon?
+    fun findCouponByUserIdAndCode(userId: Long, code: String): CouponInfo.UserCoupon?
     fun insertCoupon():CouponInfo.Coupon
     fun updateCoupon():CouponInfo.Coupon
-    fun insertUserCoupon():CouponInfo.Coupon
-    fun updateUserCoupon():CouponInfo.Coupon
-    fun insertOrderCoupon():CouponInfo.Coupon
-    fun updateOrderCoupon():CouponInfo.Coupon
+    fun insertUserCoupon():CouponInfo.UserCoupon
+    fun updateUserCoupon():CouponInfo.UserCoupon
+    fun insertOrderCoupon():CouponInfo.OrderCoupon
+    fun updateOrderCoupon():CouponInfo.OrderCoupon
 }
