@@ -20,7 +20,23 @@ class ProductServiceTest {
     }
 
     @Nested
-    inner class GetReduce {
+    inner class Find {
+        @Test
+        fun `happy - 상품을 가져온다`() {
+            // given
+            val productId = 1L
+            val cmd = ProductCommand.Find(productId)
+            val fake = ProductInfo.Product(1L,"Product",100L, 100)
+            every { productRepository.findProductById(any()) } returns fake
+            // when
+            val product = productService.find(cmd)
+            // then
+            assertThat(product).isEqualTo(fake)
+        }
+    }
+
+    @Nested
+    inner class Reduce {
         @Test
         fun `happy - 주문 수량보다 재고가 많을때 재고를 차감한다`() {
             // given
@@ -84,13 +100,14 @@ class ProductServiceTest {
     }
 
     @Nested
-    inner class GetRank{
+    inner class Ranks{
         @Test
         fun `happy - rankCmd 이용 getRank 요청시 정상적으로 인기상품을 가져온다`() {
             // given
             val fakeRank = emptyList<ProductInfo.Rank>()
+            every { productRepository.findRank() } returns fakeRank
             // when
-            val rank = productService.getRank()
+            val rank = productService.ranks()
             // then
             assertThat(rank).isEqualTo(fakeRank)
         }

@@ -1,7 +1,7 @@
 package kr.hhplus.be.server.domain.product
 
 class ProductCommand {
-    data class Get (
+    data class Find (
         val productId: Long
     ){
         init {

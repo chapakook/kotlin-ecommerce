@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 class ProductService (
     private val productRepository: ProductRepository,
 ){
-    fun find(getCmd: ProductCommand.Get): ProductInfo.Product{
+    fun find(getCmd: ProductCommand.Find): ProductInfo.Product{
         return productRepository.findProductById(getCmd.productId)
     }
 
@@ -17,7 +17,7 @@ class ProductService (
         return productRepository.update()
     }
 
-    fun getRank():List<ProductInfo.Rank>{
-        return emptyList()
+    fun ranks():List<ProductInfo.Rank>{
+        return productRepository.findRank()
     }
 }
