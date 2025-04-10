@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.domain.product
 
+import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -24,6 +25,7 @@ class ProductServiceTest {
             // given
             val getCmd = ProductCommand.Get(1L)
             val fakeProduct = ProductInfo.Product(1L,"Product",100L)
+            every { productRepository.findProductById(any()) } returns fakeProduct
             // when
             val product = productService.getProduct(getCmd)
             // then
