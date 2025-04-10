@@ -11,12 +11,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @WebMvcTest(controllers = [ProductController::class])
-class ProductControllerTest {
+class ProductInfoControllerTest {
     @Autowired
     private lateinit var mockMvc: MockMvc
 
     @Nested
-    inner class Product {
+    inner class ProductInfo {
         @Test
         fun `happy - 정상적인 상품아이디로 조회시 조회되어야한다`(){
             // given
