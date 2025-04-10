@@ -19,7 +19,6 @@ class OrderCriteria {
             require(productId > 0) { "Product id must be positive" }
             require(quantity > 0) { "Quantity must be positive" }
         }
-        fun toProductCmdFind(): ProductCommand.Find = ProductCommand.Find(productId)
         fun toProductCmdReduce(): ProductCommand.Reduce = ProductCommand.Reduce(productId, quantity)
         fun toCouponCmdUse(): CouponCommand.Use = CouponCommand.Use(userId, code)
         fun toOrderCmdOrder(): OrderCommand.Order = OrderCommand.Order(productId, price, quantity)
