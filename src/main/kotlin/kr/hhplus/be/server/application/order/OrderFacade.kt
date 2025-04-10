@@ -17,10 +17,10 @@ class OrderFacade(
 ) {
     fun order(cri: OrderCriteria.Order): OrderResult.Order{
         productService.reduceProduct(cri.toProductCmdReduce())
-//        val coupon = couponService.useCoupon(cri.toCouponCmdUse()) // 쿠폰의 경우 심화 기능에 있어서 심화에서 구현
+        couponService.use(cri.toCouponCmdUse())
         val order = orderService.order(cri.toOrderCmdOrder())
-        val point = pointService.usePoint(cri.toPointCmdUse())
-        val payment = paymentService.payment(cri.toPaymentCmdPayment())
+        pointService.usePoint(cri.toPointCmdUse())
+        paymentService.payment(cri.toPaymentCmdPayment())
         return OrderResult().ofOrder(order)
     }
 }
