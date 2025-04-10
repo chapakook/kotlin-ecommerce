@@ -16,8 +16,6 @@ class OrderFacade(
     private val paymentService: PaymentService
 ) {
     fun order(cri: OrderCriteria.Order): OrderResult.Order{
-        val product = productService.getProduct(cri.toProductCmdGet())
-        require( product.stock > 0) { "상품재고가 없습니다" }
         productService.reduceProduct(cri.toProductCmdReduce())
 //        val coupon = couponService.useCoupon(cri.toCouponCmdUse()) // 쿠폰의 경우 심화 기능에 있어서 심화에서 구현
         val order = orderService.order(cri.toOrderCmdOrder())

@@ -12,6 +12,7 @@ class ProductService (
 
     fun reduceProduct(reduceCmd: ProductCommand.Reduce): ProductInfo.Product{
         val product = productRepository.findProductById(reduceCmd.productId)
+        require( product.stock > 0) { "상품재고가 없습니다" }
         require( product.stock >=  reduceCmd.quantity) { "재고보다 많은 수량을 주문했습니다" }
         return productRepository.update()
     }

@@ -35,7 +35,7 @@ class OrderFacadeTest {
     }
 
     @Test
-    fun `happy - 상품의 재고가 있을때 정상 주문된다`() {
+    fun `happy - 상품재고 충분, 포인트 충분 시 정상동작한다`() {
         // Given
         val productId = 1L
         val couponId = 2L
@@ -58,16 +58,5 @@ class OrderFacadeTest {
         val result = orderFacade.order(cri)
         // Then
         assertThat(result).isEqualTo(fakeOrder)
-    }
-
-    @Test
-    fun `bad - 상품 재고가 없는 경우 정상적으로 주문이 되지않는다`(){
-        // Given
-        val cri = OrderCriteria.Order(3L, 1L,2L,2000L , 2)
-        val product = ProductInfo.Product(1L,"test",2000L, 0)
-        every { productService.getProduct(any()) } returns product
-        // When & Then
-        assertThatThrownBy { orderFacade.order(cri) }
-            .isInstanceOf(IllegalArgumentException::class.java)
     }
 }

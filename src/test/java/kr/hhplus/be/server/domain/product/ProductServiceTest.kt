@@ -69,6 +69,18 @@ class ProductServiceTest {
             assertThatThrownBy { productService.reduceProduct(reduceCmd) }
                 .isInstanceOf(IllegalArgumentException::class.java)
         }
+        @Test
+        fun `bad - 재고없는 경우 실패한다`() {
+            // given
+            val productId = 1L
+            val quantity = 200
+            val reduceCmd = ProductCommand.Reduce(productId, quantity)
+            val base = ProductInfo.Product(1L,"Product",100L, 0)
+            every { productRepository.findProductById(any()) } returns base
+            // when & then
+            assertThatThrownBy { productService.reduceProduct(reduceCmd) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+        }
     }
 
     @Nested
