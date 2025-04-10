@@ -9,6 +9,7 @@ class OrderCriteria {
     data class Order(
         val productId: Long,
         val couponId: Long,
+        val price: Long,
         val quantity: Int,
     ){
         init {
@@ -16,8 +17,9 @@ class OrderCriteria {
             require(quantity > 0) { "Quantity must be positive" }
         }
         fun toProductCmdGet(): ProductCommand.Get = ProductCommand.Get(productId)
+        fun toProductCmdReduce(): ProductCommand.Reduce = ProductCommand.Reduce(productId, quantity)
         fun toCouponCmdUse(): CouponCommand.Use = CouponCommand.Use()
-        fun toOrderCmdOrder(): OrderCommand.Order = OrderCommand.Order(productId, quantity)
+        fun toOrderCmdOrder(): OrderCommand.Order = OrderCommand.Order(productId, price, quantity)
         fun toPaymentCmdPayment(): PaymentCommand.Payment = PaymentCommand.Payment()
     }
 }
