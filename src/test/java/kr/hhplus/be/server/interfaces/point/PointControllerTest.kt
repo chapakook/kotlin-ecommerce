@@ -13,14 +13,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @WebMvcTest(controllers = [PointController::class])
-class PointControllerTest {
+class PointInfoControllerTest {
     @Autowired
     private lateinit var mockMvc: MockMvc
     @Autowired
     private lateinit var objectMapper: ObjectMapper
 
     @Nested
-    inner class Point{
+    inner class PointInfo{
         @Test
         fun `happy - given when then point`(){
             // given

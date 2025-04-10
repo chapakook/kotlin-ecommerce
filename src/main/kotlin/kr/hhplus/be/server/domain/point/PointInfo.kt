@@ -1,12 +1,9 @@
 package kr.hhplus.be.server.domain.point
 
-import java.time.LocalDateTime
-
-data class Point(
+data class PointInfo(
     val pointId: Long,
     val userId: Long,
     val balance: Long,
-    val updatedAt: LocalDateTime,
 ) {
     init {
         require(pointId > 0) { "pointId must be positive" }

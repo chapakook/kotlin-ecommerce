@@ -6,9 +6,8 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Nested
 import org.mockito.MockitoAnnotations
-import java.time.LocalDateTime
 
-class PointServiceTest {
+class PointInfoServiceTest {
     private lateinit var pointService: PointService
 
     @BeforeEach
@@ -18,44 +17,44 @@ class PointServiceTest {
     }
 
     @Nested
-    inner class GetPoint {
+    inner class GetPointInfo {
         @Test
         fun `happy - getCmd 이용 getPoint 요청시 정상적으로 포인트를 가져온다`() {
             // given
             val getCmd = PointCommand.Get()
-            val fakePoint = Point(1L,1L,100L,LocalDateTime.now())
+            val fakePointInfo = PointInfo(1L,1L,100L)
             // when
             val result = pointService.getPoint(getCmd)
             // then
-            assertThat(result).extracting("pointId", "userId").containsExactly(fakePoint.pointId, fakePoint.userId)
+            assertThat(result).isEqualTo(fakePointInfo)
         }
     }
 
     @Nested
-    inner class ChargePoint {
+    inner class ChargePointInfo {
         @Test
         fun `happy - chargeCmd 이용 chargePoint 요청시 정상적으로 포인트 충전을 한다`() {
             // given
             val chargeCmd = PointCommand.Charge()
-            val fakePoint = Point(1L,1L,100L,LocalDateTime.now())
+            val fakePointInfo = PointInfo(1L,1L,100L)
             // when
             val result = pointService.chargePoint(chargeCmd)
             // then
-            assertThat(result).extracting("pointId", "userId").containsExactly(fakePoint.pointId, fakePoint.userId)
+            assertThat(result).isEqualTo(fakePointInfo)
         }
     }
 
     @Nested
-    inner class UsePoint {
+    inner class UsePointInfo {
         @Test
         fun `happy - useCmd 이용 usePoint 요처시 정상적인 포인트 사용을 한다`() {
             // given
             val useCmd = PointCommand.Use()
-            val fakePoint = Point(1L,1L,100L,LocalDateTime.now())
+            val fakePointInfo = PointInfo(1L,1L,100L)
             // when
             val result = pointService.usePoint(useCmd)
             // then
-            assertThat(result).extracting("pointId", "userId").containsExactly(fakePoint.pointId, fakePoint.userId)
+            assertThat(result).isEqualTo(fakePointInfo)
         }
     }
 }

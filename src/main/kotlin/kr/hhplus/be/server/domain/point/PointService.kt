@@ -2,22 +2,21 @@ package kr.hhplus.be.server.domain.point
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDateTime
 
 @Service
 class PointService(
 ) {
-    fun getPoint(getCmd: PointCommand.Get): Point {
-        return Point(1L,1L,100L, LocalDateTime.now())
+    fun getPoint(getCmd: PointCommand.Get): PointInfo {
+        return PointInfo(1L,1L,100L)
     }
 
     @Transactional
-    fun chargePoint(chargeCmd: PointCommand.Charge): Point {
-        return Point(1L,1L,100L, LocalDateTime.now())
+    fun chargePoint(chargeCmd: PointCommand.Charge): PointInfo {
+        return PointInfo(1L,1L,100L)
     }
 
     @Transactional
-    fun usePoint(useCmd: PointCommand.Use): Point {
-        return Point(1L,1L,100L, LocalDateTime.now())
+    fun usePoint(useCmd: PointCommand.Use): PointInfo {
+        return PointInfo(1L,1L,100L)
     }
 }
