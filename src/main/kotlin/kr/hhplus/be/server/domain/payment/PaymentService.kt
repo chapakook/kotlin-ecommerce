@@ -7,7 +7,6 @@ class PaymentService(
     private val paymentRepository: PaymentRepository,
 ) {
     fun payment(cmd: PaymentCommand.Payment): PaymentInfo.Payment {
-
         return paymentRepository.insert()
     }
 }

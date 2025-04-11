@@ -10,14 +10,15 @@ class OrderCriteria {
     data class Order(
         val userId: Long,
         val productId: Long,
-        val couponId: Long,
         val price: Long,
         val quantity: Int,
         val code: String?,
     ){
         init {
+            require(userId > 0) { "UserId must be positive" }
             require(productId > 0) { "Product id must be positive" }
             require(quantity > 0) { "Quantity must be positive" }
+            require(price > 0) { "Price must be positive" }
         }
         fun toProductCmdReduce(): ProductCommand.Reduce = ProductCommand.Reduce(productId, quantity)
         fun toCouponCmdUse(): CouponCommand.Use = CouponCommand.Use(userId, code)

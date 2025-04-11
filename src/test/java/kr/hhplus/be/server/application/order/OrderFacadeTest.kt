@@ -38,12 +38,11 @@ class OrderFacadeTest {
     fun `happy - 상품재고 충분, 포인트 충분 시 정상동작한다`() {
         // Given
         val productId = 1L
-        val couponId = 2L
         val orderId = 3L
         val quantity = 2
         val pointId = 4L
         val userId = 5L
-        val cri = OrderCriteria.Order(userId, productId,couponId,1000L, 2, null)
+        val cri = OrderCriteria.Order(userId, productId,1000L, 2, null)
         val product = ProductInfo.Product(productId,"test",2000L, 100)
         val order = OrderInfo.Order(orderId, productId, quantity, 2000L, LocalDateTime.now())
         val point = PointInfo.Point(pointId, userId , 100000000)
