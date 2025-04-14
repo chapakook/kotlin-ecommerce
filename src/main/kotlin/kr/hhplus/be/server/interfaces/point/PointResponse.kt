@@ -5,7 +5,7 @@ import kr.hhplus.be.server.domain.point.PointInfo.Point
 class PointResponse {
     data class Balance(val balance: Long) {
         companion object {
-            fun from(point: Point) = Balance(point.balance)
+            fun from(point: Point): Balance = Balance(point.balance)
         }
     }
 }
