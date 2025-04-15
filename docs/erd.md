@@ -5,7 +5,7 @@
 - [Order](#order)
 - [OrderLine](#orderline)
 - [Payment](#payment)
-- [Event](#event)
+- [CouponEvent](#CouponEvent)
 - [Coupon](#coupon)
 - [Product](#product)
 - [ProductStock](#productstock)
@@ -26,9 +26,9 @@ erDiagram
         balance long
         updateMillis long
     }
-    Event{
+    CouponEvent{
         eventId long PK
-        eventname string
+        name string
         type enum "FIXED, PERCENTAGE"
         value long
         totalCount int
@@ -91,7 +91,7 @@ erDiagram
     User ||--|| UserPoint: ""
     User ||--o{ Order: ""
     User ||--o{ Coupon:  ""
-    Event ||--o{ Coupon: ""
+    CouponEvent ||--o{ Coupon: ""
     Product ||--|| ProductStock: ""
     Product ||--|| ProductPopularity: ""
     OrderLine ||--|| Product: ""
@@ -136,9 +136,9 @@ erDiagram
 ## Evnets
 ```mermaid
 erDiagram
-    Event{
+    CouponEvent{
         eventId long PK
-        eventname string
+        name string
         type enum "FIXED, PERCENTAGE"
         value long
         totalCount int
@@ -156,14 +156,14 @@ erDiagram
         isUsed boolean
         createMillis long
     }
-    Event ||--o{ Coupon: ""
+    CouponEvent ||--o{ Coupon: ""
     User ||--o{ Coupon:  ""
 ```
 
-### `Event`
+### `CouponEvent`
 **Properties**
 - `eventId`: 이벤트아이디 `PK`
-- `eventname`: 이벤트명
+- `name`: 이벤트명
 - `type`: 할인정책  "FIXED, PERCENTAGE"
     > - `FIXED`: 정액 
     > - `PERCENTAGE`: 정률
