@@ -33,7 +33,7 @@ class PointService(
     fun use(useCmd: Use): Info {
         val point = pointRepository.findPointById(useCmd.userId)
         return point?.let {
-            require(point.balance >= useCmd.amount) { OUT_OF_POINT_BALANCE.message }
+            require(point.balance >= useCmd.amount) { OUT_OF_POINT.message }
             Info.from(
                 pointRepository.update(
                     useCmd.userId,

@@ -2,7 +2,6 @@ package kr.hhplus.be.server.domain.point
 
 import io.mockk.every
 import io.mockk.mockk
-import kr.hhplus.be.server.support.ErrorCode.OUT_OF_POINT_BALANCE
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
@@ -139,7 +138,7 @@ class PointServiceTest {
             // when & then
             assertThatThrownBy { pointService.use(useCmd) }
                 .isInstanceOf(IllegalArgumentException::class.java)
-                .hasMessage(OUT_OF_POINT_BALANCE.message)
+                .hasMessage(OUT_OF_POINT.message)
         }
     }
 }
