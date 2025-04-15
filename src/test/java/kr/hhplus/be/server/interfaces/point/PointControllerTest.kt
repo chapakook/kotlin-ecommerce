@@ -5,7 +5,7 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import kr.hhplus.be.server.domain.point.PointInfo.Point
 import kr.hhplus.be.server.domain.point.PointService
-import kr.hhplus.be.server.interfaces.point.PointResponse.Balance
+import kr.hhplus.be.server.interfaces.point.PointResponse.ChargeResult
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,7 +34,7 @@ class PointControllerTest {
         fun `happy - 정상 유저ID 이용 요청시 정상 응답함`() {
             // given
             val userId = 1L
-            val fakePointResponse = Balance(100)
+            val fakePointResponse = ChargeResult(100)
             val fakePointResult = Point(1L, userId, 100)
             // when
             every { pointService.find(any()) } returns fakePointResult
