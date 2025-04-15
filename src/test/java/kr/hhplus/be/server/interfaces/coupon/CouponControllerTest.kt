@@ -3,11 +3,11 @@ package kr.hhplus.be.server.interfaces.coupon
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import kr.hhplus.be.server.domain.coupon.CouponInfo
+import kr.hhplus.be.server.domain.coupon.CouponInfo.UserCoupon
 import kr.hhplus.be.server.domain.coupon.CouponService
-import org.junit.jupiter.api.Test
-
+import kr.hhplus.be.server.interfaces.coupon.CouponRequest.Issue
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
@@ -20,20 +20,22 @@ import java.time.LocalDateTime
 class CouponControllerTest {
     @Autowired
     private lateinit var mockMvc: MockMvc
+
     @Autowired
     private lateinit var objectMapper: ObjectMapper
+
     @MockkBean
     private lateinit var couponService: CouponService
 
     @Nested
-    inner class Issue{
+    inner class Issue {
         @Test
         fun `happy - 정상적인 쿠폰 발급 요청시 쿠폰발급되어야한다`() {
             // given
             val userId = 1L
             val couponId = 2L
-            val req = CouponRequest.Issue(userId, couponId)
-            val fake = CouponInfo.UserCoupon(userId, couponId, "code", LocalDateTime.now(), false)
+            val req = Issue(userId, couponId)
+            val fake = UserCoupon(userId, couponId, "code", LocalDateTime.now(), false)
             // when
             every { couponService.issue(any()) } returns fake
             // then
