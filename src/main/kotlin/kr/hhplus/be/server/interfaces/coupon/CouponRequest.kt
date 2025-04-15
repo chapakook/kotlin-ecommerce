@@ -6,7 +6,7 @@ class CouponRequest {
     data class Issue(
         val userId: Long,
         val couponId: Long,
-    ){
-        fun toCouponCmdIssue(): CouponCommand.Issue = CouponCommand.Issue(userId,couponId)
+    ) {
+        fun to(): CouponCommand.Issue = CouponCommand.Issue(userId, couponId)
     }
 }
