@@ -24,7 +24,7 @@ erDiagram
         pointId long PK
         userId long FK "User.Id"
         balance long
-        updatedAt long
+        updateMillis long
     }
     Event{
         eventId long PK
@@ -33,7 +33,7 @@ erDiagram
         value long
         totalCount int
         currentCount int
-        expiryDate long
+        expiryMillis long
         validFsprom long
         validTo long
     }
@@ -42,9 +42,9 @@ erDiagram
         userId long FK "User.userId"
         type enum "FIXED, PERCENTAGE"
         value long
-        expiryDate long
+        expiryMillis long
         isUsed boolean
-        createdAt long
+        createMillis long
     }
     Order{
         orderId long PK
@@ -52,8 +52,8 @@ erDiagram
         totalAmount long
         discountAmount long
         orderStatus enum "PENDING, FAILURE, COMPLETE, CALCEL"
-        createdAt long
-        updatedAt long
+        createMillis long
+        updateMillis long
     }
     OrderLine{
         orderLineId long PK
@@ -67,8 +67,8 @@ erDiagram
         orderId long FK "Order.orderId"
         amount long
         status enum "PENDING, FAILURE, COMPLETE, CALCEL"
-        createdAt long
-        updatedAt long
+        createMillis long
+        updateMillis long
     }
     Product{
         productId long PK
@@ -85,7 +85,7 @@ erDiagram
         popularityId long PK
         productId long FK "Product.productId"
         totalOrder int
-        updatedAt long
+        updateMillis long
     }
 
     User ||--|| UserPoint: ""
@@ -112,7 +112,7 @@ erDiagram
         pointId long PK
         userId long FK "User.Id"
         balance long
-        updatedAt long
+        updateMillis long
     }
     User ||--|| UserPoint: ""
     User ||--o{ Coupon:  ""
@@ -129,7 +129,7 @@ erDiagram
 - `pointId`: 포인트 아이디 `PK`
 - `userId`: [User.userId](#user) `FK`
 - `balance`: 잔액
-- `updatedAt`: 수정일시
+- `updateMillis`: 수정일시
 
 <br>
 
@@ -143,7 +143,7 @@ erDiagram
         value long
         totalCount int
         currentCount int
-        expiryDate long
+        expiryMillis long
         validFsprom long
         validTo long
     }
@@ -152,9 +152,9 @@ erDiagram
         userId long FK "User.userId"
         type enum "FIXED, PERCENTAGE"
         value long
-        expiryDate long
+        expiryMillis long
         isUsed boolean
-        createdAt long
+        createMillis long
     }
     Event ||--o{ Coupon: ""
     User ||--o{ Coupon:  ""
@@ -184,7 +184,7 @@ erDiagram
 - `value`: 할인금액
 - `expiryDate`: 만료일자
 - `isUsed`: 사용상태
-- `createdAt`: 생성일시
+- `createMillis`: 생성일시
 
 <br>
 
@@ -197,8 +197,8 @@ erDiagram
         totalAmount long
         discountAmount long
         orderStatus enum "PENDING, FAILURE, COMPLETE, CALCEL"
-        createdAt long
-        updatedAt long
+        createMillis long
+        updateMillis long
     }
     OrderLine{
         orderLineId long PK
@@ -212,8 +212,8 @@ erDiagram
         orderId long FK "Order.orderId"
         amount long
         status enum "PENDING, FAILURE, COMPLETE, CALCEL"
-        createdAt long
-        updatedAt long
+        createMillis long
+        updateMillis long
     }
     Order ||--|{ OrderLine: ""
     Order ||--|| Payment: ""
@@ -230,8 +230,8 @@ erDiagram
     > - `FAILURE`: 주문실패
     > - `COMPLETE`: 주문완료
     > - `CALCEL`: 주문취소
-- `createdAt`: 생성일시
-- `updatedAt`: 수정일시
+- `createMillis`: 생성일시
+- `updateMillis`: 수정일시
 
 ### `OrderLine`
 **Properties**
@@ -250,8 +250,8 @@ erDiagram
     > - `PENDING`: 결제중 
     > - `FAILURE`: 결재실패
     > - `COMPLETE`: 결재완료
-- `createdAt`: 생성일시
-- `updatedAt`: 수정일시
+- `createMillis`: 생성일시
+- `updateMillis`: 수정일시
 
 <br>
 
@@ -260,7 +260,7 @@ erDiagram
 erDiagram
     Product{
         productId long PK
-        productname string
+        name string
         price long
     }
     ProductStock{
@@ -273,7 +273,7 @@ erDiagram
         popularityId long PK
         productId long FK "Product.productId"
         totalOrder int
-        updatedAt long
+        updateMillis long
     }
     Product ||--|| ProductStock: ""
     Product ||--|| ProductPopularity: ""
@@ -281,7 +281,7 @@ erDiagram
 ### `Product`
 **Properties**
 - `productId`: 상품아이디 `PK`
-- `productname`: 제품명
+- `name`: 제품명
 - `price`: 단가
 
 ### `ProductStock`
@@ -296,4 +296,4 @@ erDiagram
 - `popularityId`: 상위상품아이디 `PK`
 - `productId`: [Product.productId](#product) `FK` 
 - `totalOrder`: 총주문개수
-- `updatedAt`: 수정일시
+- `updateMillis`: 수정일시
