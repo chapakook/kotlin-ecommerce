@@ -12,14 +12,9 @@ class PointController(
     private val pointService: PointService,
 ) {
     @GetMapping("{id}")
-    fun point(@PathVariable id: Long): ChargeResult {
-        val point = pointService.find(PointCommand.Get(id))
-        return ChargeResult.from(point)
-    }
+    fun point(@PathVariable id: Long): ChargeResult = ChargeResult.from(pointService.find(PointCommand.Find(id)))
 
     @PatchMapping("{id}/charge")
-    fun charge(@PathVariable id: Long, @RequestBody req: Charge): ChargeResult {
-        val point = pointService.charge(PointCommand.Charge(id, req.amount))
-        return ChargeResult.from(point)
-    }
+    fun charge(@PathVariable id: Long, @RequestBody req: Charge): ChargeResult =
+        ChargeResult.from(pointService.charge(PointCommand.Charge(id, req.amount)))
 }

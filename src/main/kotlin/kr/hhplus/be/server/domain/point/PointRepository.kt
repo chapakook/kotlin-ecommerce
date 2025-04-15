@@ -4,7 +4,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface PointRepository {
-    fun findPointById(id: Long): PointInfo.Point
-    fun findUserCoupon(code: String): PointInfo.UserCoupon?
-    fun updatePointById(id: Long, amount: Long): PointInfo.Point
+    fun findPointById(id: Long): Point?
+    fun update(id: Long, amount: Long, updateMillis: Long): Point
 }

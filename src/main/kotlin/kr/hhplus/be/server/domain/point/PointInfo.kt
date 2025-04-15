@@ -1,11 +1,14 @@
 package kr.hhplus.be.server.domain.point
-class PointInfo{
-    data class Point(
+
+class PointInfo {
+    class Info(
         val pointId: Long,
         val userId: Long,
         val balance: Long,
-    )
-    data class UserCoupon(
-        val discount: Long,
-    )
+        val updateMillis: Long,
+    ) {
+        companion object {
+            fun from(point: Point): Info = with(point) { Info(pointId, userId, balance, updateMillis) }
+        }
+    }
 }
