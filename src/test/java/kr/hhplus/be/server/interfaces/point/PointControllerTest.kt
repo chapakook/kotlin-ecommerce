@@ -3,7 +3,7 @@ package kr.hhplus.be.server.interfaces.point
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import kr.hhplus.be.server.domain.point.PointInfo.Info
+import kr.hhplus.be.server.domain.point.PointInfo.PointInfo
 import kr.hhplus.be.server.domain.point.PointService
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -15,8 +15,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import kotlin.random.Random
 
 @WebMvcTest(PointController::class)
@@ -30,20 +28,14 @@ class PointControllerTest {
     @MockkBean
     private lateinit var pointService: PointService
 
-    private fun createPointInfo(pointId: Long, userId: Long): Info = Info(
-        pointId,
-        userId,
-        Random.nextLong(100L, Long.MAX_VALUE),
-        LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
-    )
-
     @Nested
     inner class Point {
         @Test
         fun `happy - 정상 유저ID 이용 요청시 정상 응답함`() {
             // given
             val userId = 1L
-            val pointInfo = createPointInfo(2L, userId)
+            val balance = Random.nextLong(100L, Long.MAX_VALUE)
+            val pointInfo = PointInfo.create(2L, userId, balance)
             // when
             every { pointService.find(any()) } returns pointInfo
             // then
@@ -63,7 +55,8 @@ class PointControllerTest {
             // given
             val userId = 1L
             val req = PointRequest.Charge(100L)
-            val pointInfo = createPointInfo(2L, userId)
+            val balance = Random.nextLong(100L, Long.MAX_VALUE)
+            val pointInfo = PointInfo.create(2L, userId, balance)
             // when
             every { pointService.charge(any()) } returns pointInfo
             // then

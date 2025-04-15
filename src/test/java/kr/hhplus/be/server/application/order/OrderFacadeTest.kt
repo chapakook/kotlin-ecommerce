@@ -54,7 +54,12 @@ class OrderFacadeTest {
         val product = ProductInfo.Product(productId, "test", 2000L, 100)
         val order = OrderInfo.Order(orderId, productId, quantity, 2000L, LocalDateTime.now())
         val point =
-            PointInfo.Info(pointId, userId, 100000000L, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli())
+            PointInfo.PointInfo(
+                pointId,
+                userId,
+                100000000L,
+                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
+            )
         val payment = PaymentInfo.Payment(1L, 2000L, 2000L, 0L)
         val fakeOrder = OrderResult.Order(orderId)
         every { productService.find(any()) } returns product
