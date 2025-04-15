@@ -14,7 +14,7 @@ class PointInfo {
             fun create(pointId: Long, userId: Long, balance: Long): PointInfo =
                 PointInfo(pointId, userId, balance, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli())
 
-            fun from(point: Point): PointInfo =
+            fun of(point: Point): PointInfo =
                 PointInfo(point.pointId, point.userId, point.balance, point.updateMillis)
         }
     }

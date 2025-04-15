@@ -9,21 +9,19 @@ import org.springframework.stereotype.Service
 class PointService(
     private val pointRepository: PointRepository,
 ) {
-    fun find(findCmd: Find): PointInfo =
-        pointRepository.findPointById(findCmd.userId)?.let { point: Point -> PointInfo.from(point) }
-            ?: throw NoSuchElementException(
-                USER_NOT_FOUND.message
-            )
+    fun find(findCmd: Find): PointInfo = pointRepository.findPointById(findCmd.userId)?.let { point: Point ->
+        PointInfo.of(point)
+    } ?: throw NoSuchElementException(USER_NOT_FOUND.message)
 
     fun charge(chargeCmd: Charge): PointInfo = pointRepository.findPointById(chargeCmd.userId)?.let { point: Point ->
         point.charge(chargeCmd.amount)
         pointRepository.save(point)
-        PointInfo.from(point)
+        PointInfo.of(point)
     } ?: throw NoSuchElementException(USER_NOT_FOUND.message)
 
     fun use(useCmd: Use): PointInfo = pointRepository.findPointById(useCmd.userId)?.let { point: Point ->
         point.use(useCmd.amount)
         pointRepository.save(point)
-        PointInfo.from(point)
+        PointInfo.of(point)
     } ?: throw NoSuchElementException(USER_NOT_FOUND.message)
 }
