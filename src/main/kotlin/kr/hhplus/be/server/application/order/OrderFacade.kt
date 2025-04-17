@@ -17,12 +17,12 @@ class OrderFacade(
     private val pointService: PointService,
     private val paymentService: PaymentService,
 ) {
-    fun order(cri: OrderCriteria.Order): OrderResult.Order {
+//    fun order(cri: OrderCriteria.Order): OrderResult.Order {
 //        productService.reduce(cri.toProductCmdReduce())
-        couponService.use(cri.toCouponCmdUse())
-        val order = orderService.order(cri.toOrderCmdOrder())
-        pointService.use(cri.toPointCmdUse())
-        paymentService.payment(cri.toPaymentCmdPayment(order.orderId))
-        return OrderResult().ofOrder(order)
-    }
+//        couponService.use(cri.toCouponCmdUse())
+//        val order = orderService.order(cri.toOrderCmdOrder())
+//        pointService.use(cri.toPointCmdUse())
+//        paymentService.payment(cri.toPaymentCmdPayment(order.orderId))
+//        return OrderResult().ofOrder(order)
+//    }
 }

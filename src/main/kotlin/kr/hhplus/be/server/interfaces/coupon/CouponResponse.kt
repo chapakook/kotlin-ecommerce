@@ -1,15 +1,14 @@
 package kr.hhplus.be.server.interfaces.coupon
 
-import kr.hhplus.be.server.domain.coupon.CouponInfo.UserCoupon
-import java.time.LocalDateTime
+import kr.hhplus.be.server.application.coupon.CouponResult
 
 class CouponResponse {
-    data class IssueResult(
+    data class IssueV1(
         val couponId: Long,
-        val expiredAt: LocalDateTime,
+        val expiryMillis: Long,
     ) {
         companion object {
-            fun of(coupon: UserCoupon): IssueResult = with(coupon) { IssueResult(couponId, expiredAt) }
+            fun of(result: CouponResult.Issue): IssueV1 = with(result) { IssueV1(couponId, expiryMillis) }
         }
     }
 }

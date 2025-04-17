@@ -1,25 +1,46 @@
 package kr.hhplus.be.server.domain.coupon
 
-import java.time.LocalDateTime
-
 class CouponInfo {
-    data class Coupon(
+    class Find(
         val couponId: Long,
-        val issuedLimit: Int,
-        val issuedCount: Int,
-    )
-    data class UserCoupon(
         val userId: Long,
+        val type: CouponType,
+        val value: Long,
+        val expiryMillis: Long,
+        val createMillis: Long,
+        var updateMillis: Long,
+        var isActive: Boolean,
+    ) {
+        companion object {
+            fun of(coupon: Coupon): Find =
+                with(coupon) { Find(couponId, userId, type, value, expiryMillis, createMillis, updateMillis, isActive) }
+        }
+    }
+
+    class Issue(
         val couponId: Long,
-        val code: String,
-        val expiredAt: LocalDateTime,
-        val isUsed: Boolean,
-    )
-    data class OrderCoupon(
-        val orderCouponId: Long,
-        val couponId: Long,
-        val orderId: Long,
-        val appliedDiscount: Long,
-        val appliedAt: LocalDateTime,
-    )
+        val userId: Long,
+        val type: CouponType,
+        val value: Long,
+        val expiryMillis: Long,
+        val createMillis: Long,
+        var updateMillis: Long,
+        var isActive: Boolean,
+    ) {
+        companion object {
+            fun of(coupon: Coupon): Issue =
+                with(coupon) {
+                    Issue(
+                        couponId,
+                        userId,
+                        type,
+                        value,
+                        expiryMillis,
+                        createMillis,
+                        updateMillis,
+                        isActive
+                    )
+                }
+        }
+    }
 }

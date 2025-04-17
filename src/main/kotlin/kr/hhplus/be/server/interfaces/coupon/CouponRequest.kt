@@ -1,12 +1,12 @@
 package kr.hhplus.be.server.interfaces.coupon
 
-import kr.hhplus.be.server.domain.coupon.CouponCommand
+import kr.hhplus.be.server.application.coupon.CouponCriteria
 
 class CouponRequest {
     data class Issue(
         val userId: Long,
         val couponId: Long,
     ) {
-        fun to(): CouponCommand.Issue = CouponCommand.Issue(userId, couponId)
+        fun toCriteria(): CouponCriteria.Issue = CouponCriteria.Issue(userId, couponId)
     }
 }
