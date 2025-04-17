@@ -4,6 +4,7 @@ import kr.hhplus.be.server.domain.point.PointCommand.*
 import kr.hhplus.be.server.domain.point.PointInfo.PointInfo
 import kr.hhplus.be.server.support.ErrorCode.USER_NOT_FOUND
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class PointService(
@@ -13,6 +14,7 @@ class PointService(
         PointInfo.of(point)
     } ?: throw NoSuchElementException(USER_NOT_FOUND.message)
 
+    @Transactional
     fun charge(chargeCmd: Charge): PointInfo =
         pointRepository.findPointById(chargeCmd.userId)?.let { point: Point ->
             point.charge(chargeCmd.amount)
@@ -20,6 +22,7 @@ class PointService(
             PointInfo.of(point)
         } ?: throw NoSuchElementException(USER_NOT_FOUND.message)
 
+    @Transactional
     fun use(useCmd: Use): PointInfo = pointRepository.findPointById(useCmd.userId)?.let { point: Point ->
         point.use(useCmd.amount)
         pointRepository.save(point)
