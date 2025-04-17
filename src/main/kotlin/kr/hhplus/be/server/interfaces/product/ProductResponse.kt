@@ -1,26 +1,25 @@
 package kr.hhplus.be.server.interfaces.product
 
-import kr.hhplus.be.server.domain.product.ProductInfo.Product
-import kr.hhplus.be.server.domain.product.ProductInfo.Rank
+import kr.hhplus.be.server.application.product.ProductResult.Product
+import kr.hhplus.be.server.application.product.ProductResult.Rank
+
 
 class ProductResponse {
-    class ProductResult(
-        val productId: Long,
-        val name: String,
-        val price: Long,
-        val quantity: Int,
+    class ProductV1(
+        val product: Product,
     ) {
         companion object {
-            fun from(product: Product): ProductResult = with(product) { ProductResult(productId, name, price, stock) }
+            fun of(product: Product): ProductV1 = ProductV1(product)
         }
     }
 
-    class RankResult(
+    class RankV1(
         val productId: Long,
+        val productName: String,
         val rank: Int,
     ) {
         companion object {
-            fun of(ranks: List<Rank>): List<RankResult> = ranks.map { r -> with(r) { RankResult(productId, rank) } }
+            fun ofList(ranks: List<Rank>): List<RankV1> = ranks.map { r -> RankV1(r.productId, r.productName, r.rank) }
         }
     }
 }
