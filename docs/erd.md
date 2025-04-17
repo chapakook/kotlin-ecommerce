@@ -84,6 +84,7 @@ erDiagram
     ProductPopularity{
         popularityId long PK
         productId long FK "Product.productId"
+        productName string
         rank int
         totalOrder int
         updateMillis long
@@ -273,6 +274,7 @@ erDiagram
     ProductPopularity{
         popularityId long PK
         productId long FK "Product.productId"
+        productName string
         rank int
         totalOrder int
         updateMillis long
@@ -297,6 +299,7 @@ erDiagram
 **Properties**
 - `popularityId`: 상위상품아이디 `PK`
 - `productId`: [Product.productId](#product) `FK`
+- `productName`: 상품명
 - `rank`: 순위
 - `totalOrder`: 총주문개수
 - `updateMillis`: 수정일시
