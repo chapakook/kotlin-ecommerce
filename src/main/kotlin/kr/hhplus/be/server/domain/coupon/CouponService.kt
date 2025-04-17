@@ -17,6 +17,6 @@ class CouponService(
     fun use(cmd: CouponCommand.Use): Long = cmd.couponId?.let { couponId ->
         couponRepository.findCouponByUserIdAndId(cmd.userId, couponId)?.let { coupon ->
             coupon.use(cmd.amount)
-        } ?: 0L
-    } ?: 0L
+        } ?: cmd.amount
+    } ?: cmd.amount
 }
