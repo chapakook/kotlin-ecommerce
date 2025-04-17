@@ -4,8 +4,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface OrderRepository {
-    fun findOrderById(id: Long): OrderInfo.Order
-    fun getNextOrderId(): Long
-    fun insert(): OrderInfo.Order
-    fun update(): OrderInfo.Order
+    fun save(order: Order): Order
 }

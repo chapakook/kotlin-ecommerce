@@ -1,13 +1,14 @@
 package kr.hhplus.be.server.interfaces.order
 
-import kr.hhplus.be.server.domain.order.OrderCommand
+import kr.hhplus.be.server.application.order.OrderCriteria
 
 class OrderRequest {
     data class Order(
+        val userId: Long,
         val productId: Long,
-        val price: Long,
         val quantity: Int,
+        val couponId: Long?,
     ) {
-        fun to(): OrderCommand.Order = OrderCommand.Order(productId, price, quantity)
+        fun to(): OrderCriteria.Order = OrderCriteria.Order(userId, productId, quantity, couponId)
     }
 }

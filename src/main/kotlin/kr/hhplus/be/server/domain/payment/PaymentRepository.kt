@@ -4,5 +4,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface PaymentRepository {
-    fun insert(): PaymentInfo.Payment
+    fun save(payment: Payment): Payment
 }

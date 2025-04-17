@@ -1,13 +1,17 @@
 package kr.hhplus.be.server.domain.order
 
-import java.time.LocalDateTime
-
 class OrderInfo {
-    data class Order(
+    class OrderInfo(
         val orderId: Long,
+        val userId: Long,
         val productId: Long,
         val quantity: Int,
-        val totalPrice: Long,
-        val createdAt: LocalDateTime
-    )
+        val totalAmount: Long,
+        val createMillis: Long,
+    ) {
+        companion object {
+            fun of(order: Order): OrderInfo =
+                with(order) { OrderInfo(orderId, userId, productId, quantity, totalAmount, createMillis) }
+        }
+    }
 }

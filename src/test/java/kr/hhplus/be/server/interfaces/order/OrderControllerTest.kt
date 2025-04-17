@@ -3,8 +3,8 @@ package kr.hhplus.be.server.interfaces.order
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import kr.hhplus.be.server.domain.order.OrderInfo
-import kr.hhplus.be.server.domain.order.OrderService
+import kr.hhplus.be.server.application.order.OrderFacade
+import kr.hhplus.be.server.application.order.OrderResult
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 @WebMvcTest(OrderController::class)
 class OrderControllerTest {
@@ -24,7 +25,7 @@ class OrderControllerTest {
     private lateinit var objectMapper: ObjectMapper
 
     @MockkBean
-    private lateinit var orderService: OrderService
+    private lateinit var orderFacade: OrderFacade
 
     @Nested
     inner class Order {
@@ -34,10 +35,20 @@ class OrderControllerTest {
             val productId = 1L
             val price = 100L
             val quantity = 2
-            val req = OrderRequest.Order(productId, price, quantity)
-            val result = OrderInfo.Order(2L, productId, quantity, price * quantity, LocalDateTime.now())
+            val userId = 2L
+            val orderId = 3L
+            val req = OrderRequest.Order(userId, productId, quantity, null)
+            val result =
+                OrderResult.Order(
+                    orderId,
+                    userId,
+                    productId,
+                    quantity,
+                    price * quantity,
+                    LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
+                )
             // when
-            every { orderService.order(any()) } returns result
+            every { orderFacade.order(any()) } returns result
             // then
             mockMvc.perform(
                 MockMvcRequestBuilders.post("/order")

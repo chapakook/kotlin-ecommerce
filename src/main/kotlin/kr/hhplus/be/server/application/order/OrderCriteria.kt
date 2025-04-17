@@ -1,31 +1,23 @@
 package kr.hhplus.be.server.application.order
 
+import kr.hhplus.be.server.domain.coupon.CouponCommand
 import kr.hhplus.be.server.domain.order.OrderCommand
-import kr.hhplus.be.server.domain.payment.PaymentCommand
 import kr.hhplus.be.server.domain.point.PointCommand
 import kr.hhplus.be.server.domain.product.ProductCommand
+import kr.hhplus.be.server.domain.stock.StockCommand
 
 class OrderCriteria {
     data class Order(
         val userId: Long,
         val productId: Long,
-        val price: Long,
         val quantity: Int,
-        val code: String?,
+        val couponId: Long?,
     ) {
-        init {
-            require(userId > 0) { "UserId must be positive" }
-            require(productId > 0) { "Product id must be positive" }
-            require(quantity > 0) { "Quantity must be positive" }
-            require(price > 0) { "Price must be positive" }
-        }
-
-        fun toProductCmdReduce(): ProductCommand.Reduce = ProductCommand.Reduce(productId, quantity)
-
-        //        fun toCouponCmdUse(): CouponCommand.Use = CouponCommand.Use(userId, code)
-        fun toOrderCmdOrder(): OrderCommand.Order = OrderCommand.Order(productId, price, quantity)
-        fun toPointCmdUse(): PointCommand.Use = PointCommand.Use(userId, price * quantity)
-        fun toPaymentCmdPayment(orderId: Long): PaymentCommand.Payment =
-            PaymentCommand.Payment(orderId, userId, price * quantity)
+        fun toProductCmd(): ProductCommand.Find = ProductCommand.Find(productId)
+        fun toStockCmd(): StockCommand.Deduct = StockCommand.Deduct(productId, quantity)
+        fun toCouponCmd(amount: Long): CouponCommand.Use = CouponCommand.Use(userId, couponId, amount)
+        fun toPointCmd(amount: Long): PointCommand.Use = PointCommand.Use(userId, amount)
+        fun toOrderCmd(totalAmount: Long, paymentAmount: Long): OrderCommand.Order =
+            OrderCommand.Order(userId, productId, quantity, totalAmount, paymentAmount)
     }
 }
