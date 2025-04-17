@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service
 
 @Service
 class ProductFacade(
-    val productService: ProductService,
-    val stockService: StockService,
-    val popularityService: PopularityService,
+    private val productService: ProductService,
+    private val stockService: StockService,
+    private val popularityService: PopularityService,
 ) {
     fun find(findCri: Find): Product {
         val product = productService.find(findCri.toProductCmd())
         val stock = stockService.find(findCri.toProductStockCmd())
         return Product.of(product, stock)
     }
-    
+
     fun ranks(): List<Rank> = Rank.ofList(popularityService.ranks())
 }
