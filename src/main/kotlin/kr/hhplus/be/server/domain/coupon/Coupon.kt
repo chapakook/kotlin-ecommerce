@@ -66,11 +66,11 @@ class Coupon(
         updateMillis = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
         return when (type) {
             CouponType.FIXED -> if (value > amount) 0 else amount - value
-            CouponType.RATE -> amount * (1 - value / 100)
+            CouponType.RATE -> (amount - (amount * (value / 100.0))).toLong()
         }
     }
 
     private fun validExpiry(): Boolean =
         LocalDateTime.ofInstant(Instant.ofEpochMilli(expiryMillis), ZoneOffset.UTC).toLocalDate()
-            .isBefore(LocalDate.now(ZoneOffset.UTC))
+            .isAfter(LocalDate.now(ZoneOffset.UTC))
 }
