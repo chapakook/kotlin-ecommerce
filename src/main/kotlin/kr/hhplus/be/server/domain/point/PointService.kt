@@ -13,11 +13,12 @@ class PointService(
         PointInfo.of(point)
     } ?: throw NoSuchElementException(USER_NOT_FOUND.message)
 
-    fun charge(chargeCmd: Charge): PointInfo = pointRepository.findPointById(chargeCmd.userId)?.let { point: Point ->
-        point.charge(chargeCmd.amount)
-        pointRepository.save(point)
-        PointInfo.of(point)
-    } ?: throw NoSuchElementException(USER_NOT_FOUND.message)
+    fun charge(chargeCmd: Charge): PointInfo =
+        pointRepository.findPointById(chargeCmd.userId)?.let { point: Point ->
+            point.charge(chargeCmd.amount)
+            pointRepository.save(point)
+            PointInfo.of(point)
+        } ?: throw NoSuchElementException(USER_NOT_FOUND.message)
 
     fun use(useCmd: Use): PointInfo = pointRepository.findPointById(useCmd.userId)?.let { point: Point ->
         point.use(useCmd.amount)

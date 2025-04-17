@@ -1,13 +1,20 @@
 package kr.hhplus.be.server.domain.point
 
+import jakarta.persistence.*
 import kr.hhplus.be.server.support.ErrorCode.*
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
+@Entity
 class Point(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val pointId: Long,
+    @Column(nullable = false)
     val userId: Long,
+    @Column(nullable = false)
     var balance: Long,
+    @Column(nullable = false)
     var updateMillis: Long,
 ) {
     companion object {

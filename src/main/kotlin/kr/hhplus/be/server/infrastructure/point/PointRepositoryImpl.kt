@@ -1,0 +1,13 @@
+package kr.hhplus.be.server.infrastructure.point
+
+import kr.hhplus.be.server.domain.point.Point
+import kr.hhplus.be.server.domain.point.PointRepository
+import org.springframework.stereotype.Repository
+
+@Repository
+class PointRepositoryImpl(
+    private val pointJPARepository: PointJPARepository,
+) : PointRepository {
+    override fun findPointById(id: Long): Point? = pointJPARepository.findPointById(id)
+    override fun save(point: Point): Point = pointJPARepository.save(point)
+}
