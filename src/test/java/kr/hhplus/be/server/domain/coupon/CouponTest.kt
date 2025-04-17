@@ -80,7 +80,7 @@ class CouponTest {
             500L,
             LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
         )
-        // 조두
+        // then
         val result = coupon.use(1000L)
         // when & then
         assertThat(result).isEqualTo(500L)
