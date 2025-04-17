@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CouponService(
-    val couponRepository: CouponRepository,
+    private val couponRepository: CouponRepository,
 ) {
     fun find(cmd: CouponCommand.Find): CouponInfo.Find =
         couponRepository.findCouponByUserIdAndId(cmd.userId, cmd.couponId)?.let { coupon -> CouponInfo.Find.of(coupon) }
