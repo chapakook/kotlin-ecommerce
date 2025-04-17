@@ -5,7 +5,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kr.hhplus.be.server.domain.order.Order
 import org.assertj.core.api.Assertions.assertThat
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 
 class OrderRepositoryImplTest {
     private val orderJPARepository = mockk<OrderJPARepository>()

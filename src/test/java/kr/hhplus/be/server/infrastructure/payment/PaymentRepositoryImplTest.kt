@@ -6,7 +6,7 @@ import io.mockk.verify
 import kr.hhplus.be.server.domain.payment.Payment
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 
 class PaymentRepositoryImplTest {
     private val paymentJPARepository = mockk<PaymentJPARepository>()
