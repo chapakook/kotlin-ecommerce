@@ -58,7 +58,7 @@ class CouponTest {
     }
 
     @Test
-    fun `happy - 만료된 쿠폰은 사용할 수 없다`() {
+    fun `bad - 만료된 쿠폰은 사용할 수 없다`() {
         // given
         val coupon = Coupon.issue(
             123L,
@@ -72,7 +72,7 @@ class CouponTest {
     }
 
     @Test
-    fun `happy - 만료일 당일은 사용할 수 있다`() {
+    fun `bad - 만료일 당일은 사용할 수 있다`() {
         // given
         val coupon = Coupon.issue(
             123L,
@@ -87,7 +87,7 @@ class CouponTest {
     }
 
     @Test
-    fun `happy - 사용된 쿠폰은 사용할 수 없다`() {
+    fun `bad - 사용된 쿠폰은 사용할 수 없다`() {
         // given
         val coupon = Coupon.issue(
             123L,
