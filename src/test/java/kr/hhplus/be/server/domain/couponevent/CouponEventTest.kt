@@ -30,7 +30,7 @@ class CouponEventTest {
     }
 
     @Test
-    fun `happy - maxCount가 되면 발급할 수 없다`() {
+    fun `bad - maxCount가 되면 발급할 수 없다`() {
         // given
         var current = 99
         val couponEvent = CouponEvent(
