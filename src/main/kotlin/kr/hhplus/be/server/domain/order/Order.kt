@@ -1,9 +1,16 @@
 package kr.hhplus.be.server.domain.order
 
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
+@Entity
 class Order(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val orderId: Long = 0L,
     val userId: Long,
     val productId: Long,
