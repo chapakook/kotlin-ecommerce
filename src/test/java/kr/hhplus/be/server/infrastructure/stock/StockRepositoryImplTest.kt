@@ -17,24 +17,24 @@ class StockRepositoryImplTest {
         val stockId = 1L
         val productId = 2L
         val expectedStock = Stock(stockId, productId, 100, 0)
-        every { stockJPARepository.findProductStockById(stockId) } returns expectedStock
+        every { stockJPARepository.findProductStockByStockId(stockId) } returns expectedStock
         // when
-        val result = stockRepository.findProductStockById(stockId)
+        val result = stockRepository.findProductStockByStockId(stockId)
         // then
         assertThat(result).isEqualTo(expectedStock)
-        verify(exactly = 1) { stockJPARepository.findProductStockById(stockId) }
+        verify(exactly = 1) { stockJPARepository.findProductStockByStockId(stockId) }
     }
 
     @Test
     fun `happy - 재고가 없는 경우 null 반환`() {
         // given
         val stockId = 1L
-        every { stockJPARepository.findProductStockById(stockId) } returns null
+        every { stockJPARepository.findProductStockByStockId(stockId) } returns null
         // when
-        val result = stockRepository.findProductStockById(stockId)
+        val result = stockRepository.findProductStockByStockId(stockId)
         // then
         assertThat(result).isNull()
-        verify(exactly = 1) { stockJPARepository.findProductStockById(stockId) }
+        verify(exactly = 1) { stockJPARepository.findProductStockByStockId(stockId) }
     }
 
     @Test

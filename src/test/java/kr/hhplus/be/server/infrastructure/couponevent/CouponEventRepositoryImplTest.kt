@@ -17,24 +17,24 @@ class CouponEventRepositoryImplTest {
         // given
         val eventId = 1L
         val expectedCouponEvent = CouponEvent(eventId, 100, 20, CouponType.RATE, 10, System.currentTimeMillis())
-        every { couponEventJPARepository.findCouponEventById(eventId) } returns expectedCouponEvent
+        every { couponEventJPARepository.findCouponEventByCouponEventId(eventId) } returns expectedCouponEvent
         // when
-        val result = couponEventRepository.findCouponEventById(eventId)
+        val result = couponEventRepository.findCouponEventByCouponEventId(eventId)
         // then
         assertThat(result).isEqualTo(expectedCouponEvent)
-        verify(exactly = 1) { couponEventJPARepository.findCouponEventById(eventId) }
+        verify(exactly = 1) { couponEventJPARepository.findCouponEventByCouponEventId(eventId) }
     }
 
     @Test
     fun `happy - 쿠폰이벤트가 없는경우 null을 반환`() {
         // given
         val eventId = 1L
-        every { couponEventJPARepository.findCouponEventById(eventId) } returns null
+        every { couponEventJPARepository.findCouponEventByCouponEventId(eventId) } returns null
         // when
-        val result = couponEventRepository.findCouponEventById(eventId)
+        val result = couponEventRepository.findCouponEventByCouponEventId(eventId)
         // then
         assertThat(result).isNull()
-        verify(exactly = 1) { couponEventJPARepository.findCouponEventById(eventId) }
+        verify(exactly = 1) { couponEventJPARepository.findCouponEventByCouponEventId(eventId) }
     }
 
     @Test

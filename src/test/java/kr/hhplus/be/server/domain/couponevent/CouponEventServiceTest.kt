@@ -35,7 +35,7 @@ class CouponEventServiceTest {
                 10L,
                 LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
             )
-            every { couponEventRepository.findCouponEventById(any()) } returns couponEvent
+            every { couponEventRepository.findCouponEventByCouponEventId(any()) } returns couponEvent
             // when
             val result = couponEventService.find(cmd)
             // then
@@ -62,7 +62,7 @@ class CouponEventServiceTest {
                 10,
                 LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
             )
-            every { couponEventRepository.findCouponEventById(any()) } returns couponEvent
+            every { couponEventRepository.findCouponEventByCouponEventId(any()) } returns couponEvent
             // when
             val result = couponEventService.issue(cmd)
             // then

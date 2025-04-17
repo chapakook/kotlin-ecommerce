@@ -31,7 +31,7 @@ class CouponServiceTest {
             val createMillis = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
             val updateMillis = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
             val coupon = Coupon(couponId, userId, CouponType.RATE, 100L, expiryMillis, createMillis, updateMillis, true)
-            every { couponRepository.findCouponByUserIdAndId(any(), any()) } returns coupon
+            every { couponRepository.findCouponByUserIdAndCouponId(any(), any()) } returns coupon
             // when
             val result = couponService.find(cmd)
             // then
