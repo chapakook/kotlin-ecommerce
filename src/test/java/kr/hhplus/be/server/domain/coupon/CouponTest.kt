@@ -58,7 +58,7 @@ class CouponTest {
     }
 
     @Test
-    fun `bad - 만료된 쿠폰은 사용할 수 없다`() {
+    fun `bad - 만료된 쿠폰은 사용시 IllegalArgumentException 을 반환한다`() {
         // given
         val coupon = Coupon.issue(
             123L,
@@ -87,7 +87,7 @@ class CouponTest {
     }
 
     @Test
-    fun `bad - 사용된 쿠폰은 사용할 수 없다`() {
+    fun `bad - 사용된 쿠폰은 사용시 IllegalArgumentException 반환한다`() {
         // given
         val coupon = Coupon.issue(
             123L,
