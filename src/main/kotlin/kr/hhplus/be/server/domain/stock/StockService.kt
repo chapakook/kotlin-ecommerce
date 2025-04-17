@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class StockService(
-    val productStockRepository: StockRepository,
+    private val productStockRepository: StockRepository,
 ) {
     fun find(cmd: StockCommand.Find): ProductStockInfo =
         productStockRepository.findProductStockById(cmd.productId)?.let { stock: Stock ->
