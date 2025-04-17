@@ -13,4 +13,10 @@ class CouponService(
 
     fun issue(cmd: CouponCommand.Issue): CouponInfo.Issue =
         CouponInfo.Issue.of(couponRepository.save(with(cmd) { Coupon.issue(userId, type, value, expiryMillis) }))
+
+    fun use(cmd: CouponCommand.Use): Long = cmd.couponId?.let { couponId ->
+        couponRepository.findCouponByUserIdAndId(cmd.userId, couponId)?.let { coupon ->
+            coupon.use(cmd.amount)
+        } ?: 0L
+    } ?: 0L
 }

@@ -3,7 +3,8 @@ package kr.hhplus.be.server.domain.coupon
 class CouponCommand {
     class Use(
         val userId: Long,
-        val couponId: Long,
+        val couponId: Long?,
+        val amount: Long,
     )
 
     class Issue(
