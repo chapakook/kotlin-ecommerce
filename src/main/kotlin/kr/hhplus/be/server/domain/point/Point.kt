@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 @Entity
+@Table(name = "points")
 class Point(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

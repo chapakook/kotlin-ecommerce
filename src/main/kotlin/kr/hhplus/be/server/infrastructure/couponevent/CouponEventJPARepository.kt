@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CouponEventJPARepository : JpaRepository<CouponEvent, Long> {
-    fun findCouponEventById(id: Long): CouponEvent?
+    fun findCouponEventByCouponEventId(couponEventId: Long): CouponEvent?
     fun save(couponEvent: CouponEvent): CouponEvent
 }

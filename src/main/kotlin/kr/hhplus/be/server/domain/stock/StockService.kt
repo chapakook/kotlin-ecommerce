@@ -7,16 +7,16 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class StockService(
-    private val productStockRepository: StockRepository,
+    private val stockRepository: StockRepository,
 ) {
     fun find(cmd: StockCommand.Find): ProductStockInfo =
-        productStockRepository.findProductStockById(cmd.productId)?.let { stock: Stock ->
+        stockRepository.findProductStockByStockId(cmd.productId)?.let { stock: Stock ->
             ProductStockInfo.of(stock)
         } ?: throw NoSuchElementException(STOCK_NOT_FOUND.message)
 
     @Transactional
     fun deduct(cmd: StockCommand.Deduct): ProductStockInfo =
-        productStockRepository.findProductStockById(cmd.productId)?.let { stock: Stock ->
+        stockRepository.findProductStockByStockId(cmd.productId)?.let { stock: Stock ->
             stock.deduct(cmd.quantity)
             ProductStockInfo.of(stock)
         } ?: throw NoSuchElementException(STOCK_NOT_FOUND.message)

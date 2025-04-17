@@ -4,5 +4,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ProductRepository {
-    fun findProductById(productId: Long): Product?
+    fun findProductByProductId(productId: Long): Product?
 }

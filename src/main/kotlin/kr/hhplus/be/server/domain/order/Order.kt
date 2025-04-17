@@ -1,13 +1,11 @@
 package kr.hhplus.be.server.domain.order
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 @Entity
+@Table(name = "orders")
 class Order(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

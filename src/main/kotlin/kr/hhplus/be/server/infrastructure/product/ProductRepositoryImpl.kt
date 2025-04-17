@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository
 class ProductRepositoryImpl(
     private val productJPARepository: ProductJPARepository,
 ) : ProductRepository {
-    override fun findProductById(productId: Long): Product? = productJPARepository.findProductById(productId)
+    override fun findProductByProductId(productId: Long): Product? =
+        productJPARepository.findProductByProductId(productId)
 }

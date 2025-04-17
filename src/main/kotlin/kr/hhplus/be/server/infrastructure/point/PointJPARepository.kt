@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface PointJPARepository : JpaRepository<Point, Long> {
-    fun findPointById(id: Long): Point?
+    fun findPointByPointId(pointId: Long): Point?
     fun save(point: Point): Point
 }

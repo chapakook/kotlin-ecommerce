@@ -6,11 +6,11 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class PopularityRepositoryImpl(
-    private val popularityRepository: PopularityRepository,
+    private val popularityJPARepository: PopularityJPARepository,
 ) : PopularityRepository {
-    override fun findTop5ByOrderByPopularityDesc(): List<Popularity> =
-        popularityRepository.findTop5ByOrderByPopularityDesc()
+    override fun findTop5ByOrderByRankDesc(): List<Popularity> =
+        popularityJPARepository.findTop5ByOrderByRankDesc()
 
-    override fun save(popularity: Popularity): Popularity = popularityRepository.save(popularity)
+    override fun save(popularity: Popularity): Popularity = popularityJPARepository.save(popularity)
 
 }

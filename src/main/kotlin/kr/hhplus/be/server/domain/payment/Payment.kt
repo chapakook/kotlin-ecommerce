@@ -1,13 +1,11 @@
 package kr.hhplus.be.server.domain.payment
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 @Entity
+@Table(name = "payments")
 class Payment(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

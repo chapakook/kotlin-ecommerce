@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service
 class PopularityService(
     private val popularityRepository: PopularityRepository,
 ) {
-    fun ranks(): List<PopularityInfo> = PopularityInfo.ofList(popularityRepository.findTop5ByOrderByPopularityDesc())
+    fun ranks(): List<PopularityInfo> = PopularityInfo.ofList(popularityRepository.findTop5ByOrderByRankDesc())
 }

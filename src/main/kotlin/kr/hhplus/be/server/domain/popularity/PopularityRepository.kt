@@ -4,6 +4,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface PopularityRepository {
-    fun findTop5ByOrderByPopularityDesc(): List<Popularity>
+    fun findTop5ByOrderByRankDesc(): List<Popularity>
     fun save(popularity: Popularity): Popularity
 }
