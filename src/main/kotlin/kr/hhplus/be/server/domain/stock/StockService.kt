@@ -1,6 +1,6 @@
 package kr.hhplus.be.server.domain.stock
 
-import kr.hhplus.be.server.domain.stock.StockInfo.ProductStockInfo
+import kr.hhplus.be.server.domain.stock.StockInfo.StockInfo
 import kr.hhplus.be.server.support.ErrorCode.STOCK_NOT_FOUND
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -9,15 +9,15 @@ import org.springframework.transaction.annotation.Transactional
 class StockService(
     private val stockRepository: StockRepository,
 ) {
-    fun find(cmd: StockCommand.Find): ProductStockInfo =
+    fun find(cmd: StockCommand.Find): StockInfo =
         stockRepository.findProductStockByStockId(cmd.productId)?.let { stock: Stock ->
-            ProductStockInfo.of(stock)
+            StockInfo.of(stock)
         } ?: throw NoSuchElementException(STOCK_NOT_FOUND.message)
 
     @Transactional
-    fun deduct(cmd: StockCommand.Deduct): ProductStockInfo =
+    fun deduct(cmd: StockCommand.Deduct): StockInfo =
         stockRepository.findProductStockByStockId(cmd.productId)?.let { stock: Stock ->
             stock.deduct(cmd.quantity)
-            ProductStockInfo.of(stock)
+            StockInfo.of(stock)
         } ?: throw NoSuchElementException(STOCK_NOT_FOUND.message)
 }

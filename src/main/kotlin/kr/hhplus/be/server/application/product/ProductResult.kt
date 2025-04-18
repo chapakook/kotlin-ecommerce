@@ -2,7 +2,7 @@ package kr.hhplus.be.server.application.product
 
 import kr.hhplus.be.server.domain.popularity.PopularityInfo.PopularityInfo
 import kr.hhplus.be.server.domain.product.ProductInfo.ProductInfo
-import kr.hhplus.be.server.domain.stock.StockInfo.ProductStockInfo
+import kr.hhplus.be.server.domain.stock.StockInfo.StockInfo
 
 class ProductResult {
     class Product(
@@ -12,7 +12,7 @@ class ProductResult {
         val stock: Int,
     ) {
         companion object {
-            fun of(info: ProductInfo, stock: ProductStockInfo): Product =
+            fun of(info: ProductInfo, stock: StockInfo): Product =
                 with(info) { Product(productId, name, price, stock.quantity) }
         }
     }
