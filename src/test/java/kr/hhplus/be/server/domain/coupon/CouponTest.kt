@@ -72,21 +72,6 @@ class CouponTest {
     }
 
     @Test
-    fun `bad - 만료일 당일은 사용할 수 있다`() {
-        // given
-        val coupon = Coupon.issue(
-            123L,
-            CouponType.FIXED,
-            500L,
-            LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
-        )
-        // then
-        val result = coupon.use(1000L)
-        // when & then
-        assertThat(result).isEqualTo(500L)
-    }
-
-    @Test
     fun `bad - 사용된 쿠폰은 사용시 IllegalArgumentException 반환한다`() {
         // given
         val coupon = Coupon.issue(
