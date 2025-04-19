@@ -8,7 +8,6 @@ import kr.hhplus.be.server.domain.point.PointService
 import kr.hhplus.be.server.domain.product.ProductService
 import kr.hhplus.be.server.domain.stock.StockService
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
 class OrderFacade(
@@ -19,7 +18,6 @@ class OrderFacade(
     private val pointService: PointService,
     private val paymentService: PaymentService,
 ) {
-    @Transactional
     fun order(cri: OrderCriteria.Order): OrderResult.Order {
         val product = productService.find(cri.toProductCmd())
         stockService.deduct(cri.toStockCmd())
