@@ -1,10 +1,11 @@
 package kr.hhplus.be.server.domain.point
 
-import kr.hhplus.be.server.support.ErrorCode
+import kr.hhplus.be.server.support.ErrorCode.AMOUNT_MUST_BE_POSITIVE
+import kr.hhplus.be.server.support.ErrorCode.OUT_OF_POINT
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -41,8 +42,9 @@ class PointTest {
             )
             val amount = -100L
             // when & then
-            val exception = assertThrows<IllegalArgumentException> { point.charge(amount) }
-            assertThat(exception.message).isEqualTo(ErrorCode.AMOUNT_MUST_BE_POSITIVE.message)
+            assertThatThrownBy { point.charge(amount) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+                .hasMessageContainingAll(AMOUNT_MUST_BE_POSITIVE.message)
         }
     }
 
@@ -94,8 +96,9 @@ class PointTest {
             )
             val amount = 1200L
             // when & then
-            val exception = assertThrows<IllegalArgumentException> { point.use(amount) }
-            assertThat(exception.message).isEqualTo(ErrorCode.OUT_OF_POINT.message)
+            assertThatThrownBy { point.use(amount) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+                .hasMessageContainingAll(OUT_OF_POINT.message)
         }
     }
 }

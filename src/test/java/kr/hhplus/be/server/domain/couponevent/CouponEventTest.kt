@@ -1,10 +1,10 @@
 package kr.hhplus.be.server.domain.couponevent
 
 import kr.hhplus.be.server.domain.coupon.CouponType
-import kr.hhplus.be.server.support.ErrorCode
+import kr.hhplus.be.server.support.ErrorCode.MAX_ISSUED_COUPON
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -43,9 +43,10 @@ class CouponEventTest {
         )
         current++
         couponEvent.issue()
-        assertThat(couponEvent.currentCount).isEqualTo(current)
         // when & then
-        val exception = assertThrows<IllegalArgumentException> { couponEvent.issue() }
-        assertThat(exception.message).isEqualTo(ErrorCode.MAX_ISSUED_COUPON.message)
+        assertThat(couponEvent.currentCount).isEqualTo(current)
+        assertThatThrownBy { couponEvent.issue() }
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessageContainingAll(MAX_ISSUED_COUPON.message)
     }
 }

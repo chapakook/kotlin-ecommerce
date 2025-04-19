@@ -1,9 +1,10 @@
 package kr.hhplus.be.server.domain.stock
 
-import kr.hhplus.be.server.support.ErrorCode
+import kr.hhplus.be.server.support.ErrorCode.OUT_OF_STOCK
+import kr.hhplus.be.server.support.ErrorCode.QUANTITY_MUST_BE_POSITIVE
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class StockTest {
     @Test
@@ -52,8 +53,9 @@ class StockTest {
         )
         val quantity = 1000
         // when & then
-        val exception = assertThrows<IllegalArgumentException> { stock.deduct(quantity) }
-        assertThat(exception.message).isEqualTo(ErrorCode.OUT_OF_STOCK.message)
+        assertThatThrownBy { stock.deduct(quantity) }
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessageContainingAll(OUT_OF_STOCK.message)
     }
 
     @Test
@@ -68,8 +70,9 @@ class StockTest {
         )
         val quantity = 1000
         // when & then
-        val exception = assertThrows<IllegalArgumentException> { stock.deduct(quantity) }
-        assertThat(exception.message).isEqualTo(ErrorCode.OUT_OF_STOCK.message)
+        assertThatThrownBy { stock.deduct(quantity) }
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessageContainingAll(OUT_OF_STOCK.message)
     }
 
     @Test
@@ -84,8 +87,9 @@ class StockTest {
         )
         val quantity = -1000
         // when & then
-        val exception = assertThrows<IllegalArgumentException> { stock.deduct(quantity) }
-        assertThat(exception.message).isEqualTo(ErrorCode.QUANTITY_MUST_BE_POSITIVE.message)
+        assertThatThrownBy { stock.deduct(quantity) }
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessageContainingAll(QUANTITY_MUST_BE_POSITIVE.message)
     }
 
     @Test
@@ -100,7 +104,8 @@ class StockTest {
         )
         val quantity = 0
         // when & then
-        val exception = assertThrows<IllegalArgumentException> { stock.deduct(quantity) }
-        assertThat(exception.message).isEqualTo(ErrorCode.QUANTITY_MUST_BE_POSITIVE.message)
+        assertThatThrownBy { stock.deduct(quantity) }
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessageContainingAll(QUANTITY_MUST_BE_POSITIVE.message)
     }
 }
