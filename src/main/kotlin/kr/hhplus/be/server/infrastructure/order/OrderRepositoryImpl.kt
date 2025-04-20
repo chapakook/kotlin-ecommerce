@@ -11,5 +11,5 @@ class OrderRepositoryImpl(
 ) : OrderRepository {
 
     @Transactional
-    override fun save(order: Order): Order = orderJPARepository.save(order)
+    override fun save(order: Order): Order = orderJPARepository.save(OrderEntity.of(order)).to()
 }
