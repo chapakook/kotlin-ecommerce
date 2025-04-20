@@ -16,7 +16,7 @@ class StockRepositoryImplTest {
         val stockId = 1L
         val productId = 2L
         val entity = StockEntity(stockId, productId, 100, 0)
-        every { stockJPARepository.findStockById(stockId) } returns entity
+        every { stockJPARepository.findStockById(any()) } returns entity
         // when
         val result = stockRepository.findStockById(stockId)
         // then
