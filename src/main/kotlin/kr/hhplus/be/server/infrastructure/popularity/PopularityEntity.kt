@@ -23,10 +23,6 @@ class PopularityEntity(
     companion object {
         fun of(popularity: Popularity): PopularityEntity =
             with(popularity) { PopularityEntity(popularityId, productId, productName, rank, totalOrder, updateMills) }
-
-        fun ofList(popularises: List<Popularity>): List<PopularityEntity> = popularises.map { popularity ->
-            with(popularity) { PopularityEntity(popularityId, productId, productName, rank, totalOrder, updateMills) }
-        }
     }
 
     fun to(): Popularity = Popularity(popularityId, productId, productName, rank, totalOrder, updateMills)
