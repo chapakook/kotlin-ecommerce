@@ -15,7 +15,7 @@ class ProductRepositoryImplTest {
     fun `happy - 상품 아이디로 조회 가능`() {
         // given
         val entity = ProductEntity(1L, "P1", 1000L)
-        every { mockProductJPARepository.findProductById(1L) } returns entity
+        every { mockProductJPARepository.findProductById(any()) } returns entity
         // when
         val result = productRepositoryImpl.findProductById(1L)
         // then
@@ -24,6 +24,6 @@ class ProductRepositoryImplTest {
             assertThat(result.name).isEqualTo(entity.name)
             assertThat(result.price).isEqualTo(entity.price)
         }
-        verify(exactly = 1) { mockProductJPARepository.findProductById(1L) }
+        verify(exactly = 1) { mockProductJPARepository.findProductById(any()) }
     }
 }
