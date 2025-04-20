@@ -9,8 +9,8 @@ class PopularityRepositoryImpl(
     private val popularityJPARepository: PopularityJPARepository,
 ) : PopularityRepository {
     override fun findTop5ByOrderByRankDesc(): List<Popularity> =
-        popularityJPARepository.findTop5ByOrderByRankDesc()
+        popularityJPARepository.findTop5ByOrderByRankDesc().map { entity -> entity.to() }
 
-    override fun save(popularity: Popularity): Popularity = popularityJPARepository.save(popularity)
-
+    override fun save(popularity: Popularity): Popularity =
+        popularityJPARepository.save(PopularityEntity.of(popularity)).to()
 }
