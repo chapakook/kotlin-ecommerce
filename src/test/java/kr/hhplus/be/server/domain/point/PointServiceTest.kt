@@ -28,7 +28,7 @@ class PointServiceTest {
             val findCmd = PointCommand.Find(1L)
             val baseBalance = Random.nextLong(100L, Long.MAX_VALUE)
             val point = Point.create(2L, findCmd.userId, baseBalance)
-            every { pointRepository.findPointByPointId(any()) } returns point
+            every { pointRepository.findPointById(any()) } returns point
             // when
             val result = pointService.find(findCmd)
             // then
@@ -49,7 +49,7 @@ class PointServiceTest {
             val baseBalance = Random.nextLong(100L, Long.MAX_VALUE)
             val base = Point.create(1L, chargeCmd.userId, baseBalance)
             val point = Point.create(1L, chargeCmd.userId, baseBalance + chargeCmd.amount)
-            every { pointRepository.findPointByPointId(any()) } returns base
+            every { pointRepository.findPointById(any()) } returns base
             every { pointRepository.save(any()) } returns point
             // when
             val result = pointService.charge(chargeCmd)
@@ -71,7 +71,7 @@ class PointServiceTest {
             val baseBalance = Random.nextLong(100L, Long.MAX_VALUE)
             val base = Point.create(1L, useCmd.userId, baseBalance)
             val point = Point.create(1L, useCmd.userId, baseBalance - useCmd.amount)
-            every { pointRepository.findPointByPointId(any()) } returns base
+            every { pointRepository.findPointById(any()) } returns base
             every { pointRepository.save(any()) } returns point
             // when
             val result = pointService.use(useCmd)
@@ -90,7 +90,7 @@ class PointServiceTest {
             val baseBalance = Random.nextLong(100L, Long.MAX_VALUE)
             val base = Point.create(1L, useCmd.userId, baseBalance)
             val point = Point.create(1L, useCmd.userId, baseBalance - useCmd.amount)
-            every { pointRepository.findPointByPointId(any()) } returns base
+            every { pointRepository.findPointById(any()) } returns base
             every { pointRepository.save(any()) } returns point
             // when
             val result = pointService.use(useCmd)
@@ -109,7 +109,7 @@ class PointServiceTest {
             val baseBalance = Random.nextLong(100L, Long.MAX_VALUE)
             val base = Point.create(1L, useCmd.userId, baseBalance)
             val point = Point.create(1L, useCmd.userId, baseBalance - useCmd.amount)
-            every { pointRepository.findPointByPointId(any()) } returns base
+            every { pointRepository.findPointById(any()) } returns base
             every { pointRepository.save(any()) } returns point
             // when
             val result = pointService.use(useCmd)
@@ -126,7 +126,7 @@ class PointServiceTest {
             // given
             val useCmd = PointCommand.Use(1L, 10000L)
             val base = Point.create(1L, useCmd.userId, 100L)
-            every { pointRepository.findPointByPointId(any()) } returns base
+            every { pointRepository.findPointById(any()) } returns base
             // when & then
             assertThatThrownBy { pointService.use(useCmd) }
                 .isInstanceOf(IllegalArgumentException::class.java)

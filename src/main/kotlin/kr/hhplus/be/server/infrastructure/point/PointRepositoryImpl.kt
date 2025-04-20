@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional
 class PointRepositoryImpl(
     private val pointJPARepository: PointJPARepository,
 ) : PointRepository {
-    override fun findPointByPointId(pointId: Long): Point? = pointJPARepository.findPointByPointId(pointId)
+    override fun findPointById(id: Long): Point? = pointJPARepository.findPointById(id)?.to()
 
     @Transactional
-    override fun save(point: Point): Point = pointJPARepository.save(point)
+    override fun save(point: Point): Point = pointJPARepository.save(PointEntity.of(point)).to()
 }

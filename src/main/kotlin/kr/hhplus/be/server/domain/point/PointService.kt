@@ -10,20 +10,20 @@ import org.springframework.transaction.annotation.Transactional
 class PointService(
     private val pointRepository: PointRepository,
 ) {
-    fun find(findCmd: Find): PointInfo = pointRepository.findPointByPointId(findCmd.userId)?.let { point: Point ->
+    fun find(findCmd: Find): PointInfo = pointRepository.findPointById(findCmd.userId)?.let { point: Point ->
         PointInfo.of(point)
     } ?: throw NoSuchElementException(USER_NOT_FOUND.message)
 
     @Transactional
     fun charge(chargeCmd: Charge): PointInfo =
-        pointRepository.findPointByPointId(chargeCmd.userId)?.let { point: Point ->
+        pointRepository.findPointById(chargeCmd.userId)?.let { point: Point ->
             point.charge(chargeCmd.amount)
             pointRepository.save(point)
             PointInfo.of(point)
         } ?: throw NoSuchElementException(USER_NOT_FOUND.message)
 
     @Transactional
-    fun use(useCmd: Use): PointInfo = pointRepository.findPointByPointId(useCmd.userId)?.let { point: Point ->
+    fun use(useCmd: Use): PointInfo = pointRepository.findPointById(useCmd.userId)?.let { point: Point ->
         point.use(useCmd.amount)
         pointRepository.save(point)
         PointInfo.of(point)
