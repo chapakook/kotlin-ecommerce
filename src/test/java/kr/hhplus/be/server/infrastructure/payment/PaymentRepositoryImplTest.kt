@@ -3,9 +3,7 @@ package kr.hhplus.be.server.infrastructure.payment
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import kr.hhplus.be.server.domain.payment.Payment
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.equalTo
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class PaymentRepositoryImplTest {
@@ -15,14 +13,17 @@ class PaymentRepositoryImplTest {
     @Test
     fun `happy - 저장하면 결제를 반환`() {
         // given
-        val payment = Payment(1L, 2L, 100)
-        every { paymentJPARepository.save(payment) } returns payment
+        val entity = PaymentEntity(1L, 2L, 100, System.currentTimeMillis())
+        every { paymentJPARepository.save(any()) } returns entity
 
         // when
-        val result = paymentRepository.save(payment)
+        val result = paymentRepository.save(entity.to())
 
         // then
-        assertThat(result, equalTo(payment))
-        verify(exactly = 1) { paymentJPARepository.save(payment) }
+        assertThat(result.paymentId).isEqualTo(entity.paymentId)
+        assertThat(result.orderId).isEqualTo(entity.orderId)
+        assertThat(result.amount).isEqualTo(entity.amount)
+        assertThat(result.createMillis).isEqualTo(entity.createMillis)
+        verify(exactly = 1) { paymentJPARepository.save(any()) }
     }
 }
