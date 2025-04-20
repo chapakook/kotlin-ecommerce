@@ -9,9 +9,8 @@ import org.springframework.transaction.annotation.Transactional
 class StockRepositoryImpl(
     private val stockJPARepository: StockJPARepository,
 ) : StockRepository {
-    override fun findProductStockByStockId(stockId: Long): Stock? =
-        stockJPARepository.findProductStockByStockId(stockId)
+    override fun findStockById(id: Long): Stock? = stockJPARepository.findStockById(id)?.to()
 
     @Transactional
-    override fun save(point: Stock): Stock = stockJPARepository.save(point)
+    override fun save(stock: Stock): Stock = stockJPARepository.save(StockEntity.of(stock)).to()
 }

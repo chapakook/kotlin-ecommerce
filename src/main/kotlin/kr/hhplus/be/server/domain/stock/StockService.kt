@@ -10,13 +10,13 @@ class StockService(
     private val stockRepository: StockRepository,
 ) {
     fun find(cmd: StockCommand.Find): StockInfo =
-        stockRepository.findProductStockByStockId(cmd.productId)?.let { stock: Stock ->
+        stockRepository.findStockById(cmd.productId)?.let { stock: Stock ->
             StockInfo.of(stock)
         } ?: throw NoSuchElementException(STOCK_NOT_FOUND.message)
 
     @Transactional
     fun deduct(cmd: StockCommand.Deduct): StockInfo =
-        stockRepository.findProductStockByStockId(cmd.productId)?.let { stock: Stock ->
+        stockRepository.findStockById(cmd.productId)?.let { stock: Stock ->
             stock.deduct(cmd.quantity)
             StockInfo.of(stock)
         } ?: throw NoSuchElementException(STOCK_NOT_FOUND.message)

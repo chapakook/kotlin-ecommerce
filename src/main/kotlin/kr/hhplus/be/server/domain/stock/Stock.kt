@@ -1,14 +1,10 @@
 package kr.hhplus.be.server.domain.stock
 
-import jakarta.persistence.*
 import kr.hhplus.be.server.support.ErrorCode.OUT_OF_STOCK
 import kr.hhplus.be.server.support.ErrorCode.QUANTITY_MUST_BE_POSITIVE
 
-@Entity
-@Table(name = "stocks")
+
 class Stock(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val stockId: Long,
     val productId: Long,
     var quantity: Int,

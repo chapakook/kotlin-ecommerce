@@ -23,12 +23,14 @@ class StockServiceTest {
                 100,
                 0
             )
-            every { stockRepository.findProductStockByStockId(any()) } returns stock
+            every { stockRepository.findStockById(any()) } returns stock
             // when
             val result = stockService.find(cmd)
             // then
-            assertThat(result).extracting("stockId", "productId", "quantity", "version")
-                .containsExactly(1L, productId, 100, 0)
+            assertThat(result.stockId).isEqualTo(stock.stockId)
+            assertThat(result.productId).isEqualTo(stock.productId)
+            assertThat(result.quantity).isEqualTo(stock.quantity)
+            assertThat(result.version).isEqualTo(stock.version)
         }
     }
 }
