@@ -3,7 +3,6 @@ package kr.hhplus.be.server.infrastructure.coupon
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import kr.hhplus.be.server.domain.coupon.Coupon
 import kr.hhplus.be.server.domain.coupon.CouponType
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -19,7 +18,7 @@ class CouponRepositoryImplTest {
         // given
         val userId = 1L
         val couponId = 1L
-        val expectedCoupon = Coupon(
+        val entity = CouponEntity(
             couponId,
             userId,
             CouponType.RATE,
@@ -29,12 +28,19 @@ class CouponRepositoryImplTest {
             LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli(),
             true
         )
-        every { couponJPARepository.findCouponByUserIdAndCouponId(userId, couponId) } returns expectedCoupon
+        every { couponJPARepository.findCouponByUserIdAndId(any(), any()) } returns entity
         // when
-        val result = couponRepository.findCouponByUserIdAndCouponId(userId, couponId)
+        val result = couponRepository.findCouponByUserIdAndId(userId, couponId)
         // then
-        assertThat(result).isEqualTo(expectedCoupon)
-        verify { couponJPARepository.findCouponByUserIdAndCouponId(userId, couponId) }
+        result?.let {
+            assertThat(result.couponId).isEqualTo(entity.couponId)
+            assertThat(result.userId).isEqualTo(entity.userId)
+            assertThat(result.type).isEqualTo(entity.type)
+            assertThat(result.value).isEqualTo(entity.value)
+            assertThat(result.expiryMillis).isEqualTo(entity.expiryMillis)
+            assertThat(result.isActive).isEqualTo(entity.isActive)
+        }
+        verify { couponJPARepository.findCouponByUserIdAndId(any(), any()) }
     }
 
     @Test
@@ -42,7 +48,7 @@ class CouponRepositoryImplTest {
         // given
         val userId = 2L
         val couponId = 2L
-        val coupon = Coupon(
+        val entity = CouponEntity(
             couponId,
             userId,
             CouponType.RATE,
@@ -50,13 +56,18 @@ class CouponRepositoryImplTest {
             LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli(),
             LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli(),
             LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli(),
-            true
+            false
         )
-        every { couponJPARepository.save(coupon) } returns coupon
+        every { couponJPARepository.save(any()) } returns entity
         // when
-        val savedCoupon = couponRepository.save(coupon)
+        val result = couponRepository.save(entity.to())
         // then
-        assertThat(savedCoupon).isEqualTo(coupon)
-        verify { couponJPARepository.save(coupon) }
+        assertThat(result.couponId).isEqualTo(entity.couponId)
+        assertThat(result.userId).isEqualTo(entity.userId)
+        assertThat(result.type).isEqualTo(entity.type)
+        assertThat(result.value).isEqualTo(entity.value)
+        assertThat(result.expiryMillis).isEqualTo(entity.expiryMillis)
+        assertThat(result.isActive).isEqualTo(entity.isActive)
+        verify(exactly = 1) { couponJPARepository.save(any()) }
     }
 }
