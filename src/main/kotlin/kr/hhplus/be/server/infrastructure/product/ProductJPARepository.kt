@@ -1,10 +1,9 @@
 package kr.hhplus.be.server.infrastructure.product
 
-import kr.hhplus.be.server.domain.product.Product
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ProductJPARepository : JpaRepository<Product, Long> {
-    fun findProductByProductId(productId: Long): Product?
+interface ProductJPARepository : JpaRepository<ProductEntity, Long> {
+    fun findProductById(id: Long): ProductEntity?
 }

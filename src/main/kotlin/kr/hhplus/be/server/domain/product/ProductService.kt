@@ -11,7 +11,7 @@ class ProductService(
 ) {
     @Transactional
     fun find(getCmd: ProductCommand.Find): ProductInfo =
-        productRepository.findProductByProductId(getCmd.productId)?.let { product: Product ->
+        productRepository.findProductById(getCmd.productId)?.let { product: Product ->
             ProductInfo.of(product)
         } ?: throw NoSuchElementException(POPULARITY_NOT_FOUNT.message)
 }

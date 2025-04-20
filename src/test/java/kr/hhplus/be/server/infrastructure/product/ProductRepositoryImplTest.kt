@@ -3,7 +3,6 @@ package kr.hhplus.be.server.infrastructure.product
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import kr.hhplus.be.server.domain.product.Product
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -15,13 +14,16 @@ class ProductRepositoryImplTest {
     @Test
     fun `happy - 상품 아이디로 조회 가능`() {
         // given
-        val testProduct = Product(1L, "P1", 1000L)
-        every { mockProductJPARepository.findProductByProductId(1L) } returns testProduct
+        val entity = ProductEntity(1L, "P1", 1000L)
+        every { mockProductJPARepository.findProductById(1L) } returns entity
         // when
-        val result = productRepositoryImpl.findProductByProductId(1L)
+        val result = productRepositoryImpl.findProductById(1L)
         // then
-        assertThat(result).isNotNull
-        assertThat(result).isEqualTo(testProduct)
-        verify(exactly = 1) { mockProductJPARepository.findProductByProductId(1L) }
+        result?.let {
+            assertThat(result.productId).isEqualTo(entity.productId)
+            assertThat(result.name).isEqualTo(entity.name)
+            assertThat(result.price).isEqualTo(entity.price)
+        }
+        verify(exactly = 1) { mockProductJPARepository.findProductById(1L) }
     }
 }
