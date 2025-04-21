@@ -9,15 +9,7 @@ class OrderService(
 ) {
     @Transactional
     fun order(cmd: OrderCommand.Order): OrderInfo.OrderInfo {
-        val order = with(cmd) {
-            Order(
-                userId = userId,
-                productId = productId,
-                quantity = quantity,
-                totalAmount = totalAmount,
-                paymentAmount = paymentAmount
-            )
-        }
+        val order = with(cmd) { Order(orderId, userId, productId, quantity, totalAmount, paymentAmount) }
         orderRepository.save(order)
         return OrderInfo.OrderInfo.of(order)
     }
