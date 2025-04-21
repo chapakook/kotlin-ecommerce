@@ -4,6 +4,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CouponRepository {
-    fun findCouponByUserIdAndId(userId: Long, id: Long): Coupon?
+    fun findCouponByIdAndUserId(id: Long, userId: Long): Coupon?
     fun save(coupon: Coupon): Coupon
 }

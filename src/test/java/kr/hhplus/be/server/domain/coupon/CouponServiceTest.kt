@@ -3,21 +3,14 @@ package kr.hhplus.be.server.domain.coupon
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 class CouponServiceTest {
-    private lateinit var couponService: CouponService
-    private lateinit var couponRepository: CouponRepository
-
-    @BeforeEach
-    fun setUp() {
-        couponRepository = mockk()
-        couponService = CouponService(couponRepository)
-    }
+    private val couponRepository = mockk<CouponRepository>()
+    private val couponService = CouponService(couponRepository)
 
     @Nested
     inner class Find {
@@ -31,7 +24,7 @@ class CouponServiceTest {
             val createMillis = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
             val updateMillis = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
             val coupon = Coupon(couponId, userId, CouponType.RATE, 100L, expiryMillis, createMillis, updateMillis, true)
-            every { couponRepository.findCouponByUserIdAndId(any(), any()) } returns coupon
+            every { couponRepository.findCouponByIdAndUserId(any(), any()) } returns coupon
             // when
             val result = couponService.find(cmd)
             // then

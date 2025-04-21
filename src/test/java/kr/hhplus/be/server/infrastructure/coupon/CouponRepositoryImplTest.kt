@@ -5,7 +5,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kr.hhplus.be.server.domain.coupon.CouponType
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -28,9 +28,9 @@ class CouponRepositoryImplTest {
             LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli(),
             true
         )
-        every { couponJPARepository.findCouponByUserIdAndId(any(), any()) } returns entity
+        every { couponJPARepository.findCouponEntityByIdAndUserId(any(), any()) } returns entity
         // when
-        val result = couponRepository.findCouponByUserIdAndId(userId, couponId)
+        val result = couponRepository.findCouponByIdAndUserId(userId, couponId)
         // then
         result?.let {
             assertThat(result.couponId).isEqualTo(entity.couponId)
@@ -40,7 +40,7 @@ class CouponRepositoryImplTest {
             assertThat(result.expiryMillis).isEqualTo(entity.expiryMillis)
             assertThat(result.isActive).isEqualTo(entity.isActive)
         }
-        verify { couponJPARepository.findCouponByUserIdAndId(any(), any()) }
+        verify { couponJPARepository.findCouponEntityByIdAndUserId(any(), any()) }
     }
 
     @Test
