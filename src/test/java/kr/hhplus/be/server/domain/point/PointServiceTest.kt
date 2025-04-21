@@ -5,20 +5,13 @@ import io.mockk.mockk
 import kr.hhplus.be.server.support.ErrorCode.OUT_OF_POINT
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.random.Random
 
 class PointServiceTest {
-    private lateinit var pointService: PointService
-    private lateinit var pointRepository: PointRepository
-
-    @BeforeEach
-    fun setUp() {
-        pointRepository = mockk()
-        pointService = PointService(pointRepository)
-    }
+    private val pointRepository = mockk<PointRepository>()
+    private val pointService = PointService(pointRepository)
 
     @Nested
     inner class Find {
@@ -33,9 +26,9 @@ class PointServiceTest {
             val result = pointService.find(findCmd)
             // then
             with(point) {
-                assertThat(result)
-                    .extracting("pointId", "userId", "balance")
-                    .contains(pointId, userId, balance)
+                assertThat(result.pointId).isEqualTo(pointId)
+                assertThat(result.userId).isEqualTo(userId)
+                assertThat(result.balance).isEqualTo(balance)
             }
         }
     }
@@ -55,9 +48,9 @@ class PointServiceTest {
             val result = pointService.charge(chargeCmd)
             // then
             with(point) {
-                assertThat(result)
-                    .extracting("pointId", "userId", "balance")
-                    .contains(pointId, userId, balance)
+                assertThat(result.pointId).isEqualTo(pointId)
+                assertThat(result.userId).isEqualTo(userId)
+                assertThat(result.balance).isEqualTo(balance)
             }
         }
     }
@@ -77,9 +70,9 @@ class PointServiceTest {
             val result = pointService.use(useCmd)
             // then
             with(point) {
-                assertThat(result)
-                    .extracting("pointId", "userId", "balance")
-                    .contains(pointId, userId, balance)
+                assertThat(result.pointId).isEqualTo(pointId)
+                assertThat(result.userId).isEqualTo(userId)
+                assertThat(result.balance).isEqualTo(balance)
             }
         }
 
@@ -96,9 +89,9 @@ class PointServiceTest {
             val result = pointService.use(useCmd)
             // then
             with(point) {
-                assertThat(result)
-                    .extracting("pointId", "userId", "balance")
-                    .contains(pointId, userId, balance)
+                assertThat(result.pointId).isEqualTo(pointId)
+                assertThat(result.userId).isEqualTo(userId)
+                assertThat(result.balance).isEqualTo(balance)
             }
         }
 
@@ -115,9 +108,9 @@ class PointServiceTest {
             val result = pointService.use(useCmd)
             // then
             with(point) {
-                assertThat(result)
-                    .extracting("pointId", "userId", "balance")
-                    .contains(pointId, userId, balance)
+                assertThat(result.pointId).isEqualTo(pointId)
+                assertThat(result.userId).isEqualTo(userId)
+                assertThat(result.balance).isEqualTo(balance)
             }
         }
 
