@@ -17,12 +17,16 @@ class TestcontainersConfiguration {
             .withDatabaseName("hhplus")
             .withUsername("test")
             .withPassword("test")
+            .withInitScript("point-init.sql")
             .apply {
                 start()
             }
 
         init {
-            System.setProperty("spring.datasource.url", mySqlContainer.getJdbcUrl() + "?characterEncoding=UTF-8&serverTimezone=UTC")
+            System.setProperty(
+                "spring.datasource.url",
+                mySqlContainer.getJdbcUrl() + "?characterEncoding=UTF-8&serverTimezone=UTC"
+            )
             System.setProperty("spring.datasource.username", mySqlContainer.username)
             System.setProperty("spring.datasource.password", mySqlContainer.password)
         }
