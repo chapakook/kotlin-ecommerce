@@ -4,6 +4,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface PointRepository {
-    fun findPointById(id: Long): Point?
+    fun findByUserId(userId: Long): Point?
     fun save(point: Point): Point
 }

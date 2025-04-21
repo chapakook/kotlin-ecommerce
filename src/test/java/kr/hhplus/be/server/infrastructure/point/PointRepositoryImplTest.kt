@@ -15,16 +15,16 @@ class PointRepositoryImplTest {
     fun `happy - userId 로 point 찾기`() {
         // given
         val entity = PointEntity(1L, 123L, 1000L, System.currentTimeMillis())
-        every { mockPointJPARepository.findPointById(any()) } returns entity
+        every { mockPointJPARepository.findByUserId(any()) } returns entity
         // when
-        val result = pointRepositoryImpl.findPointById(123L)
+        val result = pointRepositoryImpl.findByUserId(123L)
         // then
         result?.let {
             assertThat(result.pointId).isEqualTo(entity.pointId)
             assertThat(result.userId).isEqualTo(entity.userId)
             assertThat(result.balance).isEqualTo(entity.balance)
         }
-        verify(exactly = 1) { mockPointJPARepository.findPointById(any()) }
+        verify(exactly = 1) { mockPointJPARepository.findByUserId(any()) }
     }
 
     @Test
