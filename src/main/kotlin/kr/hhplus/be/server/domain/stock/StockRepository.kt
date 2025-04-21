@@ -4,6 +4,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface StockRepository {
-    fun findStockById(id: Long): Stock?
+    fun findByProductId(productId: Long): Stock?
     fun save(point: Stock): Stock
 }

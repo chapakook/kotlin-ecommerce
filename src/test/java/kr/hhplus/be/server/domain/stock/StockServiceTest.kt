@@ -23,7 +23,7 @@ class StockServiceTest {
                 100,
                 0
             )
-            every { stockRepository.findStockById(any()) } returns stock
+            every { stockRepository.findByProductId(any()) } returns stock
             // when
             val result = stockService.find(cmd)
             // then

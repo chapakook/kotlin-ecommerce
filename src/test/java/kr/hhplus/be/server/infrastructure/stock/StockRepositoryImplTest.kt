@@ -16,9 +16,9 @@ class StockRepositoryImplTest {
         val stockId = 1L
         val productId = 2L
         val entity = StockEntity(stockId, productId, 100, 0)
-        every { stockJPARepository.findStockById(any()) } returns entity
+        every { stockJPARepository.findByProductId(any()) } returns entity
         // when
-        val result = stockRepository.findStockById(stockId)
+        val result = stockRepository.findByProductId(stockId)
         // then
         result?.let {
             assertThat(result.stockId).isEqualTo(entity.stockId)
@@ -26,19 +26,19 @@ class StockRepositoryImplTest {
             assertThat(result.quantity).isEqualTo(entity.quantity)
             assertThat(result.version).isEqualTo(entity.version)
         }
-        verify(exactly = 1) { stockJPARepository.findStockById(any()) }
+        verify(exactly = 1) { stockJPARepository.findByProductId(any()) }
     }
 
     @Test
     fun `happy - 재고가 없는 경우 null 반환`() {
         // given
         val stockId = 1L
-        every { stockJPARepository.findStockById(any()) } returns null
+        every { stockJPARepository.findByProductId(any()) } returns null
         // when
-        val result = stockRepository.findStockById(stockId)
+        val result = stockRepository.findByProductId(stockId)
         // then
         assertThat(result).isNull()
-        verify(exactly = 1) { stockJPARepository.findStockById(any()) }
+        verify(exactly = 1) { stockJPARepository.findByProductId(any()) }
     }
 
     @Test

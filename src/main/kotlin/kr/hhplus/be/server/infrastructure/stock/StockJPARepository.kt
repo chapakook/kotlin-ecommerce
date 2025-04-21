@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface StockJPARepository : JpaRepository<StockEntity, Long> {
-    fun findStockById(id: Long): StockEntity?
+    fun findByProductId(productId: Long): StockEntity?
     fun save(stock: StockEntity): StockEntity
 }
