@@ -28,9 +28,9 @@ class CouponRepositoryImplTest {
             LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli(),
             true
         )
-        every { couponJPARepository.findCouponEntityByIdAndUserId(any(), any()) } returns entity
+        every { couponJPARepository.findByCouponIdAndUserId(any(), any()) } returns entity
         // when
-        val result = couponRepository.findCouponByIdAndUserId(userId, couponId)
+        val result = couponRepository.findByCouponIdAndUserId(couponId, userId)
         // then
         result?.let {
             assertThat(result.couponId).isEqualTo(entity.couponId)
@@ -40,7 +40,7 @@ class CouponRepositoryImplTest {
             assertThat(result.expiryMillis).isEqualTo(entity.expiryMillis)
             assertThat(result.isActive).isEqualTo(entity.isActive)
         }
-        verify { couponJPARepository.findCouponEntityByIdAndUserId(any(), any()) }
+        verify { couponJPARepository.findByCouponIdAndUserId(any(), any()) }
     }
 
     @Test

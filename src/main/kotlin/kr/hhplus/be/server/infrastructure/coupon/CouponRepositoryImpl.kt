@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional
 class CouponRepositoryImpl(
     private val couponJPARepository: CouponJPARepository,
 ) : CouponRepository {
-    override fun findCouponByIdAndUserId(id: Long, userId: Long): Coupon? =
-        couponJPARepository.findCouponEntityByIdAndUserId(id, userId)?.to()
+    override fun findByCouponIdAndUserId(id: Long, userId: Long): Coupon? =
+        couponJPARepository.findByCouponIdAndUserId(id, userId)?.to()
 
     @Transactional
     override fun save(coupon: Coupon): Coupon = couponJPARepository.save(CouponEntity.of(coupon)).to()
