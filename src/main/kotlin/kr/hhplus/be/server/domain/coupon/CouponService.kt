@@ -20,7 +20,9 @@ class CouponService(
     @Transactional
     fun use(cmd: CouponCommand.Use): Long = cmd.couponId?.let { couponId ->
         couponRepository.findByCouponIdAndUserId(couponId, cmd.userId)?.let { coupon ->
-            coupon.use(cmd.amount)
+            val amount = coupon.use(cmd.amount)
+            couponRepository.save(coupon)
+            amount
         } ?: cmd.amount
     } ?: cmd.amount
 }
