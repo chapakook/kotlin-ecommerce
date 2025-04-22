@@ -12,9 +12,6 @@ import java.util.concurrent.atomic.AtomicInteger
 @SpringBootTest
 class PointServiceConcurrencyTest {
     @Autowired
-    private lateinit var pointRepository: PointRepository
-
-    @Autowired
     private lateinit var pointService: PointService
 
     @Nested
