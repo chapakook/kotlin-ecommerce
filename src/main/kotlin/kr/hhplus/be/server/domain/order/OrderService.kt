@@ -1,16 +1,24 @@
 package kr.hhplus.be.server.domain.order
 
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-class OrderService (
+class OrderService(
     private val orderRepository: OrderRepository,
 ) {
-    fun order(cmd: OrderCommand.Order): OrderInfo.Order {
-        val orderId = orderRepository.getNextOrderId()
-        return with(cmd){
-            OrderInfo.Order(orderId, productId, quantity, quantity * price, LocalDateTime.now())
+    @Transactional
+    fun order(cmd: OrderCommand.Order): OrderInfo.OrderInfo {
+        val order = with(cmd) {
+            Order(
+                userId = userId,
+                productId = productId,
+                quantity = quantity,
+                totalAmount = totalAmount,
+                paymentAmount = paymentAmount
+            )
         }
+        orderRepository.save(order)
+        return OrderInfo.OrderInfo.of(order)
     }
 }

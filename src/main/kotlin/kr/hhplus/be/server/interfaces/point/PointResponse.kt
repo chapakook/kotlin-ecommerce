@@ -1,8 +1,11 @@
 package kr.hhplus.be.server.interfaces.point
 
-import kr.hhplus.be.server.domain.point.PointInfo
+import kr.hhplus.be.server.domain.point.PointInfo.PointInfo
 
 class PointResponse {
-    data class Point (val balance: Long)
-    fun ofPoint(point: PointInfo.Point): Point = Point(point.balance)
+    data class ChargeV1(val balance: Long) {
+        companion object {
+            fun of(info: PointInfo): ChargeV1 = ChargeV1(info.balance)
+        }
+    }
 }

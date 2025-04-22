@@ -1,26 +1,26 @@
 package kr.hhplus.be.server.domain.coupon
 
+import kr.hhplus.be.server.support.ErrorCode.COUPON_NOT_FOUND
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-class CouponService (
-    val couponRepository: CouponRepository,
+class CouponService(
+    private val couponRepository: CouponRepository,
 ) {
-    fun use(cmd:CouponCommand.Use): CouponInfo.UserCoupon?{
-        if (cmd.code.isNullOrBlank()) return null
-        val coupon = couponRepository.findCouponByUserIdAndCode(cmd.userId, cmd.code) ?: return null
-        if (coupon.isUsed) return null
-        if (coupon.expiredAt.toLocalDate() < LocalDateTime.now().toLocalDate()) return null
-        couponRepository.insertOrderCoupon()
-        return couponRepository.insertUserCoupon()
-    }
-    fun issue(cmd:CouponCommand.Issue):CouponInfo.UserCoupon?{
-        val coupon = couponRepository.findCouponByCouponId(cmd.couponId)
-        if (coupon.issuedLimit <= coupon.issuedCount) return null
-        val find = couponRepository.findCouponByCouponIdAndUserId(cmd.couponId, cmd.userId )
-        if (find != null ) return null
-        couponRepository.updateCoupon()
-        return couponRepository.insertUserCoupon()
-    }
+    fun find(cmd: CouponCommand.Find): CouponInfo.Find =
+        couponRepository.findCouponByUserIdAndCouponId(cmd.userId, cmd.couponId)
+            ?.let { coupon -> CouponInfo.Find.of(coupon) }
+            ?: throw NoSuchElementException(COUPON_NOT_FOUND.message)
+
+    @Transactional
+    fun issue(cmd: CouponCommand.Issue): CouponInfo.Issue =
+        CouponInfo.Issue.of(couponRepository.save(with(cmd) { Coupon.issue(userId, type, value, expiryMillis) }))
+
+    @Transactional
+    fun use(cmd: CouponCommand.Use): Long = cmd.couponId?.let { couponId ->
+        couponRepository.findCouponByUserIdAndCouponId(cmd.userId, couponId)?.let { coupon ->
+            coupon.use(cmd.amount)
+        } ?: cmd.amount
+    } ?: cmd.amount
 }

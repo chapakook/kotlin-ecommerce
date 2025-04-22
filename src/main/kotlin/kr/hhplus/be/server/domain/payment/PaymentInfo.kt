@@ -1,10 +1,14 @@
 package kr.hhplus.be.server.domain.payment
 
 class PaymentInfo {
-    data class Payment(
-        val orderId: Long,
+    class Pay(
         val paymentId: Long,
-        val totalAmount: Long,
-        val totalDiscount: Long,
-    )
+        val orderId: Long,
+        val amount: Long,
+        val createMillis: Long,
+    ) {
+        companion object {
+            fun of(payment: Payment): Pay = with(payment) { Pay(paymentId, orderId, amount, createMillis) }
+        }
+    }
 }

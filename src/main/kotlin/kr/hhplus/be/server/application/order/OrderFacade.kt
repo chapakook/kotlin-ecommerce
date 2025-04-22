@@ -2,27 +2,32 @@ package kr.hhplus.be.server.application.order
 
 import kr.hhplus.be.server.domain.coupon.CouponService
 import kr.hhplus.be.server.domain.order.OrderService
+import kr.hhplus.be.server.domain.payment.PaymentCommand
 import kr.hhplus.be.server.domain.payment.PaymentService
 import kr.hhplus.be.server.domain.point.PointService
 import kr.hhplus.be.server.domain.product.ProductService
+import kr.hhplus.be.server.domain.stock.StockService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional
 class OrderFacade(
     private val productService: ProductService,
+    private val stockService: StockService,
     private val couponService: CouponService,
     private val orderService: OrderService,
     private val pointService: PointService,
-    private val paymentService: PaymentService
+    private val paymentService: PaymentService,
 ) {
-    fun order(cri: OrderCriteria.Order): OrderResult.Order{
-        productService.reduce(cri.toProductCmdReduce())
-        couponService.use(cri.toCouponCmdUse())
-        val order = orderService.order(cri.toOrderCmdOrder())
-        pointService.use(cri.toPointCmdUse())
-        paymentService.payment(cri.toPaymentCmdPayment(order.orderId))
-        return OrderResult().ofOrder(order)
+    @Transactional
+    fun order(cri: OrderCriteria.Order): OrderResult.Order {
+        val product = productService.find(cri.toProductCmd())
+        stockService.deduct(cri.toStockCmd())
+        val total = product.price * cri.quantity
+        val amount = couponService.use(cri.toCouponCmd(total))
+        pointService.use(cri.toPointCmd(amount))
+        val order = orderService.order(cri.toOrderCmd(total, amount))
+        paymentService.pay(PaymentCommand.Pay(order.orderId, amount))
+        return OrderResult.Order.of(order)
     }
 }

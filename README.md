@@ -18,6 +18,7 @@ docker-compose up -d
 - e-커머스 상품 주문 서비스를 구현해보자.
 
 ### ☑️ [REQ] 요구사항 분석 및 설계
+- [x] [[REQ] 요구사항정의서 작성](./docs/requirements.md)
 - [x] [[REQ] 상태 다이어그램 작성](./docs/state-diagram.md)
 - [x] [[REQ] 시퀀스 다이어그램 작성](./docs/sequence-diagram.md)
 - [x] [[REQ] ERD 작성](./docs/erd.md)
