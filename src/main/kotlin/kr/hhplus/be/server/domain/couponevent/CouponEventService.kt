@@ -17,6 +17,7 @@ class CouponEventService(
     fun issue(cmd: CouponEventCommand.Issue): CouponEventInfo.Issue =
         couponEventRepository.findByCouponEventId(cmd.couponEventId)?.let { couponEvent ->
             couponEvent.issue()
+            couponEventRepository.save(couponEvent)
             CouponEventInfo.Issue.of(couponEvent)
         } ?: throw NoSuchElementException(COUPON_EVENT_NOT_FOUND.message)
 }

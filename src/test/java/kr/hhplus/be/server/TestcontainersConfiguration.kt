@@ -17,7 +17,7 @@ class TestcontainersConfiguration {
             .withDatabaseName("hhplus")
             .withUsername("test")
             .withPassword("test")
-            .withInitScript("point-init.sql")
+            .withInitScript("init.sql")
             .apply {
                 start()
             }
