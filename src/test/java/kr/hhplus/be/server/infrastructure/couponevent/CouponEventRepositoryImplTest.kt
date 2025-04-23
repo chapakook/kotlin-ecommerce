@@ -4,6 +4,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kr.hhplus.be.server.domain.coupon.CouponType
+import kr.hhplus.be.server.domain.couponevent.CouponEvent
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -15,13 +16,13 @@ class CouponEventRepositoryImplTest {
     fun `happy - 쿠폰이벤트를 정상적으로 발급함`() {
         // given
         val eventId = 1L
-        val entity = CouponEventEntity(eventId, 100, 20, CouponType.RATE, 10, System.currentTimeMillis())
-        every { couponEventJPARepository.findByCouponEventId(any()) } returns entity
+        val couponEvent = CouponEvent(eventId, 100, 20, CouponType.RATE, 10, System.currentTimeMillis())
+        every { couponEventJPARepository.findByCouponEventId(any()) } returns couponEvent
         // when
         val result = couponEventRepository.findByCouponEventId(eventId)
         // then
         result?.let {
-            with(entity) {
+            with(couponEvent) {
                 assertThat(result.couponEventId).isEqualTo(couponEventId)
                 assertThat(result.maxCount).isEqualTo(maxCount)
                 assertThat(result.currentCount).isEqualTo(currentCount)
@@ -48,12 +49,12 @@ class CouponEventRepositoryImplTest {
     @Test
     fun `happy - 저장하면 쿠폰 이벤트가 반환`() {
         // given
-        val entity = CouponEventEntity(3L, 100, 20, CouponType.RATE, 10, System.currentTimeMillis())
-        every { couponEventJPARepository.save(any()) } returns entity
+        val couponEvent = CouponEvent(3L, 100, 20, CouponType.RATE, 10, System.currentTimeMillis())
+        every { couponEventJPARepository.save(any()) } returns couponEvent
         // when
-        val result = couponEventRepository.save(entity.to())
+        val result = couponEventRepository.save(couponEvent)
         // then
-        with(entity) {
+        with(couponEvent) {
             assertThat(result.couponEventId).isEqualTo(couponEventId)
             assertThat(result.maxCount).isEqualTo(maxCount)
             assertThat(result.currentCount).isEqualTo(currentCount)

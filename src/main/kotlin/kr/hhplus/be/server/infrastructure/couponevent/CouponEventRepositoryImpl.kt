@@ -10,8 +10,8 @@ class CouponEventRepositoryImpl(
     private val couponEventJPARepository: CouponEventJPARepository,
 ) : CouponEventRepository {
     override fun findByCouponEventId(couponEventId: Long): CouponEvent? =
-        couponEventJPARepository.findByCouponEventId(couponEventId)?.to()
+        couponEventJPARepository.findByCouponEventId(couponEventId)
 
     @Transactional
-    override fun save(event: CouponEvent): CouponEvent = couponEventJPARepository.save(CouponEventEntity.of(event)).to()
+    override fun save(event: CouponEvent): CouponEvent = couponEventJPARepository.save(event)
 }
