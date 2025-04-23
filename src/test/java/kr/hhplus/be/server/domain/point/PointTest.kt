@@ -6,8 +6,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 class PointTest {
 
@@ -17,12 +15,7 @@ class PointTest {
         fun `happy - 정상 요금에 대해 충전할 수 있다`() {
             // given
             val balance = 1000L
-            val point = Point(
-                1L,
-                2L,
-                balance,
-                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
-            )
+            val point = Point(1L, 2L, balance, 0, 0)
             val amount = 100L
             // when
             point.charge(amount)
@@ -34,12 +27,7 @@ class PointTest {
         fun `bad - 이상 요금에 대해서 IllegalArgumentException 반환한다`() {
             // given
             val balance = 1000L
-            val point = Point(
-                1L,
-                2L,
-                balance,
-                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
-            )
+            val point = Point(1L, 2L, balance, 0, 0)
             val amount = -100L
             // when & then
             assertThatThrownBy { point.charge(amount) }
@@ -54,12 +42,7 @@ class PointTest {
         fun `happy - 잔액이 사용금액보다 많으면 정상 사용할 수 있다`() {
             // given
             val balance = 1000L
-            val point = Point(
-                1L,
-                2L,
-                balance,
-                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
-            )
+            val point = Point(1L, 2L, balance, 0, 0)
             val amount = 100L
             // when
             point.use(amount)
@@ -71,12 +54,7 @@ class PointTest {
         fun `happy - 사용금액과 잔액이 같아도 정상 사용할 수 있다`() {
             // given
             val balance = 1000L
-            val point = Point(
-                1L,
-                2L,
-                balance,
-                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
-            )
+            val point = Point(1L, 2L, balance, 0, 0)
             val amount = 1000L
             // when
             point.use(amount)
@@ -88,12 +66,7 @@ class PointTest {
         fun `bad - 사용금액이 잔액보다 많으면 IllegalArgumentException 반환한다`() {
             // given
             val balance = 1000L
-            val point = Point(
-                1L,
-                2L,
-                balance,
-                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
-            )
+            val point = Point(1L, 2L, balance, 0, 0)
             val amount = 1200L
             // when & then
             assertThatThrownBy { point.use(amount) }

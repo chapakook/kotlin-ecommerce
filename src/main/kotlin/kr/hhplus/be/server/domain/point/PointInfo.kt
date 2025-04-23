@@ -1,20 +1,15 @@
 package kr.hhplus.be.server.domain.point
 
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-
 class PointInfo {
     class PointInfo(
         val pointId: Long,
         val userId: Long,
         val balance: Long,
         val updateMillis: Long,
+        var version: Long,
     ) {
         companion object {
-            fun create(pointId: Long, userId: Long, balance: Long): PointInfo =
-                PointInfo(pointId, userId, balance, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli())
-
-            fun of(point: Point): PointInfo = with(point) { PointInfo(pointId, userId, balance, updateMillis) }
+            fun of(point: Point): PointInfo = with(point) { PointInfo(pointId, userId, balance, updateMillis, version) }
         }
     }
 }

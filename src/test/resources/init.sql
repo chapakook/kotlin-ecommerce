@@ -3,22 +3,22 @@ create table `points`
     `balance`       bigint not null,
     `point_id`      bigint auto_increment primary key,
     `update_millis` bigint not null,
-    `user_id`       bigint not null
+    `user_id`       bigint not null,
+    `version`       bigint not null
 );
 
-INSERT INTO `points` (`point_id`,`user_id`,`balance`,`update_millis`)
+INSERT INTO `points` (`point_id`,`user_id`,`balance`,`update_millis`,`version`)
 VALUES
-  (1,1,12535,0),
-  (2,2,45241,0),
-  (3,3,89384,0),
-  (4,4,33802,0),
-  (5,5,23614,0),
-
-  (6,6,35945,0),
-  (7,7,38867,0),
-  (8,8,77292,0),
-  (9,9,33227,0),
-  (10,10,16841,0);
+  (1,1,12535,0,0),
+  (2,2,45241,0,0),
+  (3,3,89384,0,0),
+  (4,4,33802,0,0),
+  (5,5,23614,0,0),
+  (6,6,35945,0,0),
+  (7,7,38867,0,0),
+  (8,8,77292,0,0),
+  (9,9,33227,0,0),
+  (10,10,16841,0,0);
 
 create table `coupon_events`
 (

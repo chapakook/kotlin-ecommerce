@@ -7,6 +7,8 @@ enum class ErrorCode(val code: String, val message: String) {
     // E1xx point error
     AMOUNT_MUST_BE_POSITIVE("E100", "충전 포인트는 음수일 수 없습니다."),
     OUT_OF_POINT("E101", "포인트가 부족합니다."),
+    POINT_CHARGE_FAILED("E102", "포인트 충전에 실패하였습니다."),
+    POINT_USE_FAILED("E103", "포인트 사용에 실패하였습니다."),
 
     // E2xx product error
     QUANTITY_MUST_BE_POSITIVE("E200", "재고차감 수량이 잘못됐습니다."),
