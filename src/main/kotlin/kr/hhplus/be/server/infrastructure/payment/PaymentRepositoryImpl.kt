@@ -10,5 +10,5 @@ class PaymentRepositoryImpl(
     private val paymentJPARepository: PaymentJPARepository,
 ) : PaymentRepository {
     @Transactional
-    override fun save(payment: Payment): Payment = paymentJPARepository.save(PaymentEntity.of(payment)).to()
+    override fun save(payment: Payment): Payment = paymentJPARepository.save(payment)
 }
