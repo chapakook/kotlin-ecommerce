@@ -1,15 +1,23 @@
 package kr.hhplus.be.server.domain.order
 
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import jakarta.persistence.*
 
-
+@Entity
+@Table(name = "orders")
 class Order(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val orderId: Long = 0L,
+    @Column(nullable = false)
     val userId: Long,
+    @Column(nullable = false)
     val productId: Long,
+    @Column(nullable = false)
     val quantity: Int,
+    @Column(nullable = false)
     val totalAmount: Long,
+    @Column(nullable = false)
     val paymentAmount: Long,
-    val createMillis: Long = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli(),
+    @Column(nullable = false)
+    val createMillis: Long,
 )

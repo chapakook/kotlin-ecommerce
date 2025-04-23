@@ -2,6 +2,8 @@ package kr.hhplus.be.server.domain.order
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 @Service
 class OrderService(
@@ -9,7 +11,17 @@ class OrderService(
 ) {
     @Transactional
     fun order(cmd: OrderCommand.Order): OrderInfo.OrderInfo {
-        val order = with(cmd) { Order(orderId, userId, productId, quantity, totalAmount, paymentAmount) }
+        val order = with(cmd) {
+            Order(
+                orderId,
+                userId,
+                productId,
+                quantity,
+                totalAmount,
+                paymentAmount,
+                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
+            )
+        }
         orderRepository.save(order)
         return OrderInfo.OrderInfo.of(order)
     }

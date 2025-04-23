@@ -30,7 +30,8 @@ class OrderServiceTest {
             productId = productId,
             quantity = quantity,
             totalAmount = totalAmount,
-            paymentAmount = paymentAmount
+            paymentAmount = paymentAmount,
+            createMillis = 0
         )
         every { orderRepository.save(any()) } returns order
         // when
