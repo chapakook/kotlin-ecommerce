@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS `points`;
-
 create table `points`
 (
     `balance`       bigint not null,
@@ -8,7 +6,7 @@ create table `points`
     `user_id`       bigint not null
 );
 
-INSERT INTO points (`point_id`,`user_id`,`balance`,`update_millis`)
+INSERT INTO `points` (`point_id`,`user_id`,`balance`,`update_millis`)
 VALUES
   (1,1,12535,0),
   (2,2,45241,0),
@@ -22,8 +20,6 @@ VALUES
   (9,9,33227,0),
   (10,10,16841,0);
 
-DROP TABLE IF EXISTS `coupon_events`;
-
 create table `coupon_events`
 (
     `current_count`   int     not null,
@@ -35,7 +31,7 @@ create table `coupon_events`
     check (`type` between 0 and 1)
 );
 
-INSERT INTO coupon_events (`coupon_event_id`,`max_count`,`expiry_millis`,`value`,`type`,`current_count`)
+INSERT INTO `coupon_events` (`coupon_event_id`,`max_count`,`expiry_millis`,`value`,`type`,`current_count`)
 VALUES
     (1,82166,0,281,1,10),
     (2,58462,0,926,1,7),
@@ -47,3 +43,25 @@ VALUES
     (8,93659,0,937,1,1),
     (9,2386,0,994,1,1),
     (10,13873,0,694,0,0);
+
+create table `stocks`
+(
+    `quantity`   int    not null,
+    `version`    int    not null,
+    `product_id` bigint not null,
+    `stock_id`   bigint auto_increment primary key
+);
+
+
+INSERT INTO `stocks` (`stock_id`,`product_id`,`quantity`,`version`)
+VALUES
+    (1,1,296,0),
+    (2,2,902,0),
+    (3,3,570,0),
+    (4,4,863,0),
+    (5,5,434,0),
+    (6,6,724,0),
+    (7,7,281,0),
+    (8,8,283,0),
+    (9,9,444,0),
+    (10,10,754,0);
