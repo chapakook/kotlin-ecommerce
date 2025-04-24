@@ -16,8 +16,9 @@ class StockService(
 
     @Transactional
     fun deduct(cmd: StockCommand.Deduct): StockInfo =
-        stockRepository.findByProductId(cmd.productId)?.let { stock: Stock ->
+        stockRepository.findByProductIdWithPessimisticLock(cmd.productId)?.let { stock: Stock ->
             stock.deduct(cmd.quantity)
+            stockRepository.save(stock)
             StockInfo.of(stock)
         } ?: throw NoSuchElementException(STOCK_NOT_FOUND.message)
 }

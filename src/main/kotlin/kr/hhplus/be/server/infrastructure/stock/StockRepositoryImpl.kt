@@ -13,4 +13,8 @@ class StockRepositoryImpl(
 
     @Transactional
     override fun save(stock: Stock): Stock = stockJPARepository.save(stock)
+
+    @Transactional
+    override fun findByProductIdWithPessimisticLock(productId: Long): Stock? =
+        stockJPARepository.findByProductIdWithPessimisticLock(productId)
 }
