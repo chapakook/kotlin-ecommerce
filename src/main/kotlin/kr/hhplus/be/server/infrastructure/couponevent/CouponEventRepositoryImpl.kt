@@ -14,4 +14,6 @@ class CouponEventRepositoryImpl(
 
     @Transactional
     override fun save(event: CouponEvent): CouponEvent = couponEventJPARepository.save(event)
+    override fun findByCouponEventIdWithPessimisticLock(couponEventId: Long): CouponEvent? =
+        couponEventJPARepository.findByCouponEventIdWithPessimisticLock(couponEventId)
 }
