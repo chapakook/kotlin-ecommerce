@@ -3,6 +3,7 @@ package kr.hhplus.be.server.infrastructure.stock
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kr.hhplus.be.server.domain.stock.Stock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -15,16 +16,16 @@ class StockRepositoryImplTest {
         // given
         val stockId = 1L
         val productId = 2L
-        val entity = StockEntity(stockId, productId, 100, 0)
-        every { stockJPARepository.findByProductId(any()) } returns entity
+        val stock = Stock(stockId, productId, 100, 0)
+        every { stockJPARepository.findByProductId(any()) } returns stock
         // when
         val result = stockRepository.findByProductId(stockId)
         // then
         result?.let {
-            assertThat(result.stockId).isEqualTo(entity.stockId)
-            assertThat(result.productId).isEqualTo(entity.productId)
-            assertThat(result.quantity).isEqualTo(entity.quantity)
-            assertThat(result.version).isEqualTo(entity.version)
+            assertThat(result.stockId).isEqualTo(stock.stockId)
+            assertThat(result.productId).isEqualTo(stock.productId)
+            assertThat(result.quantity).isEqualTo(stock.quantity)
+            assertThat(result.version).isEqualTo(stock.version)
         }
         verify(exactly = 1) { stockJPARepository.findByProductId(any()) }
     }
@@ -46,15 +47,15 @@ class StockRepositoryImplTest {
         // given
         val stockId = 1L
         val productId = 2L
-        val entity = StockEntity(stockId, productId, 100, 0)
-        every { stockJPARepository.save(any()) } returns entity
+        val stock = Stock(stockId, productId, 100, 0)
+        every { stockJPARepository.save(any()) } returns stock
         // when
-        val result = stockRepository.save(entity.to())
+        val result = stockRepository.save(stock)
         // then
-        assertThat(result.stockId).isEqualTo(entity.stockId)
-        assertThat(result.productId).isEqualTo(entity.productId)
-        assertThat(result.quantity).isEqualTo(entity.quantity)
-        assertThat(result.version).isEqualTo(entity.version)
+        assertThat(result.stockId).isEqualTo(stock.stockId)
+        assertThat(result.productId).isEqualTo(stock.productId)
+        assertThat(result.quantity).isEqualTo(stock.quantity)
+        assertThat(result.version).isEqualTo(stock.version)
         verify(exactly = 1) { stockJPARepository.save(any()) }
     }
 }
