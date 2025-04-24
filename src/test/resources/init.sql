@@ -9,16 +9,16 @@ create table `points`
 
 INSERT INTO `points` (`point_id`,`user_id`,`balance`,`update_millis`,`version`)
 VALUES
-  (1,1,12535,0,0),
-  (2,2,45241,0,0),
-  (3,3,89384,0,0),
-  (4,4,33802,0,0),
-  (5,5,23614,0,0),
-  (6,6,35945,0,0),
-  (7,7,38867,0,0),
-  (8,8,77292,0,0),
-  (9,9,33227,0,0),
-  (10,10,16841,0,0);
+  (1,1,1253500,0,0),
+  (2,2,4524100,0,0),
+  (3,3,8938400,0,0),
+  (4,4,3380200,0,0),
+  (5,5,2361400,0,0),
+  (6,6,3594500,0,0),
+  (7,7,3886700,0,0),
+  (8,8,7729200,0,0),
+  (9,9,3322700,0,0),
+  (10,10,1684100,0,0);
 
 create table `coupon_events`
 (
@@ -52,7 +52,6 @@ create table `stocks`
     `stock_id`   bigint auto_increment primary key
 );
 
-
 INSERT INTO `stocks` (`stock_id`,`product_id`,`quantity`,`version`)
 VALUES
     (1,1,296,0),
@@ -65,3 +64,44 @@ VALUES
     (8,8,283,0),
     (9,9,444,0),
     (10,10,754,0);
+
+create table `products`
+(
+    `price`      bigint       not null,
+    `product_id` bigint auto_increment primary key,
+    `name`       varchar(255) not null
+);
+
+INSERT INTO `products` (`product_id`,`name`,`price`)
+VALUES
+    (1,"Zeph Boyer",3471),
+    (2,"Zenia Garza",1693),
+    (3,"Igor Bond",3685),
+    (4,"Kennan Nash",4693),
+    (5,"Minerva Woodard",7298),
+    (6,"Iona Knapp",9024),
+    (7,"Matthew Mullins",7010),
+    (8,"Erasmus Hampton",6290),
+    (9,"Nissim Santos",9446),
+    (10,"Brenden Lott",8943);
+
+create table `orders`
+(
+    `quantity`       int    not null,
+    `create_millis`  bigint not null,
+    `order_id`       bigint auto_increment primary key,
+    `payment_amount` bigint not null,
+    `product_id`     bigint not null,
+    `total_amount`   bigint not null,
+    `user_id`        bigint not null
+);
+
+create table `payments`
+(
+    `amount`        bigint not null,
+    `create_millis` bigint not null,
+    `order_id`      bigint not null,
+    `payment_id`    bigint auto_increment primary key
+);
+
+

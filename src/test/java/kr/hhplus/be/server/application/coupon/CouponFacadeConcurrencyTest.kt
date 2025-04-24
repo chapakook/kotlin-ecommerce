@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import java.util.concurrent.CountDownLatch
-import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.concurrent.thread
 
 @SpringBootTest
 class CouponFacadeConcurrencyTest {
@@ -22,8 +22,8 @@ class CouponFacadeConcurrencyTest {
     fun `happy - 쿠폰 발급 동시성 테스트`() {
         // given
         val count = 10
-        val service = Executors.newFixedThreadPool(5)
         val latch = CountDownLatch(count)
+        val done = CountDownLatch(1)
         val success = AtomicInteger(0)
         val failure = AtomicInteger(0)
         val userId = 1L
@@ -33,8 +33,9 @@ class CouponFacadeConcurrencyTest {
         val expected = couponEventService.find(cmd)
         // when
         repeat(count) {
-            service.submit {
+            thread {
                 try {
+                    done.await()
                     couponFacade.issue(cri)
                     success.incrementAndGet()
                 } catch (e: Exception) {
@@ -44,8 +45,8 @@ class CouponFacadeConcurrencyTest {
                 }
             }
         }
+        done.countDown()
         latch.await()
-        service.shutdown()
         val result = couponEventService.find(cmd)
         // then
         assertThat(result.currentCount).isEqualTo(expected.currentCount + count)
