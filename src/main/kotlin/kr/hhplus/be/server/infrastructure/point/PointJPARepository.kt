@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository
 interface PointJPARepository : JpaRepository<Point, Long> {
     fun findByUserId(userId: Long): Point?
     fun save(point: Point): Point
-    fun saveAndFlush(point: Point): Point
 }

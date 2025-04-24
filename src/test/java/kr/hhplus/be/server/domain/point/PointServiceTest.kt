@@ -43,7 +43,7 @@ class PointServiceTest {
             val base = Point(1L, chargeCmd.userId, baseBalance, 0, 0)
             val point = Point(1L, chargeCmd.userId, baseBalance + 100L, 0, 0)
             every { pointRepository.findByUserId(any()) } returns base
-            every { pointRepository.saveAndFlush(any()) } returns point
+            every { pointRepository.save(any()) } returns point
             // when
             val result = pointService.charge(chargeCmd)
             // then
@@ -65,7 +65,7 @@ class PointServiceTest {
             val base = Point(1L, useCmd.userId, baseBalance, 0, 0)
             val point = Point(1L, useCmd.userId, baseBalance - 100L, 0, 0)
             every { pointRepository.findByUserId(any()) } returns base
-            every { pointRepository.saveAndFlush(any()) } returns point
+            every { pointRepository.save(any()) } returns point
             // when
             val result = pointService.use(useCmd)
             // then
@@ -84,7 +84,7 @@ class PointServiceTest {
             val base = Point(1L, useCmd.userId, baseBalance, 0, 0)
             val point = Point(1L, useCmd.userId, baseBalance - useCmd.amount, 0, 0)
             every { pointRepository.findByUserId(any()) } returns base
-            every { pointRepository.saveAndFlush(any()) } returns point
+            every { pointRepository.save(any()) } returns point
             // when
             val result = pointService.use(useCmd)
             // then
@@ -103,7 +103,7 @@ class PointServiceTest {
             val base = Point(1L, useCmd.userId, baseBalance, 0, 0)
             val point = Point(1L, useCmd.userId, baseBalance - useCmd.amount, 0, 0)
             every { pointRepository.findByUserId(any()) } returns base
-            every { pointRepository.saveAndFlush(any()) } returns point
+            every { pointRepository.save(any()) } returns point
             // when
             val result = pointService.use(useCmd)
             // then

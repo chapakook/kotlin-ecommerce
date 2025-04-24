@@ -10,5 +10,4 @@ class PointRepositoryImpl(
 ) : PointRepository {
     override fun findByUserId(userId: Long): Point? = pointJPARepository.findByUserId(userId)
     override fun save(point: Point): Point = pointJPARepository.save(point)
-    override fun saveAndFlush(point: Point): Point = pointJPARepository.saveAndFlush(point)
 }
