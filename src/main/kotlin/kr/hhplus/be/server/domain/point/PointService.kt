@@ -22,7 +22,7 @@ class PointService(
             try {
                 return pointRepository.findByUserId(chargeCmd.userId)?.let { point: Point ->
                     point.charge(chargeCmd.amount)
-                    pointRepository.save(point)
+                    pointRepository.saveAndFlush(point)
                     PointInfo.of(point)
                 } ?: throw NoSuchElementException(USER_NOT_FOUND.message)
             } catch (e: OptimisticLockingFailureException) {
@@ -40,7 +40,7 @@ class PointService(
             try {
                 return pointRepository.findByUserId(useCmd.userId)?.let { point: Point ->
                     point.use(useCmd.amount)
-                    pointRepository.save(point)
+                    pointRepository.saveAndFlush(point)
                     PointInfo.of(point)
                 } ?: throw NoSuchElementException(USER_NOT_FOUND.message)
             } catch (e: OptimisticLockingFailureException) {
