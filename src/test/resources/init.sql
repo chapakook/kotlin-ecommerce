@@ -33,16 +33,16 @@ create table `coupon_events`
 
 INSERT INTO `coupon_events` (`coupon_event_id`,`max_count`,`expiry_millis`,`value`,`type`,`current_count`)
 VALUES
-    (1,82166,0,281,1,10),
-    (2,58462,0,926,1,7),
-    (3,52739,0,431,1,8),
-    (4,1659,0,263,1,2),
-    (5,70938,0,120,1,5),
-    (6,23364,0,567,1,4),
-    (7,9849,0,394,0,0),
-    (8,93659,0,937,1,1),
-    (9,2386,0,994,1,1),
-    (10,13873,0,694,0,0);
+    (1,82166,1746145464734,281,1,10),
+    (2,58462,1746145464734,926,1,7),
+    (3,52739,1746145464734,431,1,8),
+    (4,1659,1746145464734,263,1,2),
+    (5,70938,1746145464734,120,1,5),
+    (6,23364,1746145464734,567,1,4),
+    (7,9849,1746145464734,394,0,0),
+    (8,93659,1746145464734,937,1,1),
+    (9,2386,1746145464734,994,1,1),
+    (10,13873,1746145464734,694,0,0);
 
 create table `stocks`
 (
@@ -104,4 +104,16 @@ create table `payments`
     `payment_id`    bigint auto_increment primary key
 );
 
+create table `coupons`
+(
+    `is_active`     bit     not null,
+    `type`          tinyint not null,
+    `coupon_id`     bigint auto_increment primary key,
+    `create_millis` bigint  not null,
+    `expiry_millis` bigint  not null,
+    `update_millis` bigint  not null,
+    `user_id`       bigint  not null,
+    `value`         bigint  not null,
+    check (`type` between 0 and 1)
+);
 
