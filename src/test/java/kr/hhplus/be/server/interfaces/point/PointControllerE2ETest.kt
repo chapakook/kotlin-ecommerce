@@ -23,24 +23,24 @@ class PointControllerE2ETest {
     @Test
     fun `GET - 포인트 조회 E2E 테스트`() {
         // given
-        val userId = 1L
+        val userId = 10L
         val baseUrl = "http://localhost:$port/point/$userId"
         // when
         val resp: ResponseEntity<PointV1> = restTemplate.getForEntity(baseUrl, PointV1::class.java)
         // then
         assertThat(resp.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(resp.body?.balance).isEqualTo(1253500L)
+        assertThat(resp.body?.balance).isEqualTo(1684100L)
     }
 
     @Test
     fun `PATCH - 포인트 충전 E2E 테스트`() {
         // given
-        val userId = 1L
+        val userId = 10L
         val baseUrl = "http://localhost:$port/point/$userId/charge"
         val req = PointRequest.Charge(1000L)
         // when
         val resp = restTemplate.patchForObject(baseUrl, req, ChargeV1::class.java)
         // then
-        assertThat(resp.balance).isEqualTo(1253500L + req.amount)
+        assertThat(resp.balance).isEqualTo(1684100L + req.amount)
     }
 }
