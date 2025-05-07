@@ -10,7 +10,10 @@ class Payment(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val paymentId: Long = 0L,
+    @Column(nullable = false)
     val orderId: Long,
+    @Column(nullable = false)
     val amount: Long,
+    @Column(nullable = false)
     val createMillis: Long = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli(),
 )

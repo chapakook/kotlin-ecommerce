@@ -10,10 +10,15 @@ class CouponEvent(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val couponEventId: Long,
+    @Column(nullable = false)
     val maxCount: Int,
+    @Column(nullable = false)
     var currentCount: Int,
+    @Column(nullable = false)
     val type: CouponType,
+    @Column(nullable = false)
     val value: Long,
+    @Column(nullable = false)
     val expiryMillis: Long,
 ) {
     fun issue() {

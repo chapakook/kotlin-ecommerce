@@ -14,12 +14,18 @@ class OrderRepositoryImplTest {
     @Test
     fun `happy - 주문을 저장하면 주문을 반환함`() {
         // given
-        val order = Order(1L, 2L, 3L, 10, 3000, 2000)
-        every { orderJPARepository.save(order) } returns order
+        val order = Order(1L, 2L, 3L, 10, 3000, 2000, 0)
+        every { orderJPARepository.save(any()) } returns order
         // when
         val result = orderRepository.save(order)
         // then
-        assertThat(result).isEqualTo(order)
-        verify(exactly = 1) { orderJPARepository.save(order) }
+        assertThat(result.orderId).isEqualTo(order.orderId)
+        assertThat(result.userId).isEqualTo(order.userId)
+        assertThat(result.productId).isEqualTo(order.productId)
+        assertThat(result.quantity).isEqualTo(order.quantity)
+        assertThat(result.totalAmount).isEqualTo(order.totalAmount)
+        assertThat(result.paymentAmount).isEqualTo(order.paymentAmount)
+        assertThat(result.createMillis).isEqualTo(order.createMillis)
+        verify(exactly = 1) { orderJPARepository.save(any()) }
     }
 }

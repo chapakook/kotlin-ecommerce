@@ -3,21 +3,14 @@ package kr.hhplus.be.server.domain.coupon
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 class CouponServiceTest {
-    private lateinit var couponService: CouponService
-    private lateinit var couponRepository: CouponRepository
-
-    @BeforeEach
-    fun setUp() {
-        couponRepository = mockk()
-        couponService = CouponService(couponRepository)
-    }
+    private val couponRepository = mockk<CouponRepository>()
+    private val couponService = CouponService(couponRepository)
 
     @Nested
     inner class Find {
@@ -31,14 +24,17 @@ class CouponServiceTest {
             val createMillis = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
             val updateMillis = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
             val coupon = Coupon(couponId, userId, CouponType.RATE, 100L, expiryMillis, createMillis, updateMillis, true)
-            every { couponRepository.findCouponByUserIdAndCouponId(any(), any()) } returns coupon
+            every { couponRepository.findByCouponIdAndUserId(any(), any()) } returns coupon
             // when
             val result = couponService.find(cmd)
             // then
             with(coupon) {
-                assertThat(result)
-                    .extracting("couponId", "userId", "type", "value", "expiryMillis", "isActive")
-                    .containsExactly(couponId, userId, type, value, expiryMillis, isActive)
+                assertThat(result.couponId).isEqualTo(coupon.couponId)
+                assertThat(result.userId).isEqualTo(coupon.userId)
+                assertThat(result.type).isEqualTo(coupon.type)
+                assertThat(result.value).isEqualTo(coupon.value)
+                assertThat(result.expiryMillis).isEqualTo(coupon.expiryMillis)
+                assertThat(result.isActive).isEqualTo(coupon.isActive)
             }
         }
 

@@ -8,9 +8,7 @@ import org.springframework.stereotype.Repository
 class PopularityRepositoryImpl(
     private val popularityJPARepository: PopularityJPARepository,
 ) : PopularityRepository {
-    override fun findTop5ByOrderByRankDesc(): List<Popularity> =
-        popularityJPARepository.findTop5ByOrderByRankDesc()
+    override fun findTop5ByOrderByRankDesc(): List<Popularity> = popularityJPARepository.findTop5ByOrderByRankDesc()
 
     override fun save(popularity: Popularity): Popularity = popularityJPARepository.save(popularity)
-
 }

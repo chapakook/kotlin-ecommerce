@@ -35,7 +35,7 @@ class PointControllerTest {
             // given
             val userId = 1L
             val balance = Random.nextLong(100L, Long.MAX_VALUE)
-            val pointInfo = PointInfo.create(2L, userId, balance)
+            val pointInfo = PointInfo(2L, userId, balance, 0, 0)
             // when
             every { pointService.find(any()) } returns pointInfo
             // then
@@ -56,7 +56,7 @@ class PointControllerTest {
             val userId = 1L
             val req = PointRequest.Charge(100L)
             val balance = Random.nextLong(100L, Long.MAX_VALUE)
-            val pointInfo = PointInfo.create(2L, userId, balance)
+            val pointInfo = PointInfo(2L, userId, balance, 0, 0)
             // when
             every { pointService.charge(any()) } returns pointInfo
             // then

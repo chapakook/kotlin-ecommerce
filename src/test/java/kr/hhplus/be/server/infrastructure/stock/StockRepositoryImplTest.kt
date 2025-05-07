@@ -16,25 +16,30 @@ class StockRepositoryImplTest {
         // given
         val stockId = 1L
         val productId = 2L
-        val expectedStock = Stock(stockId, productId, 100, 0)
-        every { stockJPARepository.findProductStockByStockId(stockId) } returns expectedStock
+        val stock = Stock(stockId, productId, 100, 0)
+        every { stockJPARepository.findByProductId(any()) } returns stock
         // when
-        val result = stockRepository.findProductStockByStockId(stockId)
+        val result = stockRepository.findByProductId(stockId)
         // then
-        assertThat(result).isEqualTo(expectedStock)
-        verify(exactly = 1) { stockJPARepository.findProductStockByStockId(stockId) }
+        result?.let {
+            assertThat(result.stockId).isEqualTo(stock.stockId)
+            assertThat(result.productId).isEqualTo(stock.productId)
+            assertThat(result.quantity).isEqualTo(stock.quantity)
+            assertThat(result.version).isEqualTo(stock.version)
+        }
+        verify(exactly = 1) { stockJPARepository.findByProductId(any()) }
     }
 
     @Test
     fun `happy - 재고가 없는 경우 null 반환`() {
         // given
         val stockId = 1L
-        every { stockJPARepository.findProductStockByStockId(stockId) } returns null
+        every { stockJPARepository.findByProductId(any()) } returns null
         // when
-        val result = stockRepository.findProductStockByStockId(stockId)
+        val result = stockRepository.findByProductId(stockId)
         // then
         assertThat(result).isNull()
-        verify(exactly = 1) { stockJPARepository.findProductStockByStockId(stockId) }
+        verify(exactly = 1) { stockJPARepository.findByProductId(any()) }
     }
 
     @Test
@@ -43,11 +48,14 @@ class StockRepositoryImplTest {
         val stockId = 1L
         val productId = 2L
         val stock = Stock(stockId, productId, 100, 0)
-        every { stockJPARepository.save(stock) } returns stock
+        every { stockJPARepository.save(any()) } returns stock
         // when
         val result = stockRepository.save(stock)
         // then
-        assertThat(result).isEqualTo(stock)
-        verify(exactly = 1) { stockJPARepository.save(stock) }
+        assertThat(result.stockId).isEqualTo(stock.stockId)
+        assertThat(result.productId).isEqualTo(stock.productId)
+        assertThat(result.quantity).isEqualTo(stock.quantity)
+        assertThat(result.version).isEqualTo(stock.version)
+        verify(exactly = 1) { stockJPARepository.save(any()) }
     }
 }

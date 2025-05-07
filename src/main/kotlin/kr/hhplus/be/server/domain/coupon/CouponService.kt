@@ -9,7 +9,7 @@ class CouponService(
     private val couponRepository: CouponRepository,
 ) {
     fun find(cmd: CouponCommand.Find): CouponInfo.Find =
-        couponRepository.findCouponByUserIdAndCouponId(cmd.userId, cmd.couponId)
+        couponRepository.findByCouponIdAndUserId(cmd.couponId, cmd.userId)
             ?.let { coupon -> CouponInfo.Find.of(coupon) }
             ?: throw NoSuchElementException(COUPON_NOT_FOUND.message)
 
@@ -19,8 +19,10 @@ class CouponService(
 
     @Transactional
     fun use(cmd: CouponCommand.Use): Long = cmd.couponId?.let { couponId ->
-        couponRepository.findCouponByUserIdAndCouponId(cmd.userId, couponId)?.let { coupon ->
-            coupon.use(cmd.amount)
+        couponRepository.findByCouponIdAndUserId(couponId, cmd.userId)?.let { coupon ->
+            val amount = coupon.use(cmd.amount)
+            couponRepository.save(coupon)
+            amount
         } ?: cmd.amount
     } ?: cmd.amount
 }

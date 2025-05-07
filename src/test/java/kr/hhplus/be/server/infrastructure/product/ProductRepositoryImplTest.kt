@@ -15,13 +15,16 @@ class ProductRepositoryImplTest {
     @Test
     fun `happy - 상품 아이디로 조회 가능`() {
         // given
-        val testProduct = Product(1L, "P1", 1000L)
-        every { mockProductJPARepository.findProductByProductId(1L) } returns testProduct
+        val product = Product(1L, "P1", 1000L)
+        every { mockProductJPARepository.findByProductId(any()) } returns product
         // when
-        val result = productRepositoryImpl.findProductByProductId(1L)
+        val result = productRepositoryImpl.findByProductId(1L)
         // then
-        assertThat(result).isNotNull
-        assertThat(result).isEqualTo(testProduct)
-        verify(exactly = 1) { mockProductJPARepository.findProductByProductId(1L) }
+        result?.let {
+            assertThat(result.productId).isEqualTo(product.productId)
+            assertThat(result.name).isEqualTo(product.name)
+            assertThat(result.price).isEqualTo(product.price)
+        }
+        verify(exactly = 1) { mockProductJPARepository.findByProductId(any()) }
     }
 }

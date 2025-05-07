@@ -15,7 +15,7 @@ class OrderTest {
         val total = quantity * price
         val amount = 10L
         // when
-        val result = Order(orderId, userId, productId, quantity, total, amount)
+        val result = Order(orderId, userId, productId, quantity, total, amount, 0)
         // then
         assertThat(result.orderId).isEqualTo(orderId)
     }

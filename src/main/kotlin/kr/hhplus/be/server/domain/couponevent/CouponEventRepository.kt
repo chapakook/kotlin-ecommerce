@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CouponEventRepository {
-    fun findCouponEventByCouponEventId(couponEventId: Long): CouponEvent?
-    fun save(couponEvent: CouponEvent): CouponEvent
+    fun findByCouponEventId(couponEventId: Long): CouponEvent?
+    fun save(event: CouponEvent): CouponEvent
+    fun findByCouponEventIdWithPessimisticLock(couponEventId: Long): CouponEvent?
 }

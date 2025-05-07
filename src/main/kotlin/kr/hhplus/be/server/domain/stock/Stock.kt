@@ -10,8 +10,11 @@ class Stock(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val stockId: Long,
+    @Column(nullable = false)
     val productId: Long,
+    @Column(nullable = false)
     var quantity: Int,
+    @Column(nullable = false)
     val version: Int,
 ) {
     fun deduct(quantity: Int) {

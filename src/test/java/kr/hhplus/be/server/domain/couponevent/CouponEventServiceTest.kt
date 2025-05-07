@@ -4,21 +4,14 @@ import io.mockk.every
 import io.mockk.mockk
 import kr.hhplus.be.server.domain.coupon.CouponType
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 class CouponEventServiceTest {
-    private lateinit var couponEventRepository: CouponEventRepository
-    private lateinit var couponEventService: CouponEventService
-
-    @BeforeEach
-    fun setup() {
-        couponEventRepository = mockk()
-        couponEventService = CouponEventService(couponEventRepository)
-    }
+    private val couponEventRepository = mockk<CouponEventRepository>()
+    private val couponEventService = CouponEventService(couponEventRepository)
 
     @Nested
     inner class Find {
@@ -27,7 +20,7 @@ class CouponEventServiceTest {
             // given
             val couponEventId = 1L
             val cmd = CouponEventCommand.Find(couponEventId)
-            val couponEvent = CouponEvent(
+            val event = CouponEvent(
                 couponEventId,
                 100,
                 10,
@@ -35,14 +28,17 @@ class CouponEventServiceTest {
                 10L,
                 LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
             )
-            every { couponEventRepository.findCouponEventByCouponEventId(any()) } returns couponEvent
+            every { couponEventRepository.findByCouponEventId(any()) } returns event
             // when
             val result = couponEventService.find(cmd)
             // then
-            with(couponEvent) {
-                assertThat(result)
-                    .extracting("couponEventId", "maxCount", "currentCount", "type", "value", "expiryMillis")
-                    .containsExactly(couponEventId, maxCount, currentCount, type, value, expiryMillis)
+            with(event) {
+                assertThat(result.couponEventId).isEqualTo(couponEventId)
+                assertThat(result.maxCount).isEqualTo(maxCount)
+                assertThat(result.currentCount).isEqualTo(currentCount)
+                assertThat(result.type).isEqualTo(type)
+                assertThat(result.value).isEqualTo(value)
+                assertThat(result.expiryMillis).isEqualTo(expiryMillis)
             }
         }
     }
@@ -54,22 +50,19 @@ class CouponEventServiceTest {
             // given
             val couponEventId = 2L
             val cmd = CouponEventCommand.Issue(couponEventId)
-            val couponEvent = CouponEvent(
-                couponEventId,
-                100,
-                10,
-                CouponType.FIXED,
-                10,
-                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
-            )
-            every { couponEventRepository.findCouponEventByCouponEventId(any()) } returns couponEvent
+            val event = CouponEvent(couponEventId, 100, 10, CouponType.FIXED, 10, 0)
+            every { couponEventRepository.findByCouponEventIdWithPessimisticLock(any()) } returns event
+            every { couponEventRepository.save(any()) } returns event
             // when
             val result = couponEventService.issue(cmd)
             // then
-            with(couponEvent) {
-                assertThat(result)
-                    .extracting("couponEventId", "maxCount", "currentCount", "type", "value", "expiryMillis")
-                    .containsExactly(couponEventId, maxCount, currentCount++, type, value, expiryMillis)
+            with(event) {
+                assertThat(result.couponEventId).isEqualTo(couponEventId)
+                assertThat(result.maxCount).isEqualTo(maxCount)
+                assertThat(result.currentCount).isEqualTo(currentCount)
+                assertThat(result.type).isEqualTo(type)
+                assertThat(result.value).isEqualTo(value)
+                assertThat(result.expiryMillis).isEqualTo(expiryMillis)
             }
         }
     }
