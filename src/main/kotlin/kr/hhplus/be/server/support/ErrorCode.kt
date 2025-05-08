@@ -26,6 +26,9 @@ enum class ErrorCode(val code: String, val message: String) {
     EXPIRED_COUPON("E402", "만료된 쿠폰입니다."),
     COUPON_NOT_FOUND("E404", "쿠폰을 찾을 수 없습니다."),
 
+    // E5xx lock error
+    UNABLE_ACQUIRE_LOCK("E500", "락을 획득할 수 없습니다"),
+
     // TE*** test error
     CREATE_BASE_POINT("TE001", "포인트 초깃값은 양수여야 합니다.")
 }
