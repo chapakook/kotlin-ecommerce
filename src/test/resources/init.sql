@@ -33,16 +33,16 @@ create table `coupon_events`
 
 INSERT INTO `coupon_events` (`coupon_event_id`,`max_count`,`expiry_millis`,`value`,`type`,`current_count`)
 VALUES
-    (1,82166,1746145464734,281,1,10),
-    (2,58462,1746145464734,926,1,7),
-    (3,52739,1746145464734,431,1,8),
-    (4,1659,1746145464734,263,1,2),
-    (5,70938,1746145464734,120,1,5),
-    (6,23364,1746145464734,567,1,4),
-    (7,9849,1746145464734,394,0,0),
-    (8,93659,1746145464734,937,1,1),
-    (9,2386,1746145464734,994,1,1),
-    (10,13873,1746145464734,694,0,0);
+    (1,82166,1946145464734,281,1,10),
+    (2,58462,1946145464734,926,1,7),
+    (3,52739,1946145464734,431,1,8),
+    (4,1659,1946145464734,263,1,2),
+    (5,70938,1946145464734,120,1,5),
+    (6,23364,1946145464734,567,1,4),
+    (7,9849,1946145464734,394,0,0),
+    (8,93659,1946145464734,937,1,1),
+    (9,2386,1946145464734,994,1,1),
+    (10,13873,1946145464734,694,0,0);
 
 create table `stocks`
 (
@@ -74,16 +74,16 @@ create table `products`
 
 INSERT INTO `products` (`product_id`,`name`,`price`)
 VALUES
-    (1,"Zeph Boyer",3471),
-    (2,"Zenia Garza",1693),
-    (3,"Igor Bond",3685),
-    (4,"Kennan Nash",4693),
-    (5,"Minerva Woodard",7298),
-    (6,"Iona Knapp",9024),
-    (7,"Matthew Mullins",7010),
-    (8,"Erasmus Hampton",6290),
-    (9,"Nissim Santos",9446),
-    (10,"Brenden Lott",8943);
+    (1,"Zeph Boyer",10000),
+    (2,"Zenia Garza",9000),
+    (3,"Igor Bond",8000),
+    (4,"Kennan Nash",7000),
+    (5,"Minerva Woodard",6000),
+    (6,"Iona Knapp",5000),
+    (7,"Matthew Mullins",4000),
+    (8,"Erasmus Hampton",3000),
+    (9,"Nissim Santos",2000),
+    (10,"Brenden Lott",1000);
 
 create table `orders`
 (
@@ -95,6 +95,12 @@ create table `orders`
     `total_amount`   bigint not null,
     `user_id`        bigint not null
 );
+
+INSERT INTO `orders` (`product_id`,`user_id`,`quantity`,`payment_amount`,``)
+VALUES
+    (),
+    ();
+
 
 create table `payments`
 (
@@ -117,3 +123,12 @@ create table `coupons`
     check (`type` between 0 and 1)
 );
 
+
+CREATE TABLE `popularises` (
+   `popularity_id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+   `product_id`    BIGINT       NOT NULL,
+   `product_name`  VARCHAR(255) NOT NULL,
+   `rank`          INT          NOT NULL,
+   `total_order`   INT          NOT NULL,
+   `update_mills`  BIGINT       NOT NULL
+);

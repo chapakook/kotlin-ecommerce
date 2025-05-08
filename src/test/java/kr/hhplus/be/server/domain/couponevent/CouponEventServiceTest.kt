@@ -51,7 +51,7 @@ class CouponEventServiceTest {
             val couponEventId = 2L
             val cmd = CouponEventCommand.Issue(couponEventId)
             val event = CouponEvent(couponEventId, 100, 10, CouponType.FIXED, 10, 0)
-            every { couponEventRepository.findByCouponEventIdWithPessimisticLock(any()) } returns event
+            every { couponEventRepository.findByCouponEventId(any()) } returns event
             every { couponEventRepository.save(any()) } returns event
             // when
             val result = couponEventService.issue(cmd)
