@@ -11,6 +11,7 @@ services:
       - MYSQL_DATABASE=hhplus
     volumes:
       - ./data/mysql/:/var/lib/mysql
+    user: "${UID}:${GID}"
 
 networks:
   default:

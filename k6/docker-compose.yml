@@ -1,0 +1,40 @@
+services:
+  influxdb:
+    image: influxdb:1.8
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb-storage:/var/lib/influxdb
+    environment:
+      - INFLUXDB_DB=k6
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./provisioning:/etc/grafana/provisioning
+    user: "${UID}:${GID}"
+    depends_on:
+      - influxdb
+
+  k6:
+    image: grafana/k6:latest
+    container_name: k6
+    #    command: run -o influxdb=http://influxdb:8086/k6 /scripts/coupon-issue-test.js
+    command: run -o influxdb=http://influxdb:8086/k6 /scripts/rank-test.js
+    volumes:
+      - ./scripts:/scripts
+    user: "${UID}:${GID}"
+    depends_on:
+      - influxdb
+
+volumes:
+  grafana-storage:
+  influxdb-storage:

@@ -1,6 +1,6 @@
 package kr.hhplus.be.server.application.product
 
-import kr.hhplus.be.server.domain.popularity.PopularityInfo.PopularityInfo
+import kr.hhplus.be.server.domain.order.OrderInfo
 import kr.hhplus.be.server.domain.product.ProductInfo.ProductInfo
 import kr.hhplus.be.server.domain.stock.StockInfo.StockInfo
 
@@ -18,24 +18,15 @@ class ProductResult {
     }
 
     class Rank(
-        val popularityId: Long,
+        val rank: Int,
         val productId: Long,
         val productName: String,
-        val rank: Int,
-        val totalOrder: Int,
-        val updateMills: Long,
+        val totalOrder: Long,
     ) {
         companion object {
-            fun ofList(popularity: List<PopularityInfo>): List<Rank> =
-                popularity.map { p ->
-                    Rank(
-                        p.popularityId,
-                        p.productId,
-                        p.productName,
-                        p.rank,
-                        p.totalOrder,
-                        p.updateMills
-                    )
+            fun ofList(list: List<OrderInfo.OrderProductInfo>): List<Rank> =
+                list.map { item ->
+                    with(item) { Rank(rank, productId, productName, totalOrder) }
                 }
         }
     }

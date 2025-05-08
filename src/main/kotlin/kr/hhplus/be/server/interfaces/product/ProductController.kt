@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/products")
 class ProductController(
     private val productFacade: ProductFacade,
 ) {
     @GetMapping("{id}")
     fun product(@PathVariable id: Long): ProductV1 = ProductV1.of(productFacade.find(ProductCriteria.Find(id)))
 
-    @GetMapping("ranks")
-    fun ranks(): List<RankV1> = RankV1.ofList(productFacade.ranks())
+    @GetMapping("rank")
+    fun ranks(): List<RankV1> = RankV1.ofList(productFacade.rank())
 }

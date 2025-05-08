@@ -15,7 +15,7 @@ class CouponEventService(
 
     @Transactional
     fun issue(cmd: CouponEventCommand.Issue): CouponEventInfo.Issue =
-        couponEventRepository.findByCouponEventIdWithPessimisticLock(cmd.couponEventId)?.let { couponEvent ->
+        couponEventRepository.findByCouponEventId(cmd.couponEventId)?.let { couponEvent ->
             couponEvent.issue()
             couponEventRepository.save(couponEvent)
             CouponEventInfo.Issue.of(couponEvent)

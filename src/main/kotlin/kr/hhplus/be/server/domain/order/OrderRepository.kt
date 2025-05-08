@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface OrderRepository {
     fun save(order: Order): Order
+    fun getProductOrderStatsByQuantity(): List<OrderProduct>
 }
