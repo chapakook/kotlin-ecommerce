@@ -61,6 +61,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.redisson:redisson-spring-boot-starter:3.24.3")
 
+    // Cache
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.19.0")
+
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
