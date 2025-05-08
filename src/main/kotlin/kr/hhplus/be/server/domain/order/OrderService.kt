@@ -25,4 +25,8 @@ class OrderService(
         orderRepository.save(order)
         return OrderInfo.OrderInfo.of(order)
     }
+
+    fun rank(): List<OrderInfo.OrderProductInfo> = OrderInfo
+        .OrderProductInfo
+        .ofList(orderRepository.getProductOrderStatsByQuantity())
 }
