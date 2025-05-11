@@ -30,7 +30,7 @@ class ProductControllerTest {
             val product = Product(productId, "test", 100L, 1)
             every { productFacade.find(any()) } returns product
             // when & then
-            mockMvc.perform(MockMvcRequestBuilders.get("/product/$productId"))
+            mockMvc.perform(MockMvcRequestBuilders.get("/products/$productId"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
         }
@@ -39,11 +39,11 @@ class ProductControllerTest {
     @Nested
     inner class Rank {
         @Test
-        fun `happy - 랭크 조회시 상위 5개 랭크가 조회된다`() {
+        fun `happy - 인기상품이 조회된다`() {
             // given
-            every { productFacade.ranks() } returns listOf()
+            every { productFacade.rank() } returns listOf()
             // when & then
-            mockMvc.perform(MockMvcRequestBuilders.get("/product/ranks"))
+            mockMvc.perform(MockMvcRequestBuilders.get("/products/rank"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
         }

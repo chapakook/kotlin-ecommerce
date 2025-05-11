@@ -37,6 +37,5 @@ class CouponServiceTest {
                 assertThat(result.isActive).isEqualTo(coupon.isActive)
             }
         }
-
     }
 }
