@@ -11,7 +11,8 @@ import java.time.ZoneOffset
 
 class CouponEventServiceTest {
     private val couponEventRepository = mockk<CouponEventRepository>()
-    private val couponEventService = CouponEventService(couponEventRepository)
+    private val couponQueueRepository = mockk<CouponQueueRepository>()
+    private val couponEventService = CouponEventService(couponEventRepository, couponQueueRepository)
 
     @Nested
     inner class Find {

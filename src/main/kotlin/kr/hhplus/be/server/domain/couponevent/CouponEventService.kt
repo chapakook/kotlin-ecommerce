@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class CouponEventService(
     private val couponEventRepository: CouponEventRepository,
+    private val couponQueueRepository: CouponQueueRepository
 ) {
     fun find(cmd: CouponEventCommand.Find): CouponEventInfo.Find =
         couponEventRepository.findByCouponEventId(cmd.couponEventId)?.let { couponEvent ->
@@ -20,4 +21,7 @@ class CouponEventService(
             couponEventRepository.save(couponEvent)
             CouponEventInfo.Issue.of(couponEvent)
         } ?: throw NoSuchElementException(COUPON_EVENT_NOT_FOUND.message)
+
+    fun enqueue(cmd: CouponEventCommand.Enqueue): Boolean = couponQueueRepository
+        .enqueue(cmd.couponEventId, cmd.userId)
 }

@@ -16,4 +16,6 @@ class CouponFacade(
     @Transactional
     fun issue(cri: CouponCriteria.Issue): CouponResult.Issue =
         CouponResult.Issue.of(couponService.issue(cri.toIssue(couponEventService.issue(cri.toIssue()))))
+
+    fun enqueue(cri: CouponCriteria.Enqueue): Boolean = couponEventService.enqueue(cri.to())
 }

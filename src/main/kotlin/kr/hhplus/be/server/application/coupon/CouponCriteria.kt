@@ -14,4 +14,11 @@ class CouponCriteria {
         fun toIssue(info: CouponEventInfo.Issue): CouponCommand.Issue =
             with(info) { CouponCommand.Issue(userId, type, value, expiryMillis) }
     }
+
+    class Enqueue(
+        val couponEventId: Long,
+        val userId: Long,
+    ) {
+        fun to(): CouponEventCommand.Enqueue = CouponEventCommand.Enqueue(couponEventId, userId)
+    }
 }
