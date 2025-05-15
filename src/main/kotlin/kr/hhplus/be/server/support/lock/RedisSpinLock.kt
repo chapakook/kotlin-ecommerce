@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.support
+package kr.hhplus.be.server.support.lock
 
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.core.script.DefaultRedisScript
@@ -6,12 +6,17 @@ import org.springframework.stereotype.Component
 import java.util.concurrent.TimeUnit
 
 @Component
-class RedisSimpleLock(
+class RedisSpinLock(
     private val redisTemplate: StringRedisTemplate
 ) : RedisDistributedLock {
-    override fun lock(key: String, value: String, timeout: Long, timeUnit: TimeUnit): Boolean = redisTemplate
-        .opsForValue()
-        .setIfAbsent(key, value, timeout, timeUnit) ?: false
+    override fun lock(key: String, value: String, timeout: Long, timeUnit: TimeUnit): Boolean {
+        val start = System.currentTimeMillis()
+        while (System.currentTimeMillis() - start < timeout) {
+            if (redisTemplate.opsForValue().setIfAbsent(key, value, timeout, timeUnit) ?: false) return true
+            Thread.sleep(100)
+        }
+        return false
+    }
 
     override fun unlock(key: String, value: String): Boolean = redisTemplate.execute(
         DefaultRedisScript(

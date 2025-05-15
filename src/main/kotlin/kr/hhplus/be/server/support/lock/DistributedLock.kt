@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.support
+package kr.hhplus.be.server.support.lock
 
 import java.util.concurrent.TimeUnit
 

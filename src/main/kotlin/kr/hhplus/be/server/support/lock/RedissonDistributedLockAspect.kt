@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.support
+package kr.hhplus.be.server.support.lock
 
 import kr.hhplus.be.server.support.ErrorCode.UNABLE_ACQUIRE_LOCK
 import org.aspectj.lang.ProceedingJoinPoint
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component
 class RedissonDistributedLockAspect(
     private val redissonClient: RedissonClient,
 ) {
-    @Around("@annotation(kr.hhplus.be.server.support.DistributedLock)")
+    @Around("@annotation(kr.hhplus.be.server.support.lock.DistributedLock)")
     fun around(joinPoint: ProceedingJoinPoint): Any? {
         val method = (joinPoint.signature as MethodSignature).method
         val annotation = method.getAnnotation(DistributedLock::class.java)

@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.support
+package kr.hhplus.be.server.support.filter
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest

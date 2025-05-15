@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.support
+package kr.hhplus.be.server.support.lock
 
 import org.redisson.api.RLock
 import org.redisson.api.RedissonClient

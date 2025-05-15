@@ -1,5 +1,6 @@
-package kr.hhplus.be.server.support
+package kr.hhplus.be.server.support.lock
 
+import kr.hhplus.be.server.infrastructure.config.RedissonConfig
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

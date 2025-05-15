@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.support
+package kr.hhplus.be.server.support.lock
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
