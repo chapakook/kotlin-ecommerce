@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @Repository
 class OrderRepositoryImpl(
-    private val orderJPARepository: OrderJPARepository,
+    private val jpaOrderRepository: JpaOrderRepository,
 ) : OrderRepository {
     @Transactional
-    override fun save(order: Order): Order = orderJPARepository.save(order)
+    override fun save(order: Order): Order = jpaOrderRepository.save(order)
 }

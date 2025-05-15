@@ -7,16 +7,16 @@ import kr.hhplus.be.server.domain.product.Product
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class ProductRepositoryImplTest {
+class RedisProductRepositoryTest {
 
-    private val mockProductJPARepository = mockk<ProductJPARepository>()
-    private val productRepositoryImpl = ProductRepositoryImpl(mockProductJPARepository)
+    private val jpaProductRepository = mockk<JpaProductRepository>()
+    private val productRepositoryImpl = ProductRepositoryImpl(jpaProductRepository)
 
     @Test
     fun `happy - 상품 아이디로 조회 가능`() {
         // given
         val product = Product(1L, "P1", 1000L)
-        every { mockProductJPARepository.findByProductId(any()) } returns product
+        every { jpaProductRepository.findByProductId(any()) } returns product
         // when
         val result = productRepositoryImpl.findByProductId(1L)
         // then
@@ -25,16 +25,16 @@ class ProductRepositoryImplTest {
             assertThat(result.name).isEqualTo(product.name)
             assertThat(result.price).isEqualTo(product.price)
         }
-        verify(exactly = 1) { mockProductJPARepository.findByProductId(any()) }
+        verify(exactly = 1) { jpaProductRepository.findByProductId(any()) }
     }
 
     @Test
     fun `happy - 인기상품 조회에 성공한다`() {
         // given
-        every { mockProductJPARepository.getProductOrderStatsByQuantity() } returns listOf()
+        every { jpaProductRepository.getProductOrderStatsByQuantity() } returns listOf()
         // when
         productRepositoryImpl.getProductOrderStatsByQuantity()
         // then
-        verify(exactly = 1) { mockProductJPARepository.getProductOrderStatsByQuantity() }
+        verify(exactly = 1) { jpaProductRepository.getProductOrderStatsByQuantity() }
     }
 }

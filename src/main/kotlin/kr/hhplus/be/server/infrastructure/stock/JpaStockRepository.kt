@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface StockJPARepository : JpaRepository<Stock, Long> {
+interface JpaStockRepository : JpaRepository<Stock, Long> {
     fun findByProductId(productId: Long): Stock?
     fun save(stock: Stock): Stock
 

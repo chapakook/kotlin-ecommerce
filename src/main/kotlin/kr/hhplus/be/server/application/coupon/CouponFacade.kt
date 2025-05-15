@@ -2,7 +2,7 @@ package kr.hhplus.be.server.application.coupon
 
 import kr.hhplus.be.server.domain.coupon.CouponService
 import kr.hhplus.be.server.domain.couponevent.CouponEventService
-import kr.hhplus.be.server.support.lock.DistributedLock
+import kr.hhplus.be.server.support.annotation.DistributedLock
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.concurrent.TimeUnit

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CouponEventJPARepository : JpaRepository<CouponEvent, Long> {
+interface JpaCouponEventRepository : JpaRepository<CouponEvent, Long> {
     fun findByCouponEventId(couponEventId: Long): CouponEvent?
     fun save(event: CouponEvent): CouponEvent
 

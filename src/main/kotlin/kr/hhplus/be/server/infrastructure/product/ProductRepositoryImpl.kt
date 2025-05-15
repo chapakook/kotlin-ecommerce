@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class ProductRepositoryImpl(
-    private val productJPARepository: ProductJPARepository,
+    private val jpaProductRepository: JpaProductRepository,
 ) : ProductRepository {
-    override fun findByProductId(productId: Long): Product? = productJPARepository.findByProductId(productId)
+    override fun findByProductId(productId: Long): Product? = jpaProductRepository.findByProductId(productId)
     override fun getProductOrderStatsByQuantity(): List<ProductOrder> =
-        productJPARepository.getProductOrderStatsByQuantity()
+        jpaProductRepository.getProductOrderStatsByQuantity()
 }

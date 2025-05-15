@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.support.lock
 
+import kr.hhplus.be.server.support.annotation.DistributedLock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
