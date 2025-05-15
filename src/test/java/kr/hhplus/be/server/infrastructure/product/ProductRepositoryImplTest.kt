@@ -27,4 +27,14 @@ class ProductRepositoryImplTest {
         }
         verify(exactly = 1) { mockProductJPARepository.findByProductId(any()) }
     }
+
+    @Test
+    fun `happy - 인기상품 조회에 성공한다`() {
+        // given
+        every { mockProductJPARepository.getProductOrderStatsByQuantity() } returns listOf()
+        // when
+        productRepositoryImpl.getProductOrderStatsByQuantity()
+        // then
+        verify(exactly = 1) { mockProductJPARepository.getProductOrderStatsByQuantity() }
+    }
 }

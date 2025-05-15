@@ -28,14 +28,4 @@ class OrderRepositoryImplTest {
         assertThat(result.createMillis).isEqualTo(order.createMillis)
         verify(exactly = 1) { orderJPARepository.save(any()) }
     }
-
-    @Test
-    fun `happy - 인기상품 조회에 성공한다`() {
-        // given
-        every { orderJPARepository.getProductOrderStatsByQuantity() } returns listOf()
-        // when
-        orderJPARepository.getProductOrderStatsByQuantity()
-        // then
-        verify(exactly = 1) { orderJPARepository.getProductOrderStatsByQuantity() }
-    }
 }

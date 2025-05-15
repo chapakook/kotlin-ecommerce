@@ -1,6 +1,6 @@
-package kr.hhplus.be.server.domain.order
+package kr.hhplus.be.server.domain.product
 
-data class OrderProduct(
+class ProductOrder(
     val productId: Long,
     val productName: String,
     val totalOrder: Long
