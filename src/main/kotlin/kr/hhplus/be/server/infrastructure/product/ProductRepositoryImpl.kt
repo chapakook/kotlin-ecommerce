@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository
 class ProductRepositoryImpl(
     private val jpaProductRepository: JpaProductRepository,
 ) : ProductRepository {
+    override fun findTop10(): List<Product> = jpaProductRepository.findTop10()
     override fun findByProductId(productId: Long): Product? = jpaProductRepository.findByProductId(productId)
     override fun getProductOrderStatsByQuantity(): List<ProductOrder> =
         jpaProductRepository.getProductOrderStatsByQuantity()

@@ -1,6 +1,5 @@
 package kr.hhplus.be.server.application.order
 
-import jakarta.transaction.Transactional
 import kr.hhplus.be.server.domain.coupon.CouponService
 import kr.hhplus.be.server.domain.order.OrderService
 import kr.hhplus.be.server.domain.payment.PaymentCommand
@@ -8,7 +7,9 @@ import kr.hhplus.be.server.domain.payment.PaymentService
 import kr.hhplus.be.server.domain.point.PointService
 import kr.hhplus.be.server.domain.product.ProductService
 import kr.hhplus.be.server.domain.stock.StockService
+import kr.hhplus.be.server.support.annotation.IncreasesProductRanking
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class OrderFacade(
@@ -20,6 +21,7 @@ class OrderFacade(
     private val paymentService: PaymentService,
 ) {
     @Transactional
+    @IncreasesProductRanking
     fun order(cri: OrderCriteria.Order): OrderResult.Order {
         val product = productService.find(cri.toProductCmd())
         val total = product.price * cri.quantity

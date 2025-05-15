@@ -19,4 +19,7 @@ interface JpaProductRepository : JpaRepository<Product, Long> {
         """
     )
     fun getProductOrderStatsByQuantity(): List<ProductOrder>
+
+    @Query("SELECT p from Product p ORDER BY p.productId DESC")
+    fun findTop10(): List<Product>
 }

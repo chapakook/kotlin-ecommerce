@@ -18,14 +18,14 @@ class ProductInfo {
         val totalOrder: Long,
     ) {
         companion object {
-            fun ofList(list: List<ProductOrder>): List<ProductOrderInfo> =
-                list.sortedBy { it.totalOrder }.mapIndexed { idx, item ->
+            fun ofList(list: List<ProductRank>): List<ProductOrderInfo> =
+                list.sortedByDescending { it.score }.mapIndexed { idx, item ->
                     with(item) {
                         ProductOrderInfo(
                             idx + 1,
                             productId,
-                            productName,
-                            totalOrder
+                            name,
+                            score.toLong(),
                         )
                     }
                 }
