@@ -3,7 +3,6 @@ package kr.hhplus.be.server.application.product
 import kr.hhplus.be.server.application.product.ProductCriteria.Find
 import kr.hhplus.be.server.application.product.ProductResult.Product
 import kr.hhplus.be.server.application.product.ProductResult.Rank
-import kr.hhplus.be.server.domain.order.OrderService
 import kr.hhplus.be.server.domain.product.ProductService
 import kr.hhplus.be.server.domain.stock.StockService
 import org.springframework.stereotype.Service
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service
 class ProductFacade(
     private val productService: ProductService,
     private val stockService: StockService,
-    private val orderService: OrderService,
 ) {
     fun find(findCri: Find): Product {
         val product = productService.find(findCri.toProductCmd())
@@ -20,5 +18,5 @@ class ProductFacade(
         return Product.of(product, stock)
     }
 
-    fun rank(): List<Rank> = Rank.ofList(orderService.rank())
+    fun rank(): List<Rank> = Rank.ofList(productService.rank())
 }

@@ -9,15 +9,15 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class CouponEventRepositoryImplTest {
-    private val couponEventJPARepository = mockk<CouponEventJPARepository>()
-    private val couponEventRepository = CouponEventRepositoryImpl(couponEventJPARepository)
+    private val jpaCouponEventRepository = mockk<JpaCouponEventRepository>()
+    private val couponEventRepository = CouponEventRepositoryImpl(jpaCouponEventRepository)
 
     @Test
     fun `happy - 쿠폰이벤트를 정상적으로 발급함`() {
         // given
         val eventId = 1L
         val couponEvent = CouponEvent(eventId, 100, 20, CouponType.RATE, 10, System.currentTimeMillis())
-        every { couponEventJPARepository.findByCouponEventId(any()) } returns couponEvent
+        every { jpaCouponEventRepository.findByCouponEventId(any()) } returns couponEvent
         // when
         val result = couponEventRepository.findByCouponEventId(eventId)
         // then
@@ -31,26 +31,26 @@ class CouponEventRepositoryImplTest {
                 assertThat(result.expiryMillis).isEqualTo(expiryMillis)
             }
         }
-        verify(exactly = 1) { couponEventJPARepository.findByCouponEventId(any()) }
+        verify(exactly = 1) { jpaCouponEventRepository.findByCouponEventId(any()) }
     }
 
     @Test
     fun `happy - 쿠폰이벤트가 없는경우 null을 반환`() {
         // given
         val eventId = 1L
-        every { couponEventJPARepository.findByCouponEventId(any()) } returns null
+        every { jpaCouponEventRepository.findByCouponEventId(any()) } returns null
         // when
         val result = couponEventRepository.findByCouponEventId(eventId)
         // then
         assertThat(result).isNull()
-        verify(exactly = 1) { couponEventJPARepository.findByCouponEventId(any()) }
+        verify(exactly = 1) { jpaCouponEventRepository.findByCouponEventId(any()) }
     }
 
     @Test
     fun `happy - 저장하면 쿠폰 이벤트가 반환`() {
         // given
         val couponEvent = CouponEvent(3L, 100, 20, CouponType.RATE, 10, System.currentTimeMillis())
-        every { couponEventJPARepository.save(any()) } returns couponEvent
+        every { jpaCouponEventRepository.save(any()) } returns couponEvent
         // when
         val result = couponEventRepository.save(couponEvent)
         // then
@@ -62,6 +62,6 @@ class CouponEventRepositoryImplTest {
             assertThat(result.value).isEqualTo(value)
             assertThat(result.expiryMillis).isEqualTo(expiryMillis)
         }
-        verify(exactly = 1) { couponEventJPARepository.save(any()) }
+        verify(exactly = 1) { jpaCouponEventRepository.save(any()) }
     }
 }

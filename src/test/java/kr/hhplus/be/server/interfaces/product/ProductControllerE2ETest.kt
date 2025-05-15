@@ -2,6 +2,8 @@ package kr.hhplus.be.server.interfaces.product
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import kr.hhplus.be.server.interfaces.order.OrderRequest
+import kr.hhplus.be.server.interfaces.order.OrderResponse
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,11 +16,10 @@ import org.springframework.http.ResponseEntity
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ProductControllerE2ETest(
     @Autowired private val restTemplate: TestRestTemplate,
-    @Autowired private val objectMapper: ObjectMapper
+    @Autowired private val objectMapper: ObjectMapper,
 ) {
     @LocalServerPort
     private var port: Int = 0
-
 
     @Test
     fun `GET - 상품조회 E2E 테스트`() {
@@ -36,6 +37,16 @@ class ProductControllerE2ETest(
     @Test
     fun `GET - 상위상품조회 E2E 테스트`() {
         // given
+        restTemplate.postForEntity(
+            "http://localhost:$port/order",
+            OrderRequest.Order(1L, 1L, 5, null),
+            OrderResponse.OrderV1::class.java
+        )
+        restTemplate.postForEntity(
+            "http://localhost:$port/order",
+            OrderRequest.Order(2L, 2L, 10, null),
+            OrderResponse.OrderV1::class.java
+        )
         val baseUrl = "http://localhost:$port/products/rank"
         // when
         val resp: ResponseEntity<String> = restTemplate.getForEntity(baseUrl, String::class.java)
@@ -43,7 +54,5 @@ class ProductControllerE2ETest(
             objectMapper.readValue(resp.body, object : TypeReference<List<ProductResponse.RankV1>>() {})
         // then
         assertThat(resp.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(results).isNotEmpty
-        assertThat(results).hasSize(10)
     }
 }

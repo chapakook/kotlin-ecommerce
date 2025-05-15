@@ -8,14 +8,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class PaymentRepositoryImplTest {
-    private val paymentJPARepository = mockk<PaymentJPARepository>()
-    private val paymentRepository = PaymentRepositoryImpl(paymentJPARepository)
+    private val jpaPaymentRepository = mockk<JpaPaymentRepository>()
+    private val paymentRepository = PaymentRepositoryImpl(jpaPaymentRepository)
 
     @Test
     fun `happy - 저장하면 결제를 반환`() {
         // given
         val payment = Payment(1L, 2L, 100, 0)
-        every { paymentJPARepository.save(any()) } returns payment
+        every { jpaPaymentRepository.save(any()) } returns payment
 
         // when
         val result = paymentRepository.save(payment)
@@ -25,6 +25,6 @@ class PaymentRepositoryImplTest {
         assertThat(result.orderId).isEqualTo(payment.orderId)
         assertThat(result.amount).isEqualTo(payment.amount)
         assertThat(result.createMillis).isEqualTo(payment.createMillis)
-        verify(exactly = 1) { paymentJPARepository.save(any()) }
+        verify(exactly = 1) { jpaPaymentRepository.save(any()) }
     }
 }
