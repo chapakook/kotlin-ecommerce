@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class PointRepositoryImpl(
-    private val pointJPARepository: PointJPARepository,
+    private val jpaPointRepository: JpaPointRepository,
 ) : PointRepository {
-    override fun findByUserId(userId: Long): Point? = pointJPARepository.findByUserId(userId)
-    override fun save(point: Point): Point = pointJPARepository.save(point)
+    override fun findByUserId(userId: Long): Point? = jpaPointRepository.findByUserId(userId)
+    override fun save(point: Point): Point = jpaPointRepository.save(point)
 }

@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @Repository
 class PaymentRepositoryImpl(
-    private val paymentJPARepository: PaymentJPARepository,
+    private val jpaPaymentRepository: JpaPaymentRepository,
 ) : PaymentRepository {
     @Transactional
-    override fun save(payment: Payment): Payment = paymentJPARepository.save(payment)
+    override fun save(payment: Payment): Payment = jpaPaymentRepository.save(payment)
 }
