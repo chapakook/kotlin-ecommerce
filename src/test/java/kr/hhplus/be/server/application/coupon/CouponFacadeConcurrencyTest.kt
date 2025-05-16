@@ -57,7 +57,7 @@ class CouponFacadeConcurrencyTest(
     @Test
     fun `happy - 쿠폰 발급 데기열 등록`() {
         // given
-        val couponEventId = 1L
+        val couponEventId = 3L
         val user = (1 until 21).map { it.toLong() }
         // when
         user.forEach { u -> couponFacade.enqueue(CouponCriteria.Enqueue(couponEventId, u)) }
@@ -65,8 +65,6 @@ class CouponFacadeConcurrencyTest(
         val key = "${CACHE_QUEUE_COUPON_EVENTS.prefix}:$couponEventId"
         val size = redisTemplate.opsForZSet().size(key)
         assertThat(size).isEqualTo(20)
-        assertThat(redisTemplate.opsForZSet().score(key, "0")).isNotNull
-        assertThat(redisTemplate.opsForZSet().score(key, "10")).isNotNull
         val enqueuedUsers = redisTemplate.opsForZSet()
             .range(key, 0, -1)
             ?.map { it.toLong() }

@@ -21,4 +21,18 @@ class CouponCriteria {
     ) {
         fun to(): CouponEventCommand.Enqueue = CouponEventCommand.Enqueue(couponEventId, userId)
     }
+
+    class Process(
+        val couponEventId: Long,
+        val count: Int
+    ) {
+        fun to(): CouponEventCommand.Dequeue = CouponEventCommand.Dequeue(couponEventId, count)
+        fun toIssue() = CouponEventCommand.Issue(couponEventId)
+        fun toHasIssued(userId: Long): CouponEventCommand.HasIssued =
+            CouponEventCommand.HasIssued(couponEventId, userId)
+
+        fun toRemove(userId: Long): CouponEventCommand.Remove = CouponEventCommand.Remove(couponEventId, userId)
+        fun toSetCouponEvent(userId: Long): CouponEventCommand.SetCouponEvent =
+            CouponEventCommand.SetCouponEvent(couponEventId, userId)
+    }
 }

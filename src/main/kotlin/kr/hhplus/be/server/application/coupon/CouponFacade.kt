@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.application.coupon
 
+import kr.hhplus.be.server.domain.coupon.CouponCommand
 import kr.hhplus.be.server.domain.coupon.CouponService
 import kr.hhplus.be.server.domain.couponevent.CouponEventService
 import kr.hhplus.be.server.support.annotation.DistributedLock
@@ -18,4 +19,23 @@ class CouponFacade(
         CouponResult.Issue.of(couponService.issue(cri.toIssue(couponEventService.issue(cri.toIssue()))))
 
     fun enqueue(cri: CouponCriteria.Enqueue): Boolean = couponEventService.enqueue(cri.to())
+
+    @Transactional
+    fun processIssue(cri: CouponCriteria.Process) {
+        val users = couponEventService.dequeue(cri.to())
+        for (userId in users) {
+            if (couponEventService.hasIssued(cri.toHasIssued(userId))) continue
+            val couponEventInfo = couponEventService.issue(cri.toIssue())
+            couponService.issue(
+                CouponCommand.Issue(
+                    userId,
+                    couponEventInfo.type,
+                    couponEventInfo.value,
+                    couponEventInfo.expiryMillis
+                )
+            )
+            couponEventService.set(cri.toSetCouponEvent(userId))
+            couponEventService.remove(cri.toRemove(userId))
+        }
+    }
 }
