@@ -1,7 +1,7 @@
 package kr.hhplus.be.server.application.aop
 
+import kr.hhplus.be.server.application.order.OrderCriteria
 import kr.hhplus.be.server.domain.product.ProductRankingRepository
-import kr.hhplus.be.server.support.RankingTarget
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.AfterReturning
 import org.aspectj.lang.annotation.Aspect
@@ -20,7 +20,7 @@ class IncreasesProductRankingAspect(
         TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronization {
             override fun afterCommit() {
                 joinPoint.args
-                    .filterIsInstance<RankingTarget>()
+                    .filterIsInstance<OrderCriteria.Order>()
                     .forEach {
                         productRankRepository.increaseProductRank(
                             productId = it.productId,
