@@ -1,7 +1,5 @@
-package kr.hhplus.be.server.application
+package kr.hhplus.be.server.application.order
 
-import kr.hhplus.be.server.application.order.OrderCriteria
-import kr.hhplus.be.server.application.order.OrderFacade
 import kr.hhplus.be.server.application.product.ProductFacade
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
