@@ -1,5 +1,8 @@
 package kr.hhplus.be.server.application.order
 
+import com.ninjasquad.springmockk.SpykBean
+import io.mockk.verify
+import kr.hhplus.be.server.domain.order.ExternalNotify
 import kr.hhplus.be.server.domain.product.ProductRankingRepository
 import kr.hhplus.be.server.support.ErrorCode.OUT_OF_POINT
 import org.assertj.core.api.Assertions.assertThat
@@ -9,10 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class OrderFacadeTest(
+class OrderFacadeIntegrationTest(
     @Autowired private val orderFacade: OrderFacade,
     @Autowired private val productRankRepository: ProductRankingRepository
 ) {
+    @SpykBean
+    private lateinit var externalNotify: ExternalNotify
+
     @Test
     fun `happy - 주문에 성공하고 랭킹이 적용된다`() {
         // given
@@ -46,5 +52,15 @@ class OrderFacadeTest(
             .hasMessageContainingAll(OUT_OF_POINT.message)
         val result = productRankRepository.findByProductId(productId)
         assertThat(result!!.score).isEqualTo(expected!!.score)
+    }
+
+    @Test
+    fun `happy - OrderEvent_OrderCompleted 이벤트를 통해 주문 후 외부 데이터 플랫폼에 notify 한다`() {
+        // given
+        val cri = OrderCriteria.Order(1L, 1L, 10, null)
+        // when
+        orderFacade.order(cri)
+        // then
+        verify(timeout = 1000) { externalNotify.notify(any()) }
     }
 }
