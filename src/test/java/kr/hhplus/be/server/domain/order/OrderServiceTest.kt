@@ -16,22 +16,22 @@ class OrderServiceTest {
         val userId = 2L
         val productId = 3L
         val quantity = 10
-        val totalAmount = 200L
-        val paymentAmount = 200L
+        val name = "test"
+        val price = 1000L
         val cmd = OrderCommand.Order(
             userId = userId,
             productId = productId,
             quantity = quantity,
-            totalAmount = totalAmount,
-            paymentAmount = paymentAmount
+            name = name,
+            price = price,
         )
         val order = Order(
             userId = userId,
             productId = productId,
             quantity = quantity,
-            totalAmount = totalAmount,
-            paymentAmount = paymentAmount,
-            createMillis = 0
+            totalAmount = price * quantity,
+            paymentAmount = price * quantity,
+            createMillis = System.currentTimeMillis(),
         )
         every { orderRepository.save(any()) } returns order
         // when

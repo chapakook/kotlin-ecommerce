@@ -4,6 +4,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kr.hhplus.be.server.domain.order.Order
+import kr.hhplus.be.server.domain.order.OrderStatus
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -14,7 +15,7 @@ class OrderRepositoryImplTest {
     @Test
     fun `happy - 주문을 저장하면 주문을 반환함`() {
         // given
-        val order = Order(1L, 2L, 3L, 10, 3000, 2000, 0)
+        val order = Order(1L, 2L, 3L, 10, 3000, 2000, OrderStatus.Pending, 0)
         every { jpaOrderRepository.save(any()) } returns order
         // when
         val result = orderRepository.save(order)

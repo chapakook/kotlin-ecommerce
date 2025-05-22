@@ -2,7 +2,7 @@ package kr.hhplus.be.server.application.order
 
 import com.ninjasquad.springmockk.SpykBean
 import io.mockk.verify
-import kr.hhplus.be.server.domain.order.ExternalNotify
+import kr.hhplus.be.server.domain.external.ExternalNotify
 import kr.hhplus.be.server.domain.product.ProductRankingRepository
 import kr.hhplus.be.server.support.ErrorCode.OUT_OF_POINT
 import org.assertj.core.api.Assertions.assertThat

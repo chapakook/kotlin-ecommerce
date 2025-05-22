@@ -4,6 +4,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kr.hhplus.be.server.domain.payment.Payment
+import kr.hhplus.be.server.domain.payment.PaymentStatus
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -14,7 +15,7 @@ class PaymentRepositoryImplTest {
     @Test
     fun `happy - 저장하면 결제를 반환`() {
         // given
-        val payment = Payment(1L, 2L, 100, 0)
+        val payment = Payment(1L, 2L, 100, PaymentStatus.Pending, 0)
         every { jpaPaymentRepository.save(any()) } returns payment
 
         // when
