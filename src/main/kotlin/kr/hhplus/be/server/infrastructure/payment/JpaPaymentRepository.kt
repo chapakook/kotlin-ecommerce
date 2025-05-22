@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface JpaPaymentRepository : JpaRepository<Payment, Long> {
+    fun findByOrderId(orderId: Long): Payment?
     fun save(payment: Payment): Payment
 }
