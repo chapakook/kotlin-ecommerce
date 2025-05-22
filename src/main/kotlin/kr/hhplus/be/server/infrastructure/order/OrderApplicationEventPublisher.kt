@@ -6,14 +6,14 @@ import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Component
 
 @Component
-class OrderEventApplicationEventPublisher(
+class OrderApplicationEventPublisher(
     private val applicationEventPublisher: ApplicationEventPublisher,
 ) : OrderEventPublisher {
     override fun publish(event: OrderEvent.OrderCreated) {
         applicationEventPublisher.publishEvent(event)
     }
 
-    override fun publish(event: OrderEvent.OrderCompleted) {
+    override fun publish(event: OrderEvent.OrderCanceled) {
         applicationEventPublisher.publishEvent(event)
     }
 }

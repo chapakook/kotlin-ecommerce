@@ -1,8 +1,6 @@
 package kr.hhplus.be.server.domain.order
 
-import org.springframework.stereotype.Repository
-
-@Repository
 interface OrderRepository {
+    fun findByOrderId(orderId: Long): Order?
     fun save(order: Order): Order
 }

@@ -10,5 +10,8 @@ class OrderRepositoryImpl(
     private val jpaOrderRepository: JpaOrderRepository,
 ) : OrderRepository {
     @Transactional
+    override fun findByOrderId(orderId: Long): Order? = jpaOrderRepository.findByOrderId(orderId)
+
+    @Transactional
     override fun save(order: Order): Order = jpaOrderRepository.save(order)
 }

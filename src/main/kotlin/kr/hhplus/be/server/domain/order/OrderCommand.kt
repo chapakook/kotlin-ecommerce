@@ -5,8 +5,10 @@ class OrderCommand {
         val orderId: Long = 0L,
         val userId: Long,
         val productId: Long,
+        val name: String,
+        val price: Long,
         val quantity: Int,
-        val totalAmount: Long,
-        val paymentAmount: Long,
     )
+
+    class Status(val orderId: Long, val status: OrderStatus)
 }
