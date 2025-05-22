@@ -23,6 +23,14 @@ class CouponService(
             val amount = coupon.use(cmd.amount)
             couponRepository.save(coupon)
             amount
-        } ?: cmd.amount
+        } ?: throw NoSuchElementException(COUPON_NOT_FOUND.message)
     } ?: cmd.amount
+
+    @Transactional
+    fun restore(cmd: CouponCommand.Restore) {
+        couponRepository.findByCouponIdAndUserId(cmd.couponId, cmd.userId)?.let { coupon ->
+            coupon.restore()
+            couponRepository.save(coupon)
+        } ?: throw NoSuchElementException(COUPON_NOT_FOUND.message)
+    }
 }
