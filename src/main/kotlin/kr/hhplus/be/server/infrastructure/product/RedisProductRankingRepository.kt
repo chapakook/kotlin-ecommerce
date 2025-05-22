@@ -30,7 +30,7 @@ class RedisProductRankingRepository(
 
         val rows = redisTemplate.opsForZSet().unionWithScores(keys.first(), keys.drop(1))
             ?: return emptyList()
-        
+
         return rows.mapNotNull { tuple ->
             val productId = tuple.value?.toLongOrNull()
             val score = tuple.score
