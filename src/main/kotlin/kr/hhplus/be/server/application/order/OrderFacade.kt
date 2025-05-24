@@ -1,6 +1,8 @@
 package kr.hhplus.be.server.application.order
 
 import kr.hhplus.be.server.domain.coupon.CouponService
+import kr.hhplus.be.server.domain.order.OrderEvent
+import kr.hhplus.be.server.domain.order.OrderEventPublisher
 import kr.hhplus.be.server.domain.order.OrderService
 import kr.hhplus.be.server.domain.payment.PaymentCommand
 import kr.hhplus.be.server.domain.payment.PaymentService
@@ -19,6 +21,7 @@ class OrderFacade(
     private val orderService: OrderService,
     private val pointService: PointService,
     private val paymentService: PaymentService,
+    private val orderEventPublisher: OrderEventPublisher,
 ) {
     @Transactional
     @IncreasesProductRanking
@@ -30,6 +33,15 @@ class OrderFacade(
         paymentService.pay(PaymentCommand.Pay(order.orderId, amount))
         pointService.use(cri.toPointCmd(amount))
         stockService.deduct(cri.toStockCmd())
+        orderEventPublisher.publish(with(order) {
+            OrderEvent.OrderCompleted(
+                orderId,
+                userId,
+                productId,
+                quantity,
+                totalAmount
+            )
+        })
         return OrderResult.Order.of(order)
     }
 }
