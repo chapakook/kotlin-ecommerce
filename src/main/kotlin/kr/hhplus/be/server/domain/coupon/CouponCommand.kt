@@ -18,4 +18,9 @@ class CouponCommand {
         val userId: Long,
         val couponId: Long,
     )
+
+    class Restore(
+        val userId: Long,
+        val couponId: Long,
+    )
 }

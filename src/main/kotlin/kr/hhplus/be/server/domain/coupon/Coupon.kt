@@ -57,11 +57,16 @@ class Coupon(
     fun use(amount: Long): Long {
         require(isActive) { USED_COUPON.message }
         require(isAfter(expiryMillis)) { EXPIRED_COUPON.message }
-        isActive to true
+        isActive to false
         updateMillis = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
         return when (type) {
             CouponType.FIXED -> if (value > amount) 0 else amount - value
             CouponType.RATE -> (amount - (amount * (value / 100.0))).toLong()
         }
+    }
+
+    fun restore() {
+        isActive to true
+        updateMillis = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
     }
 }

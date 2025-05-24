@@ -4,7 +4,6 @@ import kr.hhplus.be.server.domain.coupon.CouponService
 import kr.hhplus.be.server.domain.order.OrderEvent
 import kr.hhplus.be.server.domain.order.OrderEventPublisher
 import kr.hhplus.be.server.domain.order.OrderService
-import kr.hhplus.be.server.domain.payment.PaymentCommand
 import kr.hhplus.be.server.domain.payment.PaymentService
 import kr.hhplus.be.server.domain.point.PointService
 import kr.hhplus.be.server.domain.product.ProductService
@@ -26,17 +25,12 @@ class OrderFacade(
     @Transactional
     @IncreasesProductRanking
     fun order(cri: OrderCriteria.Order): OrderResult.Order {
-        val product = productService.find(cri.toProductCmd())
-        val total = product.price * cri.quantity
-        val amount = couponService.use(cri.toCouponCmd(total))
-        val order = orderService.order(cri.toOrderCmd(total, amount))
-        paymentService.pay(PaymentCommand.Pay(order.orderId, amount))
-        pointService.use(cri.toPointCmd(amount))
-        stockService.deduct(cri.toStockCmd())
+        val order = orderService.order(cri.toOrderCmd(productService.find(cri.toProductCmd())))
         orderEventPublisher.publish(with(order) {
-            OrderEvent.OrderCompleted(
+            OrderEvent.OrderCreated(
                 orderId,
                 userId,
+                cri.couponId,
                 productId,
                 quantity,
                 totalAmount

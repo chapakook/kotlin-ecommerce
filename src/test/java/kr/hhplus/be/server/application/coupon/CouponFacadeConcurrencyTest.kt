@@ -18,8 +18,6 @@ class CouponFacadeConcurrencyTest(
     @Autowired private val couponEventService: CouponEventService,
     @Autowired private val redisTemplate: RedisTemplate<String, String>
 ) {
-
-
     @Test
     fun `happy - 쿠폰 발급 동시성 테스트`() {
         // given

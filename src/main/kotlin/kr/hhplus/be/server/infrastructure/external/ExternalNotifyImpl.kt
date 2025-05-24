@@ -1,7 +1,7 @@
-package kr.hhplus.be.server.infrastructure.externalnotify
+package kr.hhplus.be.server.infrastructure.external
 
-import kr.hhplus.be.server.domain.order.ExternalNotify
-import kr.hhplus.be.server.domain.order.ExternalNotifyCommand
+import kr.hhplus.be.server.domain.external.ExternalNotify
+import kr.hhplus.be.server.domain.external.ExternalNotifyCommand
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 

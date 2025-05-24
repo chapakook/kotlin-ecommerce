@@ -10,5 +10,8 @@ class PaymentRepositoryImpl(
     private val jpaPaymentRepository: JpaPaymentRepository,
 ) : PaymentRepository {
     @Transactional
+    override fun findByOrderId(orderId: Long): Payment? = jpaPaymentRepository.findByOrderId(orderId)
+
+    @Transactional
     override fun save(payment: Payment): Payment = jpaPaymentRepository.save(payment)
 }
