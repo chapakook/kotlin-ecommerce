@@ -13,8 +13,15 @@ class OrderEventListener(
     private val orderEventPublisher: OrderEventPublisher
 ) {
     @Async
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
     fun handler(event: CouponDomainEvent.CouponUseFailed) {
+        orderService.status(OrderCommand.Status(event.orderId, OrderStatus.Cancel))
+        orderEventPublisher.publish(OrderEvent.OrderCanceled(event.orderId))
+    }
+
+    @Async
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    fun handler(event: CouponDomainEvent.CouponRestored) {
         orderService.status(OrderCommand.Status(event.orderId, OrderStatus.Cancel))
         orderEventPublisher.publish(OrderEvent.OrderCanceled(event.orderId))
     }
