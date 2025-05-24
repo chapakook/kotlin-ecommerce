@@ -9,8 +9,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class CouponRepositoryImplTest {
-    private val couponJPARepository = mockk<CouponJPARepository>()
-    private val couponRepository = CouponRepositoryImpl(couponJPARepository)
+    private val jpaCouponRepository = mockk<JpaCouponRepository>()
+    private val couponRepository = CouponRepositoryImpl(jpaCouponRepository)
 
     @Test
     fun `happy - 쿠폰아이디, 유저이디 요청시 정상 반환한다`() {
@@ -18,7 +18,7 @@ class CouponRepositoryImplTest {
         val userId = 1L
         val couponId = 1L
         val coupon = Coupon(couponId, userId, CouponType.RATE, 1000L, 0, 0, 0, true)
-        every { couponJPARepository.findByCouponIdAndUserId(any(), any()) } returns coupon
+        every { jpaCouponRepository.findByCouponIdAndUserId(any(), any()) } returns coupon
         // when
         val result = couponRepository.findByCouponIdAndUserId(couponId, userId)
         // then
@@ -30,7 +30,7 @@ class CouponRepositoryImplTest {
             assertThat(result.expiryMillis).isEqualTo(coupon.expiryMillis)
             assertThat(result.isActive).isEqualTo(coupon.isActive)
         }
-        verify { couponJPARepository.findByCouponIdAndUserId(any(), any()) }
+        verify { jpaCouponRepository.findByCouponIdAndUserId(any(), any()) }
     }
 
     @Test
@@ -39,7 +39,7 @@ class CouponRepositoryImplTest {
         val userId = 2L
         val couponId = 2L
         val coupon = Coupon(couponId, userId, CouponType.RATE, 1000L, 0, 0, 0, false)
-        every { couponJPARepository.save(any()) } returns coupon
+        every { jpaCouponRepository.save(any()) } returns coupon
         // when
         val result = couponRepository.save(coupon)
         // then
@@ -49,6 +49,6 @@ class CouponRepositoryImplTest {
         assertThat(result.value).isEqualTo(coupon.value)
         assertThat(result.expiryMillis).isEqualTo(coupon.expiryMillis)
         assertThat(result.isActive).isEqualTo(coupon.isActive)
-        verify(exactly = 1) { couponJPARepository.save(any()) }
+        verify(exactly = 1) { jpaCouponRepository.save(any()) }
     }
 }

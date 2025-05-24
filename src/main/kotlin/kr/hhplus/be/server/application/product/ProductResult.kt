@@ -1,7 +1,6 @@
 package kr.hhplus.be.server.application.product
 
-import kr.hhplus.be.server.domain.order.OrderInfo
-import kr.hhplus.be.server.domain.product.ProductInfo.ProductInfo
+import kr.hhplus.be.server.domain.product.ProductInfo
 import kr.hhplus.be.server.domain.stock.StockInfo.StockInfo
 
 class ProductResult {
@@ -12,11 +11,11 @@ class ProductResult {
         val stock: Int,
     ) {
         companion object {
-            fun of(info: ProductInfo, stock: StockInfo): Product =
+            fun of(info: ProductInfo.ProductInfo, stock: StockInfo): Product =
                 with(info) { Product(productId, name, price, stock.quantity) }
         }
     }
-
+    
     class Rank(
         val rank: Int,
         val productId: Long,
@@ -24,7 +23,7 @@ class ProductResult {
         val totalOrder: Long,
     ) {
         companion object {
-            fun ofList(list: List<OrderInfo.OrderProductInfo>): List<Rank> =
+            fun ofList(list: List<ProductInfo.ProductOrderInfo>): List<Rank> =
                 list.map { item ->
                     with(item) { Rank(rank, productId, productName, totalOrder) }
                 }
