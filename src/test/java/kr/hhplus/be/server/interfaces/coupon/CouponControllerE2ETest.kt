@@ -1,16 +1,17 @@
 package kr.hhplus.be.server.interfaces.coupon
 
+import kr.hhplus.be.server.application.coupon.CouponCriteria
+import kr.hhplus.be.server.application.coupon.CouponFacade
+import kr.hhplus.be.server.support.RedisPrefix.CACHE_COUPON_EVENTS
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CouponControllerE2ETest {
@@ -19,6 +20,15 @@ class CouponControllerE2ETest {
 
     @Autowired
     private lateinit var restTemplate: TestRestTemplate
+
+    @Autowired
+    private lateinit var couponFacade: CouponFacade
+
+    @Autowired
+    private lateinit var couponIssueRunner: CouponIssueRunner
+
+    @Autowired
+    private lateinit var redisTemplate: RedisTemplate<String, String>
 
     @Test
     fun `POST - 선착순 쿠폰 발급 E2E 테스트`() {
@@ -35,42 +45,21 @@ class CouponControllerE2ETest {
     }
 
     @Test
-    fun `POST - 선착순 쿠폰 100명 발급 E2E 테스트`() {
+    fun `스케줄러가 Redis 대기열에서 유저를 꺼내 실제로 쿠폰을 발급해야 한다`() {
         // given
-        val baseUri = "http://localhost:$port/coupon/issue"
-        val userId = 1L
-        val couponId = 1L
-        val count = 100
-        val executor = Executors.newFixedThreadPool(count)
-        val latch = CountDownLatch(count)
-        val results = mutableListOf<Boolean>()
-        // when
-        repeat(count) {
-            executor.submit {
-                try {
-                    val req = CouponRequest.Issue(userId, couponId)
-                    val resp: ResponseEntity<CouponResponse.IssueV1> = restTemplate
-                        .postForEntity(
-                            baseUri,
-                            req,
-                            CouponResponse.IssueV1::class.java
-                        )
-                    if (resp.statusCode == HttpStatus.OK) {
-                        synchronized(results) { results.add(true) }
-                    } else {
-                        synchronized(results) { results.add(false) }
-                    }
-                } catch (e: Exception) {
-                    synchronized(results) { results.add(false) }
-                } finally {
-                    latch.countDown()
-                }
-            }
+        val userIds = (1L..5L)
+        val couponEventId = 5L
+        userIds.forEach { userId ->
+            couponFacade.enqueue(CouponCriteria.Enqueue(couponEventId, userId))
         }
-        latch.await(20000, TimeUnit.MILLISECONDS)
-        executor.shutdown()
+
+        // when
+        couponIssueRunner.start(couponEventId, "*/1 * * * * *")
+        Thread.sleep(4000)
+        couponIssueRunner.stop(couponEventId)
+
         // then
-        assertThat(results).hasSize(count)
-        assertThat(results).doesNotContain(false)
+        val issued = redisTemplate.opsForSet().members("${CACHE_COUPON_EVENTS.prefix}:$couponEventId")
+        assertThat(issued).hasSize(5)
     }
 }
