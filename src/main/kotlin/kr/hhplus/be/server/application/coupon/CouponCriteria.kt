@@ -22,6 +22,13 @@ class CouponCriteria {
         fun to(): CouponEventCommand.Enqueue = CouponEventCommand.Enqueue(couponEventId, userId)
     }
 
+    class Send(
+        val couponEventId: Long,
+        val userId: Long,
+    ) {
+        fun to(): CouponEventCommand.Send = CouponEventCommand.Send(couponEventId, userId)
+    }
+
     class Process(
         val couponEventId: Long,
         val count: Int

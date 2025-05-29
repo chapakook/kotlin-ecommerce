@@ -9,7 +9,8 @@ import org.springframework.transaction.annotation.Transactional
 class CouponEventService(
     private val couponEventRepository: CouponEventRepository,
     private val couponQueueRepository: CouponQueueRepository,
-    private val couponEventCacheRepository: CouponEventCacheRepository
+    private val couponEventCacheRepository: CouponEventCacheRepository,
+    private val outsideCouponEventEventProducer: OutsideCouponEventEventProducer
 ) {
     fun find(cmd: Find): CouponEventInfo.Find =
         couponEventRepository.findByCouponEventId(cmd.couponEventId)?.let { couponEvent ->
@@ -39,5 +40,9 @@ class CouponEventService(
 
     fun set(cmd: SetCouponEvent) {
         couponEventCacheRepository.set(cmd.couponEventId, cmd.userId)
+    }
+
+    fun send(cmd: Send) {
+        outsideCouponEventEventProducer.send(CouponEventEvent.CouponIssueRequest(cmd.couponEventId, cmd.userId))
     }
 }

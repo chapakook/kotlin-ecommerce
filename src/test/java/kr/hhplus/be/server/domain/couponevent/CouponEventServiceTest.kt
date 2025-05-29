@@ -13,8 +13,13 @@ class CouponEventServiceTest {
     private val couponEventRepository = mockk<CouponEventRepository>()
     private val couponQueueRepository = mockk<CouponQueueRepository>()
     private val couponEventCacheRepository = mockk<CouponEventCacheRepository>()
-    private val couponEventService =
-        CouponEventService(couponEventRepository, couponQueueRepository, couponEventCacheRepository)
+    private val outsideCouponEventEventProducer = mockk<OutsideCouponEventEventProducer>()
+    private val couponEventService = CouponEventService(
+        couponEventRepository,
+        couponQueueRepository,
+        couponEventCacheRepository,
+        outsideCouponEventEventProducer
+    )
 
     @Nested
     inner class Find {

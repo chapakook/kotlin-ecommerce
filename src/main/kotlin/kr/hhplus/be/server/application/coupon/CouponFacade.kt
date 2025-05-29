@@ -20,6 +20,10 @@ class CouponFacade(
 
     fun enqueue(cri: CouponCriteria.Enqueue): Boolean = couponEventService.enqueue(cri.to())
 
+    fun send(cri: CouponCriteria.Send) {
+        couponEventService.send(cri.to())
+    }
+
     @Transactional
     fun processIssue(cri: CouponCriteria.Process) {
         val users = couponEventService.dequeue(cri.to())

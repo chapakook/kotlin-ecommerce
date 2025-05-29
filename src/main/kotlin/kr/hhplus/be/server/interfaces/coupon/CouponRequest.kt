@@ -7,6 +7,6 @@ class CouponRequest {
         val userId: Long,
         val couponId: Long,
     ) {
-        fun toCriteria(): CouponCriteria.Issue = CouponCriteria.Issue(userId, couponId)
+        fun to(): CouponCriteria.Send = CouponCriteria.Send(couponId, userId)
     }
 }

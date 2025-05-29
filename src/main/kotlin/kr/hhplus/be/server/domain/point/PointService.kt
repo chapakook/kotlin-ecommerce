@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 class PointService(
     private val pointRepository: PointRepository,
 ) {
-    fun find(findCmd: Find): PointInfo = pointRepository.findByUserId(findCmd.userId)?.let { point: Point ->
+    fun find(cmd: Find): PointInfo = pointRepository.findByUserId(cmd.userId)?.let { point: Point ->
         PointInfo.of(point)
     } ?: throw NoSuchElementException(USER_NOT_FOUND.message)
 
@@ -23,10 +23,10 @@ class PointService(
         maxAttempts = 3,
         backoff = Backoff(delay = 500, multiplier = 1.5),
     )
-    fun charge(chargeCmd: Charge): PointInfo {
+    fun charge(cmd: Charge): PointInfo {
         try {
-            return pointRepository.findByUserId(chargeCmd.userId)?.let { point: Point ->
-                point.charge(chargeCmd.amount)
+            return pointRepository.findByUserId(cmd.userId)?.let { point: Point ->
+                point.charge(cmd.amount)
                 pointRepository.save(point)
                 PointInfo.of(point)
             } ?: throw NoSuchElementException(USER_NOT_FOUND.message)
@@ -41,10 +41,10 @@ class PointService(
         maxAttempts = 3,
         backoff = Backoff(delay = 500, multiplier = 1.5),
     )
-    fun use(useCmd: Use): PointInfo {
+    fun use(cmd: Use): PointInfo {
         try {
-            return pointRepository.findByUserId(useCmd.userId)?.let { point: Point ->
-                point.use(useCmd.amount)
+            return pointRepository.findByUserId(cmd.userId)?.let { point: Point ->
+                point.use(cmd.amount)
                 pointRepository.save(point)
                 PointInfo.of(point)
             } ?: throw NoSuchElementException(USER_NOT_FOUND.message)
