@@ -11,4 +11,5 @@ class OrderEvent {
     )
 
     data class OrderCanceled(val orderId: Long)
+    data class OrderCompleted(val orderId: Long)
 }

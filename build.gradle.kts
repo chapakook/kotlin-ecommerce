@@ -65,6 +65,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
+    // Kafka
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.kafka:spring-kafka")
+
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
@@ -74,6 +78,8 @@ dependencies {
     testImplementation("io.mockk:mockk:1.14.0")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
     testImplementation("com.redis:testcontainers-redis:2.2.2")
+    testImplementation("org.testcontainers:kafka:1.21.0")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
 }
 
 tasks.withType<Test> {

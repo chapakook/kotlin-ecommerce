@@ -5,6 +5,7 @@ import kr.hhplus.be.server.domain.stock.StockEvent
 import org.springframework.context.event.EventListener
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.event.TransactionPhase
 import org.springframework.transaction.event.TransactionalEventListener
 
@@ -13,6 +14,7 @@ class PaymentEventListener(
     private val paymentService: PaymentService,
     private val paymentEventPublisher: PaymentEventPublisher,
 ) {
+    @Transactional
     @EventListener
     fun handler(event: PointEvent.PointUsed) {
         with(event) {

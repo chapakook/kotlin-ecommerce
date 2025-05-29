@@ -5,6 +5,7 @@ import kr.hhplus.be.server.domain.payment.PaymentEvent
 import org.springframework.context.event.EventListener
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.event.TransactionPhase
 import org.springframework.transaction.event.TransactionalEventListener
 
@@ -13,6 +14,7 @@ class PointEventListener(
     private val pointService: PointService,
     private val pointEventPublisher: PointEventPublisher,
 ) {
+    @Transactional
     @EventListener
     fun handler(event: CouponDomainEvent.CouponUsed) {
         with(event) {
@@ -46,7 +48,7 @@ class PointEventListener(
     }
 
     @Async
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
     fun handler(event: PaymentEvent.PaymentCreateFailed) {
         with(event) {
             pointService.charge(PointCommand.Charge(userId, paymentAmount))

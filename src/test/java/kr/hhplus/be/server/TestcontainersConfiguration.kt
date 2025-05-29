@@ -2,9 +2,13 @@ package kr.hhplus.be.server
 
 import com.redis.testcontainers.RedisContainer
 import jakarta.annotation.PreDestroy
+import org.apache.kafka.clients.admin.AdminClient
+import org.apache.kafka.clients.admin.AdminClientConfig
 import org.springframework.context.annotation.Configuration
 import org.testcontainers.containers.MySQLContainer
+import org.testcontainers.kafka.KafkaContainer
 import org.testcontainers.utility.DockerImageName
+import java.util.*
 
 @Configuration
 class TestcontainersConfiguration {
@@ -12,6 +16,7 @@ class TestcontainersConfiguration {
     fun preDestroy() {
         if (mySqlContainer.isRunning) mySqlContainer.stop()
         if (redisContainer.isRunning) redisContainer.stop()
+        if (kafkaContainer.isRunning) kafkaContainer.stop()
     }
 
     companion object {
@@ -29,6 +34,22 @@ class TestcontainersConfiguration {
             .apply {
                 start()
             }
+
+        val kafkaContainer: KafkaContainer = KafkaContainer(
+            DockerImageName.parse("apache/kafka-native:3.8.0"),
+        ).apply {
+            portBindings = listOf("9999:9999")
+            start()
+        }
+
+        val bootstrapServers: String
+            get() = kafkaContainer.bootstrapServers
+
+        fun getAdminClient(): AdminClient {
+            val props = Properties()
+            props[AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG] = bootstrapServers
+            return AdminClient.create(props)
+        }
 
         init {
             System.setProperty(

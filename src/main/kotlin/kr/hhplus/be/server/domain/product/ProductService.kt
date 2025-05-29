@@ -9,9 +9,9 @@ class ProductService(
     private val productCacheRepository: ProductCacheRepository,
     private val productRankingRepository: ProductRankingRepository
 ) {
-    fun find(getCmd: ProductCommand.Find): ProductInfo.ProductInfo = (
-            productCacheRepository.findByProductId(getCmd.productId) ?: {
-                productRepository.findByProductId(getCmd.productId)?.let { product: Product ->
+    fun find(cmd: ProductCommand.Find): ProductInfo.ProductInfo = (
+            productCacheRepository.findByProductId(cmd.productId) ?: {
+                productRepository.findByProductId(cmd.productId)?.let { product: Product ->
                     val result = ProductInfo.ProductInfo.of(product)
                     with(result) { productCacheRepository.set(productId, name, price) }
                     result
@@ -20,4 +20,11 @@ class ProductService(
 
     fun rank(): List<ProductInfo.ProductOrderInfo> = ProductInfo.ProductOrderInfo
         .ofList(productRankingRepository.findAllByDays(days = 3))
+
+    fun increaseRank(cmd: ProductCommand.Rank) {
+        productRankingRepository.increaseProductRank(
+            productId = cmd.productId,
+            scoreDelta = cmd.quantity.toDouble()
+        )
+    }
 }
