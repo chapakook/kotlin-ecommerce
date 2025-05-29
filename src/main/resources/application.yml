@@ -37,3 +37,26 @@ spring:
     redis:
       host: localhost
       port: 6379
+  kafka:
+    bootstrap-servers: localhost:9094
+    properties:
+      request.timeout.ms: 20000
+      retry.backoff.ms: 500
+      auto:
+        create.topics.enable: false
+        register.schemas: false
+        offset.reset: latest
+      use.latest.version: true
+    producer:
+      client-id: e-client-id
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      retries: 5
+    consumer:
+      group-id: e-group-id
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+      properties:
+        enable-auto-commit: false
+    listener:
+      ack-mode: manual # 수동으로 커밋하겠다.
