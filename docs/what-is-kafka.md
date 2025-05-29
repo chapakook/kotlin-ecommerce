@@ -53,3 +53,28 @@ Kafka의 topic 구조 덕분에 `주문`, `결제`, `알림`, `로그` 등 서�
 
 > 💡 `kafka`는 `topic`으로 데이터 흐름을 깔끔하게 분리하고, `partition`으로 성능과 안정성을 보장합니다.  
 > 이 두 가지 구조 덕분에 `실시간`, `대용량`, `고신뢰 데이터 플랫폼`의 대표주자가 되었습니다!
+
+## 🤖 kafka + spring + kotlin 예시
+### 📨 Producer = 메시지 보내는 사람 
+```kotlin
+class LetterProducer(
+    private val kafkaTemplate: KafkaTemplate<String, String>,
+){
+    fun send(){
+        kafkaTemplate.send(topic, message)
+    }
+}
+```
+### 📩 Consumer = 메시지 받는 사람
+```kotlin
+class LetterConsumer(
+    private val consumerFactory: ConsumerFactory<String, ByteArray>
+){
+    fun consume(){
+        consumerFactory.createConsumer().use { consumer ->
+            consumer.subscribe(listOf(topic))
+            val records = consumer.poll(Duration.ofSeconds(5))
+        }
+    }
+}
+```
