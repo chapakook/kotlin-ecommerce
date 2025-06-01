@@ -5,6 +5,7 @@ import kr.hhplus.be.server.domain.point.PointEvent
 import org.springframework.context.event.EventListener
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.event.TransactionPhase
 import org.springframework.transaction.event.TransactionalEventListener
 
@@ -13,6 +14,7 @@ class CouponEventListener(
     private val couponService: CouponService,
     private val couponEventPublisher: CouponEventPublisher
 ) {
+    @Transactional
     @EventListener
     fun handler(event: OrderEvent.OrderCreated) {
         try {
@@ -48,7 +50,7 @@ class CouponEventListener(
     }
 
     @Async
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
     fun handler(event: PointEvent.PointUseFailed) {
         couponService.restore(CouponCommand.Restore(event.orderId, event.orderId))
         couponEventPublisher.publish(CouponDomainEvent.CouponRestored(event.orderId))

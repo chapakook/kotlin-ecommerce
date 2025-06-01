@@ -10,11 +10,19 @@ import org.springframework.transaction.event.TransactionalEventListener
 @Component
 class OrderEventListener(
     private val orderService: OrderService,
-    private val orderEventPublisher: OrderEventPublisher
+    private val orderEventPublisher: OrderEventPublisher,
+    private val outsideOrderEventProducer: OutsideOrderEventProducer
 ) {
     @Async
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
     fun handler(event: CouponDomainEvent.CouponUseFailed) {
+        orderService.status(OrderCommand.Status(event.orderId, OrderStatus.Cancel))
+        orderEventPublisher.publish(OrderEvent.OrderCanceled(event.orderId))
+    }
+
+    @Async
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    fun handler(event: CouponDomainEvent.CouponRestored) {
         orderService.status(OrderCommand.Status(event.orderId, OrderStatus.Cancel))
         orderEventPublisher.publish(OrderEvent.OrderCanceled(event.orderId))
     }
@@ -23,5 +31,6 @@ class OrderEventListener(
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     fun handler(event: StockEvent.StockDeducted) {
         orderService.status(OrderCommand.Status(event.orderId, OrderStatus.Completed))
+        outsideOrderEventProducer.send(OrderEvent.OrderCompleted(event.orderId))
     }
 }
