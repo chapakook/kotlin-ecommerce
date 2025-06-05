@@ -15,7 +15,7 @@ export default function () {
   const url = 'http://localhost:8088/coupon/issue';
   const payload = JSON.stringify({
     userId: Math.floor(Math.random() * 10000),
-    couponId: 2,
+    couponId: 4,
   });
 
   const params = {
