@@ -50,6 +50,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.retry:spring-retry")
     implementation("org.springframework.boot:spring-boot-starter-aop")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // Swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6")
@@ -69,6 +70,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.kafka:spring-kafka")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1")
+
+    // Actuator + Monitoring
+    implementation("io.micrometer:micrometer-registry-prometheus")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")

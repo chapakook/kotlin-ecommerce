@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   mysql:
     image: mysql:8.0
@@ -10,9 +12,8 @@ services:
       - MYSQL_DATABASE=hhplus
       - MYSQL_CHARACTER_SET=utf8mb4
       - MYSQL_COLLATE=utf8mb4_general_ci
-  #    volumes:
-  #      - mysql-5-7-data:/bitnami/mysql/data
-  #    user: "${UID}:${GID}"
+    networks:
+      - shared-network
 
   redis:
     image: redis:7.0
@@ -24,46 +25,102 @@ services:
     volumes:
       - redis_data:/data
       - redis_config:/usr/local/etc/redis/redis.conf
-    user: "${UID}:${GID}"
+    # user: "${UID}:${GID}"
+    networks:
+      - shared-network
 
   kafka:
     image: public.ecr.aws/bitnami/kafka:3.5.1
     ports:
       - "9094:9094"
-    #    volumes:
-    #      - kafka-data:/bitnami/kafka
     environment:
       KAFKA_CFG_NODE_ID: 0
       KAFKA_CFG_PROCESS_ROLES: controller,broker
       KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
       KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@127.0.0.1:9093
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka:9093
       KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
-#    user: "${UID}:${GID}"
-#  mongodb:
-#    image: mongo:6.0
-#    container_name: mongodb
-#    restart: always
-#    ports:
-#      - "27017:27017"
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: application
-#      MONGO_INITDB_ROOT_PASSWORD: application
-#      MONGO_INITDB_DATABASE: display
-#    volumes:
-#      - mongodb_data:/data/db
-#      - mongodb_config:/data/configdb
+    networks:
+      - shared-network
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "8888:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+    depends_on:
+      - kafka
+    networks:
+      - shared-network
+
+  influxdb:
+    image: influxdb:1.8
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=k6
+      - INFLUXDB_HTTP_AUTH_ENABLED=false
+    volumes:
+      - influxdb_data:/var/lib/influxdb
+    networks:
+      - shared-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - shared-network
+    depends_on:
+      - app
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+      - influxdb
+    networks:
+      - shared-network
+
+  app:
+    build:
+      context: .
+    ports:
+      - "8088:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/hhplus?characterEncoding=UTF-8&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: application
+      SPRING_DATASOURCE_PASSWORD: application
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      JAVA_OPTS: "-Xms2g -Xmx3g -XX:+UseG1GC -XX:MaxGCPauseMillis=200"
+    cpus: 4
+    mem_limit: 4g
+    networks:
+      - shared-network
 
 volumes:
-  #  mysql-5-7-data:
   redis_data:
   redis_config:
-#  kafka-zookeeper-data:
-#  kafka-data:
-#  mongodb_data:
-#  mongodb_config:
+  influxdb_data:
+  grafana-storage:
 
 networks:
-  default:
+  shared-network:
     driver: bridge

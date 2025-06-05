@@ -21,6 +21,15 @@ spring:
       hibernate.timezone.default_storage: NORMALIZE_UTC
       hibernate.jdbc.time_zone: UTC
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
 logging:
   level:
     root: INFO
