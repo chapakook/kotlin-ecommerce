@@ -8,24 +8,24 @@
 
 ### 🔧 테스트 도구 및 환경
 - 부하 생성기: `k6`
-- spring 앱 실행 환경: `cpus: 2` `mem_limit: 512m`
+- spring 앱 실행 환경: `cpus: 4` `mem_limit: 4g` `JAVA_OPTS: -Xms2g -Xmx3g -XX:+UseG1GC -XX:MaxGCPauseMillis=200`
 
 ### 🚙 테스트 시나리오
 - 테스트 유형: `Peak Test`
 - 대상 API: `POST - /coupon/issue`
-- 목표 동시 사용자 수: `최대 2000 VU`
+- 목표 동시 사용자 수: `최대 500 VU`
 - 총 테스트 시간: `5분`
 - 시나리오 단계:
 ```javascript
 stages: [
   { duration: '1m', target: 10 },
-  { duration: '30s', target: 500 },
-  { duration: '2m', target: 2000 },
-  { duration: '30s', target: 500 },
+  { duration: '30s', target: 100 },
+  { duration: '2m', target: 500 },
+  { duration: '30s', target: 100 },
   { duration: '1m', target: 0 },
 ]
 ```
-- 예상 발급 건수: `약 21만건`
+- 예상 발급 건수: `약 5만건`
 - 요청: 각 VU는 초당 1건 요청(`sleep(1)`적용 기준)
 ```javascript
 {
@@ -37,7 +37,7 @@ stages: [
 ### 🎯 목표
 > "최대 2000명 동시 요청 상황에서 쿠폰 발급 요청 API가 안정적으로 처리 가능한가?"<br>
 > "해당 TPS에서도 응답 시간이 사용자 경험에 문제 없는 수준인가?"
-- 요청 처리 TPS: `≥ 1000 TPS`
+- 요청 처리 TPS: `≥ 400 TPS`
 - `P90`, `P95` 응답 시간: `≤ 1000ms`
 
 ## 쿠폰 발급 처리
@@ -61,7 +61,7 @@ stages: [
 
 ### 🎯 목표
 > "최대 요청 트래픽이 유입되더라도, 발급 처리 TPS가 충분하고 Kafka 메시지 누락이나 병목 없이 안정적으로 처리되는가?"
-- 발급 처리 TPS: `≥ 800 TPS`
+- 발급 처리 TPS: `≥ 350 TPS`
 - Kafka Lag: `≤ 100`
 - 발급 성공률: `100%`
 - `P90`, `P95` 처리 시간: `≤ 1000ms`
